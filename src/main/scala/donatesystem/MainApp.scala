@@ -24,16 +24,16 @@ object MainApp extends JFXApp3:
       title = "Donate System"
       scene = new Scene():
         root = roots.get
-      showDonationItem()
+      showRegister()
   end start
 
 
-  def showDonationItem():Unit =
+  def showRegsister():Unit =
     val resource = getClass.getResource("view/Register.fxml")
     val loader = new FXMLLoader(resource)
     loader.load()
     val roots = loader.getRoot[jfxs.layout.AnchorPane]
     this.roots.get.center = roots
-  end showDonationItem
+  end showRegister
 
 
