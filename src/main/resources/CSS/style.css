@@ -1,0 +1,13 @@
+.button{
+    -fx-background-color: #638989;
+}
+
+.button:hover{
+    -fx-translate-y: 3px;
+    -fx-opacity: 0.7;
+}
+
+.link{
+    -fx-background-color:transparent;
+}
+

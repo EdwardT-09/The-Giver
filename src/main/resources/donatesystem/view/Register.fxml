@@ -7,7 +7,6 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@../../CSS/authorization.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="donatesystem.view.RegisterController">
@@ -44,7 +43,7 @@
             <Font name="Arial" size="10.0" />
          </font>
       </Label>
-      <Button layoutX="45.0" layoutY="302.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="252.0" text="Register">
+      <Button layoutX="45.0" layoutY="302.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="252.0" stylesheets="@../../CSS/style.css" text="Register" textFill="#f1ffff">
          <font>
             <Font size="8.0" />
          </font>
@@ -60,12 +59,11 @@
             <Font name="Arial" size="8.0" />
          </font>
       </Label>
-      <Button layoutX="97.0" layoutY="277.0" mnemonicParsing="false" prefHeight="9.0" prefWidth="58.0" text="Log In Here" textFill="#478c81" underline="true">
+      <Button layoutX="84.0" layoutY="275.0" mnemonicParsing="false" onAction="#directToLogIn" prefHeight="9.0" prefWidth="58.0" styleClass="link" stylesheets="@../../CSS/style.css" text="Log In Here" textFill="#478c81" underline="true">
          <font>
             <Font size="8.0" />
          </font>
       </Button>
-      <VBox layoutX="43.0" layoutY="-47.0" prefHeight="200.0" prefWidth="100.0" />
       <ImageView fitHeight="16.0" fitWidth="20.0" layoutX="268.0" layoutY="158.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../images/icon.png" />

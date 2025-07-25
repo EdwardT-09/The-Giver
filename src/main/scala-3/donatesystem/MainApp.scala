@@ -24,9 +24,16 @@ object MainApp extends JFXApp3:
       title = "Donate System"
       scene = new Scene():
         root = roots.get
-      showRegister()
+      showAuthLanding();
   end start
 
+  def showAuthLanding():Unit =
+    val resource = getClass.getResource("view/AuthLanding.fxml")
+    val loader = new FXMLLoader(resource)
+    loader.load()
+    val roots = loader.getRoot[jfxs.layout.AnchorPane]
+    this.roots.get.center = roots
+  end showAuthLanding
 
   def showRegister():Unit =
     val resource = getClass.getResource("view/Register.fxml")

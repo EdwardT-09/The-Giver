@@ -1,7 +1,14 @@
 package donatesystem.view
 
+import donatesystem.MainApp
 import javafx.fxml.FXML
 
 @FXML
-case class LogInController(email:String, password:String)
+case class LogInController():
+  def directToRegister():Unit =
+    MainApp.showRegister()
+  end directToRegister
+
+
+
   
