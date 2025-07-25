@@ -1,15 +1,15 @@
 package donatesystem
 
 import javafx.fxml.FXMLLoader
+import javafx.scene as jfxs
+import scalafx.Includes.*
 import scalafx.application.JFXApp3
 import scalafx.application.JFXApp3.PrimaryStage
 import scalafx.scene as sfxs
-import javafx.scene as jfxs
 import scalafx.scene.Scene
-import scalafx.Includes.*
 
 object MainApp extends JFXApp3:
-  var roots: Option[sfxs.layout.BorderPane] = None
+  var roots: Option[jfxs.layout.BorderPane] = None
 
   override def start():Unit =
     val navigationResource = getClass.getResource("view/NavigationResource.fxml")
@@ -28,12 +28,22 @@ object MainApp extends JFXApp3:
   end start
 
 
-  def showRegsister():Unit =
+  def showRegister():Unit =
     val resource = getClass.getResource("view/Register.fxml")
     val loader = new FXMLLoader(resource)
     loader.load()
     val roots = loader.getRoot[jfxs.layout.AnchorPane]
     this.roots.get.center = roots
   end showRegister
+
+
+  def showLogIn():Unit =
+    val resource = getClass.getResource("view/LogIn.fxml")
+    val loader = new FXMLLoader(resource)
+    loader.load()
+    val roots = loader.getRoot[jfxs.layout.AnchorPane]
+    this.roots.get.center = roots
+  end showLogIn
+
 
 

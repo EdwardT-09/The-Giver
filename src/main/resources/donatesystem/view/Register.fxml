@@ -7,24 +7,24 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@../../CSS/authorization.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="donatesystem.view.RegisterController">
    <children>
       <ImageView fitHeight="400.0" fitWidth="301.0" layoutX="347.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../images/Group_1.png" />
          </image>
       </ImageView>
-      <PasswordField layoutX="47.0" layoutY="202.0" prefHeight="26.0" prefWidth="250.0" />
-      <PasswordField layoutX="47.0" layoutY="249.0" prefHeight="26.0" prefWidth="250.0" />
-      <Label layoutX="43.0" layoutY="86.0" prefHeight="34.0" prefWidth="101.0" text="Register" textFill="#355e59">
+      <PasswordField layoutX="47.0" layoutY="202.0" prefHeight="26.0" prefWidth="250.0" promptText="Enter Password" styleClass="input" stylesheets="@../../CSS/authorization.css" />
+      <PasswordField layoutX="47.0" layoutY="249.0" prefHeight="26.0" prefWidth="250.0" promptText="Enter Password Again." styleClass="input" stylesheets="@../../CSS/authorization.css" />
+      <Label layoutX="43.0" layoutY="86.0" prefHeight="34.0" prefWidth="146.0" text="REGISTER" textFill="#355e59">
          <font>
             <Font name="Arial Bold" size="25.0" />
          </font>
       </Label>
-      <Label layoutX="45.0" layoutY="115.0" prefHeight="18.0" prefWidth="146.0" text="Welcome! Register to begin" textFill="#355e59">
+      <Label layoutX="45.0" layoutY="115.0" prefHeight="18.0" prefWidth="146.0" text="Welcome! Register to begin." textFill="#355e59">
          <font>
             <Font name="Arial" size="8.0" />
          </font>
@@ -54,6 +54,32 @@
             <Image url="@../../images/the_giver.png" />
          </image>
       </ImageView>
-      <TextField layoutX="46.0" layoutY="152.0" prefHeight="26.0" prefWidth="250.0" />
+      <TextField layoutX="46.0" layoutY="152.0" prefHeight="26.0" prefWidth="250.0" promptText="Enter Email." styleClass="input" stylesheets="@../../CSS/authorization.css" />
+      <Label layoutX="47.0" layoutY="275.0" prefHeight="18.0" prefWidth="49.0" text="Registered?" textFill="#355e59">
+         <font>
+            <Font name="Arial" size="8.0" />
+         </font>
+      </Label>
+      <Button layoutX="97.0" layoutY="277.0" mnemonicParsing="false" prefHeight="9.0" prefWidth="58.0" text="Log In Here" textFill="#478c81" underline="true">
+         <font>
+            <Font size="8.0" />
+         </font>
+      </Button>
+      <VBox layoutX="43.0" layoutY="-47.0" prefHeight="200.0" prefWidth="100.0" />
+      <ImageView fitHeight="16.0" fitWidth="20.0" layoutX="268.0" layoutY="158.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../images/icon.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="21.0" fitWidth="23.0" layoutX="268.0" layoutY="205.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../images/Shield.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="21.0" fitWidth="23.0" layoutX="268.0" layoutY="253.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../images/Shield.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

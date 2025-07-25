@@ -1,0 +1,11 @@
+
+.background{
+    -fx-background-color:#F1FFFF;
+}
+
+.input{
+    -fx-background-color: transparent;
+    -fx-border-color: #638989;
+    -fx-border-width: 1px;
+    -fx-prompt-text-fill: #638989 ;
+}
