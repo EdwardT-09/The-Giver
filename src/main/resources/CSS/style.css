@@ -7,7 +7,19 @@
     -fx-opacity: 0.7;
 }
 
+.nav-bar{
+    -fx-background-color: transparent;
+    -fx-border-width: 2px;
+    -fx-border-color:#638989;
+    -fx-border-radius:30px;
+}
 .link{
     -fx-background-color:transparent;
 }
 
+.button-outline{
+    -fx-background-color: transparent;
+    -fx-border-width: 2px;
+    -fx-border-color:#638989;
+    -fx-border-radius: 30px;
+}
