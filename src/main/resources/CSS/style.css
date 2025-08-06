@@ -1,3 +1,6 @@
+.background{
+    -fx-background-color:#F1FFFF;
+}
 .button{
     -fx-background-color: #638989;
 }

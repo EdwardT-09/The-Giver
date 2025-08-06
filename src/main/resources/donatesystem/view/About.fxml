@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@../../CSS/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="donatesystem.view.AuthLandingController">
+   <children>
+      <ImageView fitHeight="28.0" fitWidth="96.0" layoutX="14.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../images/the_giver.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="376.0" layoutY="23.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="120.0" styleClass="button-outline" stylesheets="@../../CSS/style.css" text="Add Donation Record" textAlignment="CENTER" textFill="#355e59">
+         <font>
+            <Font name="System Bold" size="8.0" />
+         </font>
+      </Button>
+      <ImageView fitHeight="38.0" fitWidth="41.0" layoutX="512.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../../../../../Downloads/Group%205.png" />
+         </image>
+      </ImageView>
+      <ToolBar layoutX="92.0" layoutY="81.0" prefHeight="40.0" prefWidth="412.0" styleClass="nav-bar" stylesheets="@../../CSS/style.css">
+         <items>
+            <Button mnemonicParsing="false" styleClass="link" text="home" textFill="#355e59" underline="true">
+               <font>
+                  <Font name="System Bold" size="10.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" styleClass="link" text="manage donors" textFill="#355e59" underline="true">
+               <font>
+                  <Font name="System Bold" size="10.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" styleClass="link" text="manage donations" textFill="#355e59" underline="true">
+               <font>
+                  <Font name="System Bold" size="10.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" styleClass="link" text="distribution centers" textFill="#355e59" underline="true">
+               <font>
+                  <Font name="System Bold" size="10.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" styleClass="link" text="about" textFill="#355e59" underline="true">
+               <font>
+                  <Font name="System Bold" size="10.0" />
+               </font>
+            </Button>
+         </items>
+      </ToolBar>
+      <ScrollPane hbarPolicy="NEVER" layoutY="129.0" prefHeight="270.0" prefWidth="614.0" stylesheets="@../../CSS/style.css" vbarPolicy="ALWAYS" vmax="10.0" vmin="1.0">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="370.0" prefWidth="614.0" styleClass="background">
+               <children>
+                  <Text fill="#355e59" layoutX="264.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="About">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Text>
+                  <Text fill="#355e59" layoutX="58.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" text="                       aims to eliminate a huge issue: starvation. In recent years, many individuals have been experiencing layoffs and the addition of increase in cost of living, it has caused many individuals to not be able to have a proper meal. As such, we aim to eliminate the issue by 2030, working towards the Sustainable Development Goal." textAlignment="JUSTIFY" wrappingWidth="498.91500091552734">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Text>
+                  <ImageView fitHeight="21.0" fitWidth="98.0" layoutX="58.0" layoutY="59.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../images/the_giver.png" />
+                     </image>
+                  </ImageView>
+                  <Text fill="#355e59" layoutX="58.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contact Information">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Text>
+                  <Text fill="#355e59" layoutX="58.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email : care@theGiver.com " wrappingWidth="168.79998779296852">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Text>
+                  <Text fill="#355e59" layoutX="58.0" layoutY="185.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Office Number: +603-4563-1212" wrappingWidth="168.79998779296852">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Text>
+                  <Text fill="#355e59" layoutX="58.0" layoutY="200.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Office Address: Jalan Sunway 11/12 Sunway 47500 Petaling Jaya Selangor" wrappingWidth="455.20004272460915">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Text>
+                  <Text fill="#355e59" layoutX="56.0" layoutY="217.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" Office Hour: 8 a.m. - 6 p.m. " wrappingWidth="168.79998779296852">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Text>
+                  <Text fill="#355e59" layoutX="56.0" layoutY="271.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Follow Us:">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Text>
+                  <ImageView fitHeight="32.0" fitWidth="35.0" layoutX="56.0" layoutY="288.0">
+                     <image>
+                        <Image url="@../../../../../../../../Downloads/The%20Giving%20(2)/Group%2010.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="32.0" fitWidth="35.0" layoutX="112.0" layoutY="288.0">
+                     <image>
+                        <Image url="@../../../../../../../../Downloads/The%20Giving%20(2)/Group%2011.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="32.0" fitWidth="35.0" layoutX="174.0" layoutY="288.0">
+                     <image>
+                        <Image url="@../../../../../../../../Downloads/The%20Giving%20(2)/Group%2012.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="32.0" fitWidth="35.0" layoutX="235.0" layoutY="288.0">
+                     <image>
+                        <Image url="@../../../../../../../../Downloads/The%20Giving%20(2)/Group%2013.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>
