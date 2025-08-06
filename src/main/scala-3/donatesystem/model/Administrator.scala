@@ -48,7 +48,7 @@ class Administrator(userID: Int, fNameS:String, emailS:String, passwordS:String)
           """.update.apply()
       })
     else
-      Failure( new Exception("There are no records of this email. Deletion failed!"))
+      throw new Exception("There are no records of this email. Deletion failed!")
   end deleteRecord
 
   def hasRecord:Boolean =
