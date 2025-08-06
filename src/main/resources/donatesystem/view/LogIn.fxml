@@ -16,7 +16,7 @@
             <Image url="@../../images/Group_1.png" />
          </image>
       </ImageView>
-      <PasswordField layoutX="47.0" layoutY="202.0" prefHeight="26.0" prefWidth="250.0" promptText="Enter Password" styleClass="input" stylesheets="@../../CSS/authorization.css" />
+      <PasswordField fx:id="passwordField" layoutX="47.0" layoutY="202.0" prefHeight="26.0" prefWidth="250.0" promptText="Enter Password" styleClass="input" stylesheets="@../../CSS/authorization.css" />
       <Label layoutX="43.0" layoutY="86.0" prefHeight="34.0" prefWidth="101.0" text="LOG IN" textFill="#355e59">
          <font>
             <Font name="Arial Bold" size="25.0" />
@@ -37,7 +37,7 @@
             <Font name="Arial" size="10.0" />
          </font>
       </Label>
-      <Button layoutX="46.0" layoutY="257.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="252.0" stylesheets="@../../CSS/style.css" text="Register" textFill="#f1ffff">
+      <Button layoutX="46.0" layoutY="257.0" mnemonicParsing="false" onAction="#handleLogIn" prefHeight="26.0" prefWidth="252.0" stylesheets="@../../CSS/style.css" text="Register" textFill="#f1ffff">
          <font>
             <Font size="8.0" />
          </font>
@@ -47,15 +47,15 @@
             <Image url="@../../images/the_giver.png" />
          </image>
       </ImageView>
-      <TextField layoutX="46.0" layoutY="152.0" prefHeight="26.0" prefWidth="250.0" promptText="Enter Email" styleClass="input" stylesheets="@../../CSS/authorization.css" />
-      <Label layoutX="46.0" layoutY="229.0" prefHeight="18.0" prefWidth="64.0" text="Not Registered?" textFill="#355e59">
+      <TextField fx:id="emailField" layoutX="46.0" layoutY="152.0" prefHeight="26.0" prefWidth="250.0" promptText="Enter Email" styleClass="input" stylesheets="@../../CSS/authorization.css" />
+      <Label layoutX="46.0" layoutY="229.0" prefHeight="18.0" prefWidth="72.0" text="Not Registered?" textFill="#355e59">
          <font>
-            <Font name="Arial" size="8.0" />
+            <Font name="Arial" size="9.0" />
          </font>
       </Label>
-      <Button layoutX="98.0" layoutY="228.0" mnemonicParsing="false" onAction="#directToRegister" prefHeight="17.0" prefWidth="71.0" styleClass="link" stylesheets="@../../CSS/style.css" text="Register Now!!" textFill="#478c81" underline="true">
+      <Button layoutX="101.0" layoutY="227.0" mnemonicParsing="false" onAction="#directToRegister" prefHeight="22.0" prefWidth="82.0" styleClass="link" stylesheets="@../../CSS/style.css" text="Register Now!!" textFill="#478c81" underline="true">
          <font>
-            <Font size="8.0" />
+            <Font size="9.0" />
          </font>
       </Button>
    </children>
