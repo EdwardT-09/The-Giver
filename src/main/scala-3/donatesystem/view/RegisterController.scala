@@ -1,45 +1,51 @@
 package donatesystem.view
 
 import donatesystem.MainApp
-import javafx.fxml.FXML
-import scalafx.scene.control.{Alert, TextField}
-import scalafx.scene.control.Alert.AlertType
+import scalafx.Includes.*
+import javafx.scene.control.{TextField,PasswordField}
 import donatesystem.model.Administrator
 import javafx.event.ActionEvent
-
-import java.time.LocalDateTime
+import javafx.fxml.FXML
+import donatesystem.util.Alert
+import scala.util.{Failure, Success}
 
 
 @FXML
 class RegisterController():
-  @FXML private val fNameField: TextField  = null
-  @FXML private val emailField:TextField = null
-  @FXML private val passwordField:TextField = null
-  @FXML private val passwordConfirmField:TextField = null
+  @FXML private var fNameField: TextField  = _
+  @FXML private var emailField:TextField = _
+  @FXML private var passwordField:PasswordField = _
+  @FXML private var passwordConfirmField:PasswordField = _
 
 
   def directToLogIn(): Unit =
     MainApp.showLogIn()
   end directToLogIn
 
-  def validateInputs(action:ActionEvent):Unit =
-    val admin = new Administrator(1, fNameField.toString, emailField.toString, passwordField.toString, LocalDateTime.now())
-    if(emailField.toString.isEmpty || passwordField.toString.isEmpty) then
-      displayAlert("Empty Field", "Email or password is empty", "Please enter the email and password.")
-    else if (!validEmail()) then
-      displayAlert("Invalid Email", "Email provided is invalid", "Enter using the following format 'name@example.com")
-    else if(!validPassword()) then
-      displayAlert("Invalid Password", "Password provided is invalid.", "Password must have at least one upper case, lower case, number and symbol")
-    else if(validEmail() && validPassword() && passwordConfirmation()) then
-      admin.saveAsRecord
-    end if
 
-  end validateInputs
+  def handleRegister(action:ActionEvent):Unit =
+    if(fNameField.text.value.isEmpty|| emailField.text.value.isEmpty || passwordField.text.value.isEmpty) then
+      Alert.displayAlert("Empty Field", "FirstName, Email or password is empty", "Please enter the first name, email and password.")
+    else if (!validEmail()) then
+      Alert.displayAlert("Invalid Email", "Email provided is invalid", "Enter using the following format 'name@example.com")
+    else if(!validPassword()) then
+      Alert.displayAlert("Invalid Password", "Password provided is invalid.", "Password must have at least one upper case, lower case, number and symbol")
+    else if(!passwordConfirmation()) then
+      Alert.displayAlert("Password do not match", "Passwords provided is invalid.", "Password must be the same.")
+    else if(validEmail() &&validEmail() && validPassword() && passwordConfirmation()) then
+      val admin = new Administrator(1, fNameField.text.value, emailField.text.value, passwordField.text.value)
+      admin.saveAsRecord match {
+        case Success(result) => Alert.displayAlert("Success", "Success", "Password must have at least one upper case, lower case, number and symbol")
+        case Failure(error) => Alert.displayAlert("Unsuccessful", "Email is in use", error.getMessage)
+      }
+    end if
+  end handleRegister
+
 
 
   def validEmail():Boolean =
-    val email_pattern= "^[A-z0-9._%+-]+@[A-z0-9.-]+\\.com{2,}$".r
-    if (!email_pattern.matches(emailField.toString)) {
+    val email_pattern= "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.com$".r
+    if (!email_pattern.matches(emailField.text.value)) {
       false
     }else{
       true
@@ -48,28 +54,18 @@ class RegisterController():
 
 
   def validPassword():Boolean =
-    val password_pattern= "/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*()-+=]).{8,}$".r
-    if(!password_pattern.matches(passwordField.toString)){
+    val password_pattern= "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[!@#$%^&*()-+=]).{8,}$".r
+    if(!password_pattern.matches(passwordField.text.value)){
       false
     }else{
       true
     }
 
   def passwordConfirmation(): Boolean =
-    if(!passwordField.toString.equals(passwordConfirmField.toString)){
+    if(!passwordField.text.value.equals(passwordConfirmField.text.value)){
       false
     }else{
       true
     }
 
-  def displayAlert(titleS:String, headerTextS: String, contentTextS:String): Unit =
-    val alert = new Alert(AlertType.Error):
-      initOwner(MainApp.stage)
-      title = titleS
-      headerText = headerTextS
-      contentText = contentTextS
-    alert.showAndWait()
-  end displayAlert
-  
-//  def handleRegisterButton(action: ActionEvent): Unit =
-//    val registerClicked = MainApp.show
+

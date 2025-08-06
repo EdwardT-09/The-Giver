@@ -14,10 +14,13 @@ trait Database:
 
 object Database extends Database:
   def dbSetUp() =
-    if (!hasDBInitialized) then
+    if (!hasDBInitialized) then 
       Administrator.createTable()
+//    else
+//      Administrator.dropTable()
+
   def hasDBInitialized: Boolean = {
-    DB getTable "Administrator" match
+    DB getTable "administrator" match
       case Some(x) => true
       case None => false
 

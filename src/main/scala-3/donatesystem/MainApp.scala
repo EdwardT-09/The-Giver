@@ -1,5 +1,6 @@
 package donatesystem
 
+import donatesystem.model.Administrator
 import javafx.fxml.FXMLLoader
 import javafx.scene as jfxs
 import scalafx.Includes.*
@@ -7,8 +8,14 @@ import scalafx.application.JFXApp3
 import scalafx.application.JFXApp3.PrimaryStage
 import scalafx.scene as sfxs
 import scalafx.scene.Scene
+import donatesystem.util.Database
 
 object MainApp extends JFXApp3:
+
+  Database.dbSetUp()
+
+  println(Administrator.getAllAdminRecord)
+
   var roots: Option[jfxs.layout.BorderPane] = None
 
   override def start():Unit =
