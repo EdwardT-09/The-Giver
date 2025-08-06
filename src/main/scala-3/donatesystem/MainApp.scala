@@ -11,29 +11,34 @@ import scalafx.scene.Scene
 import donatesystem.util.Database
 
 object MainApp extends JFXApp3:
-
+  // initialise the database to create table if it does not exists
   Database.dbSetUp()
 
   println(Administrator.getAllAdminRecord)
-
+  
+  
   var roots: Option[jfxs.layout.BorderPane] = None
 
   override def start():Unit =
+    //get the NavigationResource.fxml to be displayed
     val navigationResource = getClass.getResource("view/NavigationResource.fxml")
 
     val loader = new FXMLLoader(navigationResource)
-
+    
     loader.load()
 
     roots = Option(loader.getRoot[jfxs.layout.BorderPane])
-
+  
+    //set the stage to display the pages
     stage = new PrimaryStage():
       title = "Donate System"
       scene = new Scene():
         root = roots.get
+      //the first page is the authentication landing page 
       showAuthLanding();
   end start
 
+  // authentication landing page for users to choose between registration or log in
   def showAuthLanding():Unit =
     val resource = getClass.getResource("view/AuthLanding.fxml")
     val loader = new FXMLLoader(resource)
@@ -41,7 +46,8 @@ object MainApp extends JFXApp3:
     val roots = loader.getRoot[jfxs.layout.AnchorPane]
     this.roots.get.center = roots
   end showAuthLanding
-
+  
+  // display the registration page 
   def showRegister():Unit =
     val resource = getClass.getResource("view/Register.fxml")
     val loader = new FXMLLoader(resource)
@@ -50,7 +56,7 @@ object MainApp extends JFXApp3:
     this.roots.get.center = roots
   end showRegister
 
-
+  // display the log in page 
   def showLogIn():Unit =
     val resource = getClass.getResource("view/LogIn.fxml")
     val loader = new FXMLLoader(resource)
