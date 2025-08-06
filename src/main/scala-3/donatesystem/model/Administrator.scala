@@ -78,7 +78,7 @@ object Administrator extends Database:
     DB autoCommit{implicit session =>
       sql"""
            CREATE TABLE administrator(
-           user_id int NOT NULL GENERATED ALWAYS AS IDENTITY ,
+           user_id int NOT NULL GENERATED ALWAYS AS IDENTITY,
            fName varchar (40),
            email varchar(64),
            password varchar(64)

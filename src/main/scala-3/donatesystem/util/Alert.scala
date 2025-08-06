@@ -5,6 +5,7 @@ import scalafx.scene.control.Alert
 import scalafx.scene.control.Alert.AlertType
 
 object Alert :
+  //display alerts 
   def displayAlert(titleS: String, headerTextS: String, contentTextS: String): Unit =
     val alert = new Alert(AlertType.Error):
       initOwner(MainApp.stage)
