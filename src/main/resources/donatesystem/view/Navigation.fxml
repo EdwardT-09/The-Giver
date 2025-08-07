@@ -6,16 +6,16 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane prefHeight="78.0" prefWidth="600.0" styleClass="background" stylesheets="@../../CSS/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="donatesystem.view.Navigation">
+<AnchorPane prefHeight="78.0" prefWidth="600.0" styleClass="background" stylesheets="@../../CSS/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="donatesystem.view.NavigationController">
    <children>
       <ToolBar layoutX="92.0" layoutY="22.0" prefHeight="40.0" prefWidth="412.0" styleClass="nav-bar" stylesheets="@../../CSS/style.css">
          <items>
-            <Button mnemonicParsing="false" styleClass="link" text="home" textFill="#355e59" underline="true">
+            <Button mnemonicParsing="false" onAction="#directToHome" styleClass="link" text="home" textFill="#355e59" underline="true">
                <font>
                   <Font name="System Bold" size="10.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" styleClass="link" text="manage donors" textFill="#355e59" underline="true">
+            <Button mnemonicParsing="false" onAction="#directToDonor" styleClass="link" text="manage donors" textFill="#355e59" underline="true">
                <font>
                   <Font name="System Bold" size="10.0" />
                </font>
