@@ -20,8 +20,8 @@ object MainApp extends JFXApp3:
   var roots: Option[jfxs.layout.BorderPane] = None
 
   override def start():Unit =
-    //get the NavigationResource.fxml to be displayed
-    val navigationResource = getClass.getResource("view/NavigationResource.fxml")
+    //get the RootResource.fxml to be displayed
+    val navigationResource = getClass.getResource("view/RootResource.fxml")
 
     val loader = new FXMLLoader(navigationResource)
     
