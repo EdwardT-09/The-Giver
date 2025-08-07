@@ -75,6 +75,7 @@ object MainApp extends JFXApp3:
   end showHome
   
   
+  
   def showAbout(): Unit =
     val resource = getClass.getResource("view/About.fxml")
     val loader = new FXMLLoader(resource)

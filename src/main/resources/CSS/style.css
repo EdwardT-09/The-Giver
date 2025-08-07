@@ -41,3 +41,11 @@
     -fx-background-color: #638989;
     -fx-background-radius: 6px;
 }
+
+.search-bar{
+    -fx-background-color: transparent;
+    -fx-border-color: #638989;
+    -fx-border-width: 2px;
+    -fx-border-radius: 30px;
+    -fx-prompt-text-fill: #638989 ;
+}
