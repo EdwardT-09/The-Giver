@@ -65,5 +65,23 @@ object MainApp extends JFXApp3:
     this.roots.get.center = roots
   end showLogIn
 
+  // display the log in page 
+  def showHome(): Unit =
+    val resource = getClass.getResource("view/Home.fxml")
+    val loader = new FXMLLoader(resource)
+    loader.load()
+    val roots = loader.getRoot[jfxs.layout.AnchorPane]
+    this.roots.get.center = roots
+  end showHome
+  
+  
+  def showAbout(): Unit =
+    val resource = getClass.getResource("view/About.fxml")
+    val loader = new FXMLLoader(resource)
+    loader.load()
+    val roots = loader.getRoot[jfxs.layout.AnchorPane]
+    this.roots.get.center = roots
+  end showAbout
+
 
 

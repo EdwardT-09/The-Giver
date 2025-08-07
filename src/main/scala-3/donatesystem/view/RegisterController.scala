@@ -36,6 +36,7 @@ class RegisterController():
       val admin = new Administrator(1, fNameField.text.value, emailField.text.value, passwordField.text.value)
       admin.saveAsRecord match {
         case Success(result) => Alert.displayAlert("Success", "Success", "Password must have at least one upper case, lower case, number and symbol")
+                                MainApp.showHome()
         case Failure(error) => Alert.displayAlert("Unsuccessful", "Email is in use", error.getMessage)
       }
     end if
