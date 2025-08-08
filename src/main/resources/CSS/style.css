@@ -49,3 +49,10 @@
     -fx-border-radius: 30px;
     -fx-prompt-text-fill: #638989 ;
 }
+
+.bottom-border-input{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent #638989 transparent;
+    -fx-border-width:2px;
+    -fx-prompt-text-fill:#638989;
+}
