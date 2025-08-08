@@ -14,12 +14,10 @@ class LogInController:
   @FXML private var passwordField:PasswordField = _
 
 
-
   def directToRegister():Unit =
     MainApp.showRegister()
   end directToRegister
 
-//  def handleLogIn(action: ActionEvent):Unit =
 
   def handleLogIn(action: ActionEvent):Unit =
     if(validateCredentials()) then

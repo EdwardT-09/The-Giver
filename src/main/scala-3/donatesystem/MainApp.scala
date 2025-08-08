@@ -2,32 +2,36 @@ package donatesystem
 
 import donatesystem.model.Administrator
 import javafx.fxml.FXMLLoader
-import javafx.scene as jfxs
+import scalafx.scene as sfxs
 import scalafx.Includes.*
 import scalafx.application.JFXApp3
 import scalafx.application.JFXApp3.PrimaryStage
 import scalafx.scene as sfxs
 import scalafx.scene.Scene
 import donatesystem.util.Database
+import scalafx.scene.layout.BorderPane
 
 object MainApp extends JFXApp3:
   // initialise the database to create table if it does not exists
   Database.dbSetUp()
 
   println(Administrator.getAllAdminRecord)
-  
-  
-  var roots: Option[jfxs.layout.BorderPane] = None
+
+
+  var roots: Option[scalafx.scene.layout.BorderPane] = None
 
   override def start():Unit =
     //get the RootResource.fxml to be displayed
+
     val navigationResource = getClass.getResource("view/RootResource.fxml")
 
     val loader = new FXMLLoader(navigationResource)
     
-    loader.load()
+    val rootJavaFX = loader.load[javafx.scene.layout.BorderPane]()
 
-    roots = Option(loader.getRoot[jfxs.layout.BorderPane])
+    val rootScalaFX: BorderPane = rootJavaFX
+
+    roots =Some(rootScalaFX)
   
     //set the stage to display the pages
     stage = new PrimaryStage():
@@ -42,60 +46,74 @@ object MainApp extends JFXApp3:
   def showAuthLanding():Unit =
     val resource = getClass.getResource("view/AuthLanding.fxml")
     val loader = new FXMLLoader(resource)
-    loader.load()
-    val roots = loader.getRoot[jfxs.layout.AnchorPane]
-    this.roots.get.center = roots
+    val rootJavaFX = loader.load[javafx.scene.layout.AnchorPane]()
+    val rootScalaFX: scalafx.scene.layout.AnchorPane = rootJavaFX
+    var roots: Option[scalafx.scene.layout.AnchorPane] = None
+    roots = Some(rootScalaFX)
+    this.roots.get.center = roots.get
   end showAuthLanding
   
   // display the registration page 
   def showRegister():Unit =
     val resource = getClass.getResource("view/Register.fxml")
     val loader = new FXMLLoader(resource)
-    loader.load()
-    val roots = loader.getRoot[jfxs.layout.AnchorPane]
-    this.roots.get.center = roots
+    val rootJavaFX = loader.load[javafx.scene.layout.AnchorPane]()
+    val rootScalaFX: scalafx.scene.layout.AnchorPane = rootJavaFX
+    var roots: Option[scalafx.scene.layout.AnchorPane] = None
+    roots = Some(rootScalaFX)
+    this.roots.get.center = roots.get
   end showRegister
 
   // display the log in page 
   def showLogIn():Unit =
     val resource = getClass.getResource("view/LogIn.fxml")
     val loader = new FXMLLoader(resource)
-    loader.load()
-    val roots = loader.getRoot[jfxs.layout.AnchorPane]
-    this.roots.get.center = roots
+    val rootJavaFX = loader.load[javafx.scene.layout.AnchorPane]()
+    val rootScalaFX: scalafx.scene.layout.AnchorPane = rootJavaFX
+    var roots: Option[scalafx.scene.layout.AnchorPane] = None
+    roots = Some(rootScalaFX)
+    this.roots.get.center = roots.get
   end showLogIn
 
   // display the log in page 
   def showHome(): Unit =
     val resource = getClass.getResource("view/Home.fxml")
     val loader = new FXMLLoader(resource)
-    loader.load()
-    val roots = loader.getRoot[jfxs.layout.AnchorPane]
-    this.roots.get.center = roots
+    val rootJavaFX = loader.load[javafx.scene.layout.AnchorPane]()
+    val rootScalaFX: scalafx.scene.layout.AnchorPane = rootJavaFX
+    var roots: Option[scalafx.scene.layout.AnchorPane] = None
+    roots = Some(rootScalaFX)
+    this.roots.get.center = roots.get
   end showHome
   
   def showDonor():Unit =
     val resource = getClass.getResource("view/Donors.fxml")
     val loader = new FXMLLoader(resource)
-    loader.load()
-    val roots = loader.getRoot[jfxs.layout.AnchorPane]
-    this.roots.get.center = roots
+    val rootJavaFX = loader.load[javafx.scene.layout.AnchorPane]()
+    val rootScalaFX: scalafx.scene.layout.AnchorPane = rootJavaFX
+    var roots: Option[scalafx.scene.layout.AnchorPane] = None
+    roots = Some(rootScalaFX)
+    this.roots.get.center = roots.get
   end showDonor
   
   def showAddDonor():Unit =
     val resource = getClass.getResource("view/AddDonors.fxml")
     val loader = new FXMLLoader(resource)
-    loader.load()
-    val roots = loader.getRoot[jfxs.layout.AnchorPane]
-    this.roots.get.center = roots
+    val rootJavaFX = loader.load[javafx.scene.layout.AnchorPane]()
+    val rootScalaFX: scalafx.scene.layout.AnchorPane = rootJavaFX
+    var roots: Option[scalafx.scene.layout.AnchorPane] = None
+    roots = Some(rootScalaFX)
+    this.roots.get.center = roots.get
   end showAddDonor
   
   def showAbout(): Unit =
     val resource = getClass.getResource("view/About.fxml")
     val loader = new FXMLLoader(resource)
-    loader.load()
-    val roots = loader.getRoot[jfxs.layout.AnchorPane]
-    this.roots.get.center = roots
+    val rootJavaFX = loader.load[javafx.scene.layout.AnchorPane]()
+    val rootScalaFX: scalafx.scene.layout.AnchorPane = rootJavaFX
+    var roots: Option[scalafx.scene.layout.AnchorPane] = None
+    roots = Some(rootScalaFX)
+    this.roots.get.center = roots.get
   end showAbout
 
 
