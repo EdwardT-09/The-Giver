@@ -75,12 +75,20 @@ object MainApp extends JFXApp3:
   end showHome
   
   def showDonor():Unit =
-    val resource = getClass.getResource("view/Donor.fxml")
+    val resource = getClass.getResource("view/Donors.fxml")
     val loader = new FXMLLoader(resource)
     loader.load()
     val roots = loader.getRoot[jfxs.layout.AnchorPane]
     this.roots.get.center = roots
   end showDonor
+  
+  def showAddDonor():Unit =
+    val resource = getClass.getResource("view/AddDonors.fxml")
+    val loader = new FXMLLoader(resource)
+    loader.load()
+    val roots = loader.getRoot[jfxs.layout.AnchorPane]
+    this.roots.get.center = roots
+  end showAddDonor
   
   def showAbout(): Unit =
     val resource = getClass.getResource("view/About.fxml")
