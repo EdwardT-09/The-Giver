@@ -119,6 +119,7 @@ object Administrator extends Database:
         rs.string("password"),
       )).single.apply()
     }
+end Administrator
 
 
 

@@ -23,7 +23,6 @@ class LogInController:
 
   def handleLogIn(action: ActionEvent):Unit =
     if(validateCredentials()) then
-      Alert.displayAlert("Success ", "Email or password provided is valid" , " valid credentials")
       MainApp.showHome()
     else
       Alert.displayAlert("Invalid Credentials", "Email or password provided is invalid" , "Please enter valid credentials")
