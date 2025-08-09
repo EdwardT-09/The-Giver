@@ -1,6 +1,7 @@
 package donatesystem
 
 import donatesystem.model.Administrator
+import donatesystem.model.Donor
 import javafx.fxml.FXMLLoader
 import scalafx.scene as sfxs
 import scalafx.Includes.*
@@ -13,16 +14,15 @@ import scalafx.scene.layout.BorderPane
 
 object MainApp extends JFXApp3:
   // initialise the database to create table if it does not exists
-  Database.dbSetUp()
 
-  println(Administrator.getAllAdminRecord)
+  Database.dbSetUp()
+//  println(Administrator.getAllAdminRecord)
 
 
   var roots: Option[scalafx.scene.layout.BorderPane] = None
 
   override def start():Unit =
     //get the RootResource.fxml to be displayed
-
     val navigationResource = getClass.getResource("view/RootResource.fxml")
 
     val loader = new FXMLLoader(navigationResource)
@@ -97,7 +97,7 @@ object MainApp extends JFXApp3:
   end showDonor
   
   def showAddDonor():Unit =
-    val resource = getClass.getResource("view/AddDonors.fxml")
+    val resource = getClass.getResource("view/AddDonor.fxml")
     val loader = new FXMLLoader(resource)
     val rootJavaFX = loader.load[javafx.scene.layout.AnchorPane]()
     val rootScalaFX: scalafx.scene.layout.AnchorPane = rootJavaFX

@@ -85,13 +85,13 @@ object Donor extends Database:
   def createTable() =
     DB autoCommit { implicit session =>
       sql"""
-               CREATE TABLE administrator(
+               CREATE TABLE donor(
                donor_id int NOT NULL GENERATED ALWAYS AS IDENTITY,
                name varchar (32),
                email varchar(32),
                birthday date,
                contactNo varchar(16),
-               occupationS varchar(32)
+               occupation varchar(32)
                )
              """.execute.apply()
     }
@@ -107,7 +107,7 @@ object Donor extends Database:
         rs.string("email"),
         rs.localDate("birthday"),
         rs.string("contactNo"),
-        rs.string("occupationS")
+        rs.string("occupation")
       )).list.apply()
     }
 
@@ -121,7 +121,7 @@ object Donor extends Database:
         rs.string("email"),
         rs.localDate("birthday"),
         rs.string("contactNo"),
-        rs.string("occupationS")
+        rs.string("occupation")
         )).single.apply()
     }
 end Donor

@@ -7,5 +7,4 @@ class DonorsController:
   def directToAddDonor:Unit =
     MainApp.showAddDonor()
   end directToAddDonor
-
 end DonorsController

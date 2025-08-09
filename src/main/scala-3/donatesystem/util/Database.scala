@@ -2,6 +2,7 @@ package donatesystem.util
 
 import scalikejdbc.*
 import donatesystem.model.Administrator
+import donatesystem.model.Donor
 
 
 trait Database:
@@ -9,12 +10,12 @@ trait Database:
   val derbyDriver = "org.apache.derby.jdbc.EmbeddedDriver"
 
   // database URL
-  val dbURL = "jdbc:derby:myDB; create=true;"
+  val dbURL = "jdbc:derby:myDB;create=true;"
 
   Class.forName(derbyDriver)
 
   //create a singleton database connection ppol
-  ConnectionPool.singleton(dbURL,"me", "mine")
+  ConnectionPool.singleton(dbURL,"ME", "MINE")
 
   // to allows an automatic database session for all the queries
   given AutoSession = AutoSession
@@ -23,16 +24,14 @@ trait Database:
 object Database extends Database:
   //if the database has not been initialized (administrator table does not exists) then create the table
   def dbSetUp() =
-    if (!hasDBInitialized) then 
-      Administrator.createTable()
-
-  def hasDBInitialized: Boolean = {
-    //check if the administrator table exists
-    DB getTable "administrator" match
-      //if found return true
-      case Some(x) => true
-      // if none found return false
-      case None => false
-
-  }
-
+    if (!hasDBInitialized) then
+        Administrator.createTable()
+        Donor.createTable()
+  end dbSetUp
+  def hasDBInitialized:Boolean =
+    hasTable("ADMINISTRATOR") && hasTable("DONOR")
+  end hasDBInitialized
+  def hasTable(table:String): Boolean =
+    //check if the administrator and donor table exists
+    DB.getTable(table).isDefined
+  end hasTable

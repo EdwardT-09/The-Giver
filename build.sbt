@@ -24,7 +24,6 @@ lazy val root = (project in file("."))
       "com.h2database"  %  "h2" % "2.2.224",
       "org.apache.derby" % "derby" % "10.17.1.0",
       "org.apache.derby" % "derbytools" % "10.17.1.0",
-      "org.scalafx" %% "scalafxml-core-sfx8" % "0.5"
     ))
 
 
