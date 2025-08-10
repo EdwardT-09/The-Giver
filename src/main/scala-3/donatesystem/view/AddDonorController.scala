@@ -19,7 +19,19 @@ class AddDonorController:
   @FXML private var birthdayField: DatePicker = _
   @FXML private var contactNoField: TextField = _
   @FXML private var occupationField: TextField = _
-  
+
+  private var __donor: Donor = null
+
+  def donor = __donor
+
+  def donor_=( donor: Donor):Unit = {
+    __donor = donor
+    nameField.text = __donor.nameProperty.value
+    emailField.text = __donor.emailProperty.value
+    birthdayField.value = __donor.birthdayProperty.value
+    contactNoField.text = __donor.contactNoProperty.value
+    occupationField.text = __donor.occupationProperty.value
+  }
 
   def handleAddDonor(action:ActionEvent):Unit = {
     if(nameField.text.value.isEmpty|| emailField.text.value.isEmpty|| birthdayField.value == null|| contactNoField.text.value.isEmpty ||occupationField.text.value.isEmpty) then

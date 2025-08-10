@@ -8,9 +8,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@../../CSS/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="donatesystem.view.AboutController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="donatesystem.view.AboutController">
    <children>
-      <ScrollPane hbarPolicy="NEVER" layoutY="129.0" prefHeight="270.0" prefWidth="614.0" stylesheets="@../../CSS/style.css" vbarPolicy="ALWAYS" vmax="10.0" vmin="1.0">
+      <ScrollPane hbarPolicy="NEVER" layoutY="129.0" prefHeight="270.0" prefWidth="614.0" stylesheets="@style.css" vbarPolicy="ALWAYS" vmax="10.0" vmin="1.0">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="370.0" prefWidth="614.0" styleClass="background">
                <children>

@@ -10,6 +10,8 @@ import scalafx.application.JFXApp3.PrimaryStage
 import scalafx.scene as sfxs
 import scalafx.scene.Scene
 import donatesystem.util.Database
+import scalafx.collections.ObservableBuffer
+import scalafx.scene.image.Image
 import scalafx.scene.layout.BorderPane
 
 object MainApp extends JFXApp3:
@@ -18,7 +20,9 @@ object MainApp extends JFXApp3:
   Database.dbSetUp()
 //  println(Administrator.getAllAdminRecord)
 
-
+  val donorData = new ObservableBuffer[Donor]()
+  
+  donorData ++= Donor.getAllDonorRecord
   var roots: Option[scalafx.scene.layout.BorderPane] = None
 
   override def start():Unit =
@@ -32,10 +36,11 @@ object MainApp extends JFXApp3:
     val rootScalaFX: BorderPane = rootJavaFX
 
     roots =Some(rootScalaFX)
-  
     //set the stage to display the pages
     stage = new PrimaryStage():
       title = "Donate System"
+      icons += new Image(getClass.getResource(
+        "/images/Donate.png").toExternalForm)
       scene = new Scene():
         root = roots.get
       //the first page is the authentication landing page 

@@ -6,9 +6,6 @@ import donatesystem.MainApp
 @FXML
 class HomeController :
 
-  def directToAbout():Unit=
-    MainApp.showAbout()
-  end directToAbout
-  
+
 end HomeController
 

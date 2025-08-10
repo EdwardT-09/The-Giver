@@ -28,10 +28,10 @@ object Database extends Database:
         Administrator.createTable()
         Donor.createTable()
   end dbSetUp
+  
   def hasDBInitialized:Boolean =
-    hasTable("ADMINISTRATOR") && hasTable("DONOR")
+    (DB.getTable ("ADMINISTRATOR"), DB.getTable("DONOR")) match
+      case (Some(_), Some(_)) => true
+      case _ => false
   end hasDBInitialized
-  def hasTable(table:String): Boolean =
-    //check if the administrator and donor table exists
-    DB.getTable(table).isDefined
-  end hasTable
+end Database
