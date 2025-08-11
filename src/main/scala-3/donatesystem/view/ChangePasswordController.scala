@@ -1,15 +1,27 @@
 package donatesystem.view
 
 import donatesystem.util.{Alert, PatternMatch, Session}
+import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.control.PasswordField
 import scalafx.Includes.*
+import donatesystem.model.Administrator
+import scala.util.{Failure, Success}
 
 @FXML
 class ChangePasswordController:
   @FXML private var currentPasswordField: PasswordField = _
   @FXML private var newPasswordField: PasswordField = _
   @FXML private var newPasswordConfirmField: PasswordField = _
+
+  def handleChangePassword(action: ActionEvent): Unit =
+    if (!isNull) then
+      if (validPassword && comparePassword) then
+        val admin = new Administrator(0, Session.getAdmin.get.fNameProperty.value, Session.getAdmin.get.emailProperty.value, newPasswordField.text.value)
+        admin.saveAsRecord match
+          case Success(x) => Alert.displayAlert("Success", "Success", "The password has been updated")
+          case Failure(error) => Alert.displayAlert("Unsuccessful", "Password is in use", "Please try again")
+  end handleChangePassword
 
   def isNull: Boolean =
     var errorMessage = ""
@@ -42,7 +54,7 @@ class ChangePasswordController:
       false
   end comparePassword
 
-  def validPassword(): Boolean =
+  def validPassword: Boolean =
     var errorMessage: String = ""
     if (!PatternMatch.validPassword(currentPasswordField.text.value)) then
       errorMessage += "The current password field must contain at least one upper case, lower case, number and symbol\n"

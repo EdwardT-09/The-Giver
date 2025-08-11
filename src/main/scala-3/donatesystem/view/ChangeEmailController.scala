@@ -20,20 +20,20 @@ class ChangeEmailController:
         val admin = new Administrator(0, Session.getAdmin.get.fNameProperty.value, newEmailField.text.value, Session.getAdmin.get.passwordProperty.value)
         admin.saveAsRecord match
           case Success(x) => Alert.displayAlert("Success", "Success", "The email has been updated")
-          case Failure(error) => Alert.displayAlert("Unsuccessful", "Email is in use", error.getMessage)
+          case Failure(error) => Alert.displayAlert("Unsuccessful", "Email is in use", "Please try again")
   end handleChangeEmail
 
   def isNull:Boolean =
     var errorMessage = ""
     if(currentEmailField.text.value.isEmpty) then
       errorMessage += "Current email field is empty\n"
-    end if 
-    if(newEmailField.text.value.isEmpty) then 
+    end if
+    if(newEmailField.text.value.isEmpty) then
       errorMessage += "New email field is empty\n"
-    end if 
-    if(errorMessage.isEmpty) then 
+    end if
+    if(errorMessage.isEmpty) then
       false
-    else 
+    else
       Alert.displayAlert("Field Empty", errorMessage, "Please try again")
       true
   end isNull
