@@ -6,7 +6,7 @@ import scalafx.Includes.*
 import javafx.scene.control.{DatePicker, TextField}
 import donatesystem.util.Alert
 import donatesystem.model.Donor
-import donatesystem.MainApp
+import donatesystem.RunTheGiver
 import scalafx.stage.Stage
 
 import java.time.LocalDate

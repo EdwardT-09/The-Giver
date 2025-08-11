@@ -26,7 +26,7 @@ class Administrator(userID: Int, fNameS:String, emailS:String, passwordS:String)
              SET
              fName = ${fNameProperty.value},
              email = ${emailProperty.value},
-             password = ${passwordProperty.value},
+             password = ${passwordProperty.value}
              WHERE email = ${emailProperty.value}
            """.update.apply()
       })

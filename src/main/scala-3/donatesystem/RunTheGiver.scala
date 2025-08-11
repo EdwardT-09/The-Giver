@@ -16,7 +16,7 @@ import scalafx.scene.image.Image
 import scalafx.scene.layout.BorderPane
 import scalafx.stage.{Modality, Stage}
 
-object MainApp extends JFXApp3:
+object RunTheGiver extends JFXApp3:
   // initialise the database to create table if it does not exists
 
   Database.dbSetUp()

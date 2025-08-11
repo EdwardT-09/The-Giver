@@ -1,19 +1,19 @@
 package donatesystem.view
 
-import donatesystem.MainApp
+import donatesystem.RunTheGiver
 
 class NavigationController:
 
   def directToHome():Unit =
-    MainApp.showHome()
+    RunTheGiver.showHome()
   end directToHome
 
   def directToDonor():Unit =
-    MainApp.showDonor()
+    RunTheGiver.showDonor()
   end directToDonor
 
   def directToAbout():Unit =
-    MainApp.showAbout()
+    RunTheGiver.showAbout()
   end directToAbout
 
 end NavigationController

@@ -1,6 +1,6 @@
 package donatesystem.view
 
-import donatesystem.MainApp
+import donatesystem.RunTheGiver
 import scalafx.Includes.*
 import javafx.scene.control.{TextField,PasswordField}
 import donatesystem.model.Administrator
@@ -19,7 +19,7 @@ class RegisterController():
 
 
   def directToLogIn(): Unit =
-    MainApp.showLogIn()
+    RunTheGiver.showLogIn()
   end directToLogIn
 
 
@@ -36,7 +36,7 @@ class RegisterController():
       val admin = new Administrator(1, fNameField.text.value, emailField.text.value, passwordField.text.value)
       admin.saveAsRecord match {
         case Success(result) => Alert.displayAlert("Success", "Success", "Password must have at least one upper case, lower case, number and symbol")
-                                MainApp.showHome()
+                                RunTheGiver.showHome()
         case Failure(error) => Alert.displayAlert("Unsuccessful", "Email is in use", error.getMessage)
       }
     end if

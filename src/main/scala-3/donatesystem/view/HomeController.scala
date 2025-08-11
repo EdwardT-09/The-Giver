@@ -1,7 +1,7 @@
 package donatesystem.view
 
 import javafx.fxml.FXML
-import donatesystem.MainApp
+import donatesystem.RunTheGiver
 
 @FXML
 class HomeController :

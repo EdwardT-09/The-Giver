@@ -1,6 +1,6 @@
 package donatesystem.view
 
-import donatesystem.MainApp
+import donatesystem.RunTheGiver
 import donatesystem.model.Donor
 import javafx.fxml.FXML
 import javafx.scene.control.{Label, TableColumn, TableView}
@@ -25,7 +25,7 @@ class DonorsController:
 //  @FXML
 
   def initialize():Unit =
-    donorTable.items = MainApp.donorData
+    donorTable.items = RunTheGiver.donorData
     nameColumn.cellValueFactory = {x=> x.value.nameProperty}
     emailColumn.cellValueFactory = {x=> x.value.emailProperty}
     birthdayColumn.cellValueFactory = { x => x.value.birthdayProperty }
@@ -36,7 +36,7 @@ class DonorsController:
 
   def directToAddDonor:Unit =
     val donor = new Donor(0, "", "", LocalDate.now(), "","")
-    MainApp.showAddDonor(donor) match
+    RunTheGiver.showAddDonor(donor) match
       case Some(newDonor) =>
         donorTable.items().addLast(newDonor)
       case None =>
@@ -49,7 +49,7 @@ class DonorsController:
     val selectedDonor = donorTable.selectionModel().selectedItem.value
 
     if(selectedDonor != null) then
-      MainApp.showAddDonor(selectedDonor) match
+      RunTheGiver.showAddDonor(selectedDonor) match
         case Some(updatedDonor) =>
           donorTable.items().update(selectedIndex, updatedDonor)
         case None =>

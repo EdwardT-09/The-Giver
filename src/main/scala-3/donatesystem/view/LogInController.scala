@@ -1,6 +1,6 @@
 package donatesystem.view
 
-import donatesystem.MainApp
+import donatesystem.RunTheGiver
 import donatesystem.model.Administrator
 import javafx.event.ActionEvent
 import scalafx.Includes.*
@@ -16,14 +16,14 @@ class LogInController:
 
 
   def directToRegister():Unit =
-    MainApp.showRegister()
+    RunTheGiver.showRegister()
   end directToRegister
 
 
   def handleLogIn(action: ActionEvent):Unit =
     if(validateCredentials()) then 
       getAdminRecord()
-      MainApp.showHome()
+      RunTheGiver.showHome()
     else
       Alert.displayAlert("Invalid Credentials", "Email or password provided is invalid" , "Please enter valid credentials")
   end handleLogIn

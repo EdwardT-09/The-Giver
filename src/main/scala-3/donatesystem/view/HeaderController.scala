@@ -1,14 +1,14 @@
 package donatesystem.view
 
-import donatesystem.MainApp
+import donatesystem.RunTheGiver
 
 class HeaderController:
   def directToChangeEmail:Unit =
-    MainApp.showChangeEmail
+    RunTheGiver.showChangeEmail
   end directToChangeEmail
 
   def directToChangePassword:Unit =
-    MainApp.showChangePassword
+    RunTheGiver.showChangePassword
   end directToChangePassword
 end HeaderController
 

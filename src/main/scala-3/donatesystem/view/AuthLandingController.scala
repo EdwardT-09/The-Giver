@@ -1,6 +1,6 @@
 package donatesystem.view
 
-import donatesystem.MainApp
+import donatesystem.RunTheGiver
 import javafx.fxml.FXML
 import javafx.event.ActionEvent
 
@@ -8,12 +8,12 @@ import javafx.event.ActionEvent
 class AuthLandingController:
   @FXML
   def startRegister(action: ActionEvent): Unit =
-    MainApp.showRegister()
+    RunTheGiver.showRegister()
   end startRegister
 
   @FXML
   def startLogIn(action:ActionEvent): Unit=
-    MainApp.showLogIn()
+    RunTheGiver.showLogIn()
   end startLogIn
 
 

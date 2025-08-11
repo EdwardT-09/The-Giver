@@ -20,7 +20,7 @@ class ChangePasswordController:
         val admin = new Administrator(0, Session.getAdmin.get.fNameProperty.value, Session.getAdmin.get.emailProperty.value, newPasswordField.text.value)
         admin.saveAsRecord match
           case Success(x) => Alert.displayAlert("Success", "Success", "The password has been updated")
-          case Failure(error) => Alert.displayAlert("Unsuccessful", "Password is in use", "Please try again")
+          case Failure(error) => Alert.displayAlert("Unsuccessful", "Password is in use", error.getMessage)
   end handleChangePassword
 
   def isNull: Boolean =
@@ -35,10 +35,10 @@ class ChangePasswordController:
       errorMessage += "New password confirmation field is empty\n"
     end if
     if (errorMessage.isEmpty) then
-      true
+      false
     else
       Alert.displayAlert("Field Empty", errorMessage, "Please try again")
-      false
+      true
   end isNull
 
   def comparePassword: Boolean =
@@ -59,7 +59,7 @@ class ChangePasswordController:
     if (!PatternMatch.validPassword(currentPasswordField.text.value)) then
       errorMessage += "The current password field must contain at least one upper case, lower case, number and symbol\n"
     end if
-    if (!PatternMatch.validEmail(newPasswordField.text.value)) then
+    if (!PatternMatch.validPassword(newPasswordField.text.value)) then
       errorMessage += "The new password field must contain at least one upper case, lower case, number and symbol\n"
     end if
     if(newPasswordField.text.value != newPasswordConfirmField.text.value) then
