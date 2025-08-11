@@ -30,7 +30,7 @@ object Database extends Database:
   end dbSetUp
   
   def hasDBInitialized:Boolean =
-    (DB.getTable ("ADMINISTRATOR"), DB.getTable("DONOR")) match
+    (DB.getTable ("ADMINISTRATORS"), DB.getTable("DONORS")) match
       case (Some(_), Some(_)) => true
       case _ => false
   end hasDBInitialized

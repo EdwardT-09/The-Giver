@@ -17,7 +17,7 @@ class Donor(donor_IDI: Int, nameS: String, emailS:String, birthdayD:LocalDate, c
   val originalEmail: String = emailS
 
 
-  def saveToDonor: Try[Int] = 
+  def saveToDonor: Try[Int] =
     if (!hasRecord) then
       Try(DB autoCommit { implicit session =>
         sql"""
