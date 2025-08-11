@@ -1,5 +1,6 @@
 package donatesystem.view
 
+
 import javafx.fxml.FXML
 import javafx.scene.control.TextField
 
@@ -8,5 +9,4 @@ import javafx.scene.control.TextField
 class ChangeEmailController:
   @FXML private var currentEmailField: TextField = _
   @FXML private var newEmailField: TextField = _
-  
-  
+

@@ -21,14 +21,14 @@ class Donor(donor_IDI: Int, nameS: String, emailS:String, birthdayD:LocalDate, c
     if (!hasRecord) then
       Try(DB autoCommit { implicit session =>
         sql"""
-             INSERT INTO donor (name, email, birthday, contactNo, occupation) VALUES
+             INSERT INTO donors (name, email, birthday, contactNo, occupation) VALUES
              (${nameProperty.value}, ${emailProperty.value}, ${birthdayProperty.value}, ${contactNoProperty.value}, ${occupationProperty.value})
            """.update.apply()
       })
     else
       Try(DB autoCommit {
         sql"""
-             UPDATE donor
+             UPDATE donors
              SET
              name = ${nameProperty.value},
              email = ${emailProperty.value},
@@ -45,7 +45,7 @@ class Donor(donor_IDI: Int, nameS: String, emailS:String, birthdayD:LocalDate, c
     if (hasRecord) then
       Try(DB autoCommit { implicit session =>
         sql"""
-          DELETE FROM donor
+          DELETE FROM donors
           WHERE email = ${emailProperty.value}
           """.update.apply()
       })
@@ -56,7 +56,7 @@ class Donor(donor_IDI: Int, nameS: String, emailS:String, birthdayD:LocalDate, c
   def hasRecord: Boolean =
     DB readOnly { implicit session =>
       sql"""
-           SELECT * FROM donor WHERE email=${emailProperty.value}
+           SELECT * FROM donors WHERE email=${emailProperty.value}
          """.map(_ => ()).single.apply()
     } match
       case Some(x) => true
@@ -81,7 +81,7 @@ object Donor extends Database:
   def createTable() =
     DB autoCommit { implicit session =>
       sql"""
-               CREATE TABLE donor(
+               CREATE TABLE donors(
                donor_id int NOT NULL GENERATED ALWAYS AS IDENTITY,
                name varchar (32),
                email varchar(32),
@@ -96,7 +96,7 @@ object Donor extends Database:
   def getAllDonorRecord: List[Donor] =
     DB readOnly { implicit session =>
       sql"""
-        SELECT * FROM donor
+        SELECT * FROM donors
         """.map(rs => Donor(
         rs.int("donor_id"),
         rs.string("name"),
@@ -110,7 +110,7 @@ object Donor extends Database:
   def getRecordByEmail(email: String): Option[Donor] =
     DB readOnly { implicit session =>
       sql"""
-        SELECT * FROM donor WHERE email = $email
+        SELECT * FROM donors WHERE email = $email
            """.map(rs => Donor(
         rs.int("donor_id"),
         rs.string("name"),

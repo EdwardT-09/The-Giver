@@ -39,7 +39,7 @@ class AddDonorController:
   def handleAddDonor(action:ActionEvent):Unit =
     if validInput() then
       val birthday: LocalDate = birthdayField.value()
-      val donor = new Donor(1, nameField.text.value, emailField.text.value, birthday, contactNoField.text.value, occupationField.text.value)
+      val donor = new Donor(0, nameField.text.value, emailField.text.value, birthday, contactNoField.text.value, occupationField.text.value)
       donor.saveToDonor match
         case Success(x) => Alert.displayAlert("Success", "Success", "Password must have at least one upper case, lower case, number and symbol")
           result = Some(donor)

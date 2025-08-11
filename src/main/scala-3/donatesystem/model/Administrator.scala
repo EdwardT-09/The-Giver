@@ -15,14 +15,14 @@ class Administrator(userID: Int, fNameS:String, emailS:String, passwordS:String)
     if(!hasRecord) then
       Try (DB autoCommit{ implicit session =>
         sql"""
-             INSERT INTO administrator (fName, email, password) VALUES
+             INSERT INTO administrators (fName, email, password) VALUES
              (${fNameProperty.value}, ${emailProperty.value}, ${passwordProperty.value})
            """.update.apply()
       })
     else
       Try(DB autoCommit{
         sql"""
-             UPDATE administrator
+             UPDATE administrators
              SET
              fName = ${fNameProperty.value},
              email = ${emailProperty.value},
@@ -37,7 +37,7 @@ class Administrator(userID: Int, fNameS:String, emailS:String, passwordS:String)
     if(hasRecord) then
       Try(DB autoCommit{implicit session =>
         sql"""
-          DELETE FROM administrator
+          DELETE FROM administrators
           WHERE email = ${emailProperty.value}
           """.update.apply()
       })
@@ -48,7 +48,7 @@ class Administrator(userID: Int, fNameS:String, emailS:String, passwordS:String)
   def hasRecord:Boolean =
     DB readOnly{ implicit session =>
       sql"""
-           SELECT * FROM administrator WHERE email=${emailProperty.value}
+           SELECT * FROM administrators WHERE email=${emailProperty.value}
          """.map(_ => ()).single.apply()
     } match
       case Some(x) => true
@@ -71,7 +71,7 @@ object Administrator extends Database:
   def createTable() =
     DB autoCommit{implicit session =>
       sql"""
-           CREATE TABLE administrator(
+           CREATE TABLE administrators(
            user_id int NOT NULL GENERATED ALWAYS AS IDENTITY,
            fName varchar (40),
            email varchar(64),
@@ -84,7 +84,7 @@ object Administrator extends Database:
   def dropTable() =
     DB autoCommit { implicit session =>
       sql"""
-           DROP TABLE administrator
+           DROP TABLE administrators
          """.execute.apply()
     }
   end dropTable
@@ -92,7 +92,7 @@ object Administrator extends Database:
   def getAllAdminRecord: List[Administrator] =
     DB readOnly{implicit session =>
       sql"""
-      SELECT * from administrator
+      SELECT * from administrators
       """.map(rs => Administrator(
         rs.int("user_id"),
         rs.string("fName"),
@@ -104,7 +104,7 @@ object Administrator extends Database:
   def getRecordByEmail(email: String):Option[Administrator] =
     DB readOnly{ implicit session =>
       sql"""
-           SELECT * FROM administrator WHERE email = $email
+           SELECT * FROM administrators WHERE email = $email
          """.map(rs =>
       Administrator(
         rs.int("user_id"),
