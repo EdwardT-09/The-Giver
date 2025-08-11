@@ -1,10 +1,9 @@
 package donatesystem.view
 
-import donatesystem.util.PatternMatch
+import donatesystem.util.{Alert, PatternMatch, Session}
 import javafx.fxml.FXML
 import javafx.scene.control.PasswordField
 import scalafx.Includes.*
-import donatesystem.util.Alert
 
 @FXML
 class ChangePasswordController:
@@ -30,16 +29,29 @@ class ChangePasswordController:
       false
   end isNull
 
+  def comparePassword: Boolean =
+    var errorMessage = ""
+    val currentPassword = Session.getAdmin.get.passwordProperty
+    if (currentPassword.value != currentPasswordField.text.value) then
+      errorMessage += "Current password provided do not match your current password associated with the Giver.\n"
+    end if
+    if (errorMessage.isEmpty) then
+      true
+    else
+      Alert.displayAlert("Invalid password", errorMessage, "Please try again")
+      false
+  end comparePassword
+
   def validPassword(): Boolean =
     var errorMessage: String = ""
     if (!PatternMatch.validPassword(currentPasswordField.text.value)) then
-      errorMessage += "The current password field must contain at least one upper case, lower case, number and symbol"
+      errorMessage += "The current password field must contain at least one upper case, lower case, number and symbol\n"
     end if
     if (!PatternMatch.validEmail(newPasswordField.text.value)) then
-      errorMessage += "The new password field must contain at least one upper case, lower case, number and symbol"
+      errorMessage += "The new password field must contain at least one upper case, lower case, number and symbol\n"
     end if
     if(newPasswordField.text.value != newPasswordConfirmField.text.value) then
-      errorMessage += "The password confirmation does not match the new password "
+      errorMessage += "The password confirmation does not match the new password\n"
     end if
     if (errorMessage.length() == 0) then
       true
