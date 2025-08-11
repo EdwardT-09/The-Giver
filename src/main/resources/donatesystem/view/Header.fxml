@@ -24,7 +24,7 @@
         <items>
           <MenuItem mnemonicParsing="false" onAction="#directToChangeEmail" text="Change Email" />
           <MenuItem mnemonicParsing="false" onAction="#directToChangePassword" text="Change Password" />
-            <MenuItem mnemonicParsing="false" styleClass="red-menu-item" text="Log Out" />
+            <MenuItem mnemonicParsing="false" onAction="#logOut" styleClass="red-menu-item" text="Log Out" />
         </items>
          <graphic>
             <ImageView fitHeight="36.0" fitWidth="37.0">

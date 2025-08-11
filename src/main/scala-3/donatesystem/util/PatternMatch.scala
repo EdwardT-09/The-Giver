@@ -20,6 +20,14 @@ object PatternMatch:
       true
     }
   end validPassword
+
+  def validContactNo(contactNo:String): Boolean =
+    val contactNo_pattern = "^[0-9]{3}-[0-9]{3,4}-[0-9]{3,4}$".r
+    if (!contactNo_pattern.matches(contactNo)) then
+      false
+    else
+      true
+  end validContactNo
   
 end PatternMatch
 

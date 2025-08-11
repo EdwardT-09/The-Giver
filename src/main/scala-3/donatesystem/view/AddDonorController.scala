@@ -8,7 +8,7 @@ import donatesystem.util.Alert
 import donatesystem.model.Donor
 import donatesystem.RunTheGiver
 import scalafx.stage.Stage
-
+import donatesystem.util.PatternMatch
 import java.time.LocalDate
 import scala.util.{Failure, Success}
 
@@ -68,34 +68,18 @@ class AddDonorController:
       errorMessage += "Contact number field is empty"
     if (occupationField.text.value.isEmpty) then
       errorMessage += "Occupation field is empty"
-    if (!validEmail()) then
+    if (!PatternMatch.validEmail(emailField.text.value)) then
       errorMessage += "Email provided is invalid"
-    if(!validContactNo()) then
+    if(!PatternMatch.validContactNo(contactNoField.text.value)) then
       errorMessage +=  "The contact number provided is invalid"
 
-    if(errorMessage.length() == 0) then
+    if(errorMessage.isEmpty) then
       true
     else {
       Alert.displayAlert("Invalid Fields", "Please fill in all fields correctly.", errorMessage)
       false
     }
   end validInput
-  def validEmail(): Boolean =
-    val email_pattern = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.com$".r
-    if (!email_pattern.matches(emailField.text.value)) {
-      false
-    } else {
-      true
-    }
-  end validEmail
-
-  def validContactNo(): Boolean =
-    val contactNo_pattern = "^[0-9]{3}-[0-9]{3,4}-[0-9]{3,4}$".r
-    if(!contactNo_pattern.matches(contactNoField.text.value)) then
-      false
-    else
-      true
-  end validContactNo
 
 end AddDonorController
 

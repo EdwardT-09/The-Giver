@@ -1,5 +1,6 @@
 package donatesystem.view
 
+import donatesystem.util.Session
 import donatesystem.RunTheGiver
 
 class HeaderController:
@@ -10,5 +11,10 @@ class HeaderController:
   def directToChangePassword:Unit =
     RunTheGiver.showChangePassword
   end directToChangePassword
+
+  def logOut: Unit =
+    Session.logOut()
+    RunTheGiver.showAuthLanding()
+  end logOut
 end HeaderController
 

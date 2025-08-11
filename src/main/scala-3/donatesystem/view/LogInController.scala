@@ -5,9 +5,8 @@ import donatesystem.model.Administrator
 import javafx.event.ActionEvent
 import scalafx.Includes.*
 import javafx.fxml.FXML
-import javafx.scene.control.{TextField, PasswordField}
-import donatesystem.util.Alert
-import donatesystem.util.Session
+import javafx.scene.control.{PasswordField, TextField}
+import donatesystem.util.{Alert, PatternMatch, Session}
 
 @FXML
 class LogInController:
@@ -20,14 +19,42 @@ class LogInController:
   end directToRegister
 
 
-  def handleLogIn(action: ActionEvent):Unit =
-    if(validateCredentials()) then 
-      getAdminRecord()
-      RunTheGiver.showHome()
-    else
-      Alert.displayAlert("Invalid Credentials", "Email or password provided is invalid" , "Please enter valid credentials")
+  def handleLogIn(action: ActionEvent):Unit = 
+    if(!isNull) then 
+      if(validInput) then 
+        if(validateCredentials()) then 
+          getAdminRecord()
+          RunTheGiver.showHome()
+        else
+          Alert.displayAlert("Invalid Credentials", "Email or password provided is invalid" , "Please enter valid credentials")
   end handleLogIn
-  
+
+  def isNull:Boolean =
+    var errorMessage:String = ""
+    if (emailField.text.value.isEmpty) then
+      errorMessage += "Email field is empty\n"
+    end if
+    if(passwordField.text.value.isEmpty) then
+      errorMessage += "Password field is empty\n"
+    end if
+    if(errorMessage.isEmpty) then
+      false
+    else
+      Alert.displayAlert("Empty Field", errorMessage, "Please enter the following fields.")
+      true
+  end isNull
+
+  def validInput: Boolean =
+    var errorMessage: String = ""
+    if (!PatternMatch.validEmail(emailField.text.value)) then
+      errorMessage += "Email provided is invalid\n"
+    if (errorMessage.isEmpty) then
+      true
+    else
+      Alert.displayAlert("Invalid Inputs", errorMessage, "Please reenter the fields.")
+      false
+    end if
+  end validInput
 
   def validateCredentials(): Boolean =
       Administrator.getRecordByEmail(emailField.text.value).exists(admin => admin.passwordProperty.value == passwordField.text.value)

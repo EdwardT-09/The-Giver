@@ -24,27 +24,53 @@ class RegisterController():
 
 
   def handleRegister(action:ActionEvent):Unit =
-    if(fNameField.text.value.isEmpty|| emailField.text.value.isEmpty || passwordField.text.value.isEmpty) then
-      Alert.displayAlert("Empty Field", "FirstName, Email or password is empty", "Please enter the first name, email and password.")
-    else if (!PatternMatch.validEmail(emailField.text.value)) then
-      Alert.displayAlert("Invalid Email", "Email provided is invalid", "Enter using the following format 'name@example.com")
-    else if(!PatternMatch.validPassword(passwordField.text.value)) then
-      Alert.displayAlert("Invalid Password", "Password provided is invalid.", "Password must have at least one upper case, lower case, number and symbol")
-    else if(!passwordConfirmation()) then
-      Alert.displayAlert("Password do not match", "Passwords provided is invalid.", "Password must be the same.")
-    else if(PatternMatch.validEmail(emailField.text.value) && PatternMatch.validPassword(passwordField.text.value) && passwordConfirmation()) then
-      val admin = new Administrator(1, fNameField.text.value, emailField.text.value, passwordField.text.value)
-      admin.saveAsRecord match {
-        case Success(result) => Alert.displayAlert("Success", "Success", "Password must have at least one upper case, lower case, number and symbol")
-                                RunTheGiver.showHome()
-        case Failure(error) => Alert.displayAlert("Unsuccessful", "Email is in use", error.getMessage)
-      }
+
+    if(!isNull) then
+      if(validInput) then 
+        val admin = new Administrator(1, fNameField.text.value, emailField.text.value, passwordField.text.value)
+        admin.saveAsRecord match {
+          case Success(result) => Alert.displayAlert("Success", "Success", "Password must have at least one upper case, lower case, number and symbol")
+                                  RunTheGiver.showHome()
+          case Failure(error) => Alert.displayAlert("Unsuccessful", "Email is in use", error.getMessage)
+        }
+      end if
     end if
   end handleRegister
 
+  def isNull:Boolean =
+    var errorMessage:String = ""
+    if (fNameField.text.value.isEmpty) then
+      errorMessage += "First name field is empty\n"
+    end if
+    if(emailField.text.value.isEmpty) then
+      errorMessage += "Email field is empty\n"
+    end if
+    if(passwordField.text.value.isEmpty) then
+      errorMessage += "Password field is empty\n"
+    end if
+    if(errorMessage.isEmpty) then
+      false
+    else
+      Alert.displayAlert("Empty Field", errorMessage, "Please enter the following fields.")
+      true
+  end isNull
 
-
-  
+  def validInput:Boolean =
+    var errorMessage:String = ""
+    if (!PatternMatch.validEmail(emailField.text.value)) then
+      errorMessage += "Email provided is invalid\n"
+    if (!PatternMatch.validPassword(passwordField.text.value)) then
+      errorMessage += "Password provided is invalid.\n"
+    if (!passwordConfirmation()) then
+      errorMessage += "Passwords provided is invalid.\n"
+    if(errorMessage.isEmpty) then 
+      true
+    else 
+      Alert.displayAlert("Invalid Inputs", errorMessage, "Please reenter the fields.")
+      false
+    end if
+  end validInput
+    
 
   def passwordConfirmation(): Boolean =
     if(!passwordField.text.value.equals(passwordConfirmField.text.value)){
