@@ -29,9 +29,9 @@ class RegisterController():
       if(validInput) then 
         val admin = new Administrator(1, fNameField.text.value, emailField.text.value, passwordField.text.value)
         admin.saveAsRecord match {
-          case Success(result) => Alert.displayAlert("Success", "Success", "Password must have at least one upper case, lower case, number and symbol")
+          case Success(result) => Alert.displayError("Success", "Success", "Password must have at least one upper case, lower case, number and symbol")
                                   RunTheGiver.showHome()
-          case Failure(error) => Alert.displayAlert("Unsuccessful", "Email is in use", error.getMessage)
+          case Failure(error) => Alert.displayError("Unsuccessful", "Email is in use", error.getMessage)
         }
       end if
     end if
@@ -51,7 +51,7 @@ class RegisterController():
     if(errorMessage.isEmpty) then
       false
     else
-      Alert.displayAlert("Empty Field", errorMessage, "Please enter the following fields.")
+      Alert.displayError("Empty Field", errorMessage, "Please enter the following fields.")
       true
   end isNull
 
@@ -66,7 +66,7 @@ class RegisterController():
     if(errorMessage.isEmpty) then 
       true
     else 
-      Alert.displayAlert("Invalid Inputs", errorMessage, "Please reenter the fields.")
+      Alert.displayError("Invalid Inputs", errorMessage, "Please reenter the fields.")
       false
     end if
   end validInput

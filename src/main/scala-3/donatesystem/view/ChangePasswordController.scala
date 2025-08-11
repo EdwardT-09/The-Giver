@@ -19,8 +19,8 @@ class ChangePasswordController:
       if (validPassword && comparePassword) then
         val admin = new Administrator(0, Session.getAdmin.get.fNameProperty.value, Session.getAdmin.get.emailProperty.value, newPasswordField.text.value)
         admin.saveAsRecord match
-          case Success(x) => Alert.displayAlert("Success", "Success", "The password has been updated")
-          case Failure(error) => Alert.displayAlert("Unsuccessful", "Password is in use", error.getMessage)
+          case Success(x) => Alert.displayError("Success", "Success", "The password has been updated")
+          case Failure(error) => Alert.displayError("Unsuccessful", "Password is in use", error.getMessage)
   end handleChangePassword
 
   def isNull: Boolean =
@@ -37,7 +37,7 @@ class ChangePasswordController:
     if (errorMessage.isEmpty) then
       false
     else
-      Alert.displayAlert("Field Empty", errorMessage, "Please try again")
+      Alert.displayError("Field Empty", errorMessage, "Please try again")
       true
   end isNull
 
@@ -50,7 +50,7 @@ class ChangePasswordController:
     if (errorMessage.isEmpty) then
       true
     else
-      Alert.displayAlert("Invalid password", errorMessage, "Please try again")
+      Alert.displayError("Invalid password", errorMessage, "Please try again")
       false
   end comparePassword
 
@@ -68,7 +68,7 @@ class ChangePasswordController:
     if (errorMessage.length() == 0) then
       true
     else
-      Alert.displayAlert("Invalid Password", errorMessage, "Please try again")
+      Alert.displayError("Invalid Password", errorMessage, "Please try again")
       false
   end validPassword
 

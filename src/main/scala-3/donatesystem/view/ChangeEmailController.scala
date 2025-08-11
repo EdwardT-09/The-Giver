@@ -19,8 +19,8 @@ class ChangeEmailController:
       if (validEmail && compareEmail) then
         val admin = new Administrator(0, Session.getAdmin.get.fNameProperty.value, newEmailField.text.value, Session.getAdmin.get.passwordProperty.value)
         admin.saveAsRecord match
-          case Success(x) => Alert.displayAlert("Success", "Success", "The email has been updated")
-          case Failure(error) => Alert.displayAlert("Unsuccessful", "Email is in use", "Please try again")
+          case Success(x) => Alert.displayError("Success", "Success", "The email has been updated")
+          case Failure(error) => Alert.displayError("Unsuccessful", "Email is in use", "Please try again")
   end handleChangeEmail
 
   def isNull:Boolean =
@@ -34,7 +34,7 @@ class ChangeEmailController:
     if(errorMessage.isEmpty) then
       false
     else
-      Alert.displayAlert("Field Empty", errorMessage, "Please try again")
+      Alert.displayError("Field Empty", errorMessage, "Please try again")
       true
   end isNull
 
@@ -47,7 +47,7 @@ class ChangeEmailController:
     if (errorMessage.length() == 0) then
       true
     else
-      Alert.displayAlert("Invalid email", errorMessage, "Please try again")
+      Alert.displayError("Invalid email", errorMessage, "Please try again")
       false
   end compareEmail
 
@@ -62,7 +62,7 @@ class ChangeEmailController:
     if (errorMessage.length() == 0) then
       true
     else
-      Alert.displayAlert("Invalid Email", errorMessage, "Please try again")
+      Alert.displayError("Invalid Email", errorMessage, "Please try again")
       false
   end validEmail
 

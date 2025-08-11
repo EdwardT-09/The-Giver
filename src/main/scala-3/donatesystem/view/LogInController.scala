@@ -26,7 +26,7 @@ class LogInController:
           getAdminRecord()
           RunTheGiver.showHome()
         else
-          Alert.displayAlert("Invalid Credentials", "Email or password provided is invalid" , "Please enter valid credentials")
+          Alert.displayError("Invalid Credentials", "Email or password provided is invalid" , "Please enter valid credentials")
   end handleLogIn
 
   def isNull:Boolean =
@@ -40,7 +40,7 @@ class LogInController:
     if(errorMessage.isEmpty) then
       false
     else
-      Alert.displayAlert("Empty Field", errorMessage, "Please enter the following fields.")
+      Alert.displayError("Empty Field", errorMessage, "Please enter the following fields.")
       true
   end isNull
 
@@ -51,7 +51,7 @@ class LogInController:
     if (errorMessage.isEmpty) then
       true
     else
-      Alert.displayAlert("Invalid Inputs", errorMessage, "Please reenter the fields.")
+      Alert.displayError("Invalid Inputs", errorMessage, "Please reenter the fields.")
       false
     end if
   end validInput

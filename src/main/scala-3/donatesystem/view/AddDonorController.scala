@@ -41,10 +41,10 @@ class AddDonorController:
       val birthday: LocalDate = birthdayField.value()
       val donor = new Donor(0, nameField.text.value, emailField.text.value, birthday, contactNoField.text.value, occupationField.text.value)
       donor.saveToDonor match
-        case Success(x) => Alert.displayAlert("Success", "Success", "Password must have at least one upper case, lower case, number and symbol")
+        case Success(x) => Alert.displayError("Success", "Success", "Password must have at least one upper case, lower case, number and symbol")
           result = Some(donor)
           dialogStage.close()
-        case Failure(error) => Alert.displayAlert("Unsuccessful", "Email is in use", error.getMessage)
+        case Failure(error) => Alert.displayError("Unsuccessful", "Email is in use", error.getMessage)
   end handleAddDonor
   
   def assignToDonor():Unit = {
@@ -76,7 +76,7 @@ class AddDonorController:
     if(errorMessage.isEmpty) then
       true
     else {
-      Alert.displayAlert("Invalid Fields", "Please fill in all fields correctly.", errorMessage)
+      Alert.displayError("Invalid Fields", "Please fill in all fields correctly.", errorMessage)
       false
     }
   end validInput

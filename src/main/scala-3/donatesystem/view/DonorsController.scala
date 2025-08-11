@@ -53,7 +53,7 @@ class DonorsController:
         case Some(updatedDonor) =>
           donorTable.items().update(selectedIndex, updatedDonor)
         case None =>
-          Alert.displayAlert("Update Error", "The donor record was not updated", "Please try again")
+          Alert.displayError("Update Error", "The donor record was not updated", "Please try again")
     end if
   end directToEditDonor
 
@@ -65,9 +65,9 @@ class DonorsController:
         case Success(x) =>
           donorTable.items().remove(selectedIndex)
         case Failure(x) =>
-          Alert.displayAlert("Delete unsuccessful", "The record was not deleted", "Please try again")
+          Alert.displayError("Delete unsuccessful", "The record was not deleted", "Please try again")
     else
-      Alert.displayAlert("Invalid Donor", "No donor record is selected", "Please choose a donor")
+      Alert.displayError("Invalid Donor", "No donor record is selected", "Please choose a donor")
     end if
   end deleteDonor
 

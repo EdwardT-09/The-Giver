@@ -6,12 +6,22 @@ import scalafx.scene.control.Alert.AlertType
 
 object Alert :
   //display alerts 
-  def displayAlert(titleS: String, headerTextS: String, contentTextS: String): Unit =
+  def displayError(titleS: String, headerTextS: String, contentTextS: String): Unit =
     val alert = new Alert(AlertType.Error):
       initOwner(RunTheGiver.stage)
       title = titleS
       headerText = headerTextS
       contentText = contentTextS
     alert.showAndWait()
-  end displayAlert
+  end displayError
+  
+  def displayInformation(titleS: String, headerTextS: String, contentTextS: String): Unit =
+    val alert = new Alert(AlertType.Information):
+      initOwner(RunTheGiver.stage)
+      title = titleS
+      headerText = headerTextS
+      contentText = contentTextS
+    alert.showAndWait()
+  end displayInformation
+  
 end Alert
