@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="87.0" prefWidth="600.0" styleClass="background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="87.0" prefWidth="600.0" styleClass="background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="donatesystem.view.HeaderController">
    <children>
       <ImageView fitHeight="28.0" fitWidth="96.0" layoutX="24.0" layoutY="41.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -22,8 +22,8 @@
       </Button>
       <MenuButton layoutX="515.0" layoutY="27.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="35.0">
         <items>
-          <MenuItem mnemonicParsing="false" text="Change Email" />
-          <MenuItem mnemonicParsing="false" text="Change Password" />
+          <MenuItem mnemonicParsing="false" onAction="#directToChangeEmail" text="Change Email" />
+          <MenuItem mnemonicParsing="false" onAction="#directToChangePassword" text="Change Password" />
             <MenuItem mnemonicParsing="false" styleClass="red-menu-item" text="Log Out" />
         </items>
          <graphic>

@@ -38,7 +38,7 @@
             <Font name="Arial" size="10.0" />
          </font>
       </Label>
-      <Button layoutX="46.0" layoutY="257.0" mnemonicParsing="false" onAction="#handleLogIn" prefHeight="26.0" prefWidth="252.0" stylesheets="@style.css" text="Register" textFill="#f1ffff">
+      <Button layoutX="46.0" layoutY="257.0" mnemonicParsing="false" onAction="#handleLogIn" prefHeight="26.0" prefWidth="252.0" stylesheets="@style.css" text="Log In" textFill="#f1ffff">
          <font>
             <Font size="8.0" />
          </font>
