@@ -1,15 +1,29 @@
 package donatesystem.view
 
-
+import donatesystem.model.Administrator
 import donatesystem.util.{Alert, PatternMatch, Session}
 import javafx.fxml.FXML
 import javafx.scene.control.TextField
 import scalafx.Includes.*
+import scala.util.{Failure, Success}
+
 
 @FXML
 class ChangeEmailController:
   @FXML private var currentEmailField: TextField = _
   @FXML private var newEmailField: TextField = _
+
+
+  def changeEmail: Unit =
+    if (validEmail()) then
+      if (compareEmail) then
+        val admin = new Administrator(0, Session.getAdmin.get.fNameProperty.value, newEmailField.text.value, Session.getAdmin.get.passwordProperty.value)
+
+        admin.saveAsRecord match
+          case Success(x) => Alert.displayAlert("Success", "Success", "The email has been updated")
+          case Failure(error) => Alert.displayAlert("Unsuccessful", "Email is in use", error.getMessage)
+  end changeEmail
+
 
   def compareEmail: Boolean =
     var errorMessage = ""
