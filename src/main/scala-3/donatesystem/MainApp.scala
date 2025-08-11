@@ -7,12 +7,14 @@ import scalafx.scene as sfxs
 import scalafx.Includes.*
 import scalafx.application.JFXApp3
 import scalafx.application.JFXApp3.PrimaryStage
-import scalafx.scene as sfxs
+import javafx.scene as jfxs
 import scalafx.scene.Scene
 import donatesystem.util.Database
+import donatesystem.view.AddDonorController
 import scalafx.collections.ObservableBuffer
 import scalafx.scene.image.Image
 import scalafx.scene.layout.BorderPane
+import scalafx.stage.{Modality, Stage}
 
 object MainApp extends JFXApp3:
   // initialise the database to create table if it does not exists
@@ -101,14 +103,22 @@ object MainApp extends JFXApp3:
     this.roots.get.center = roots.get
   end showDonor
   
-  def showAddDonor():Unit =
+  def showAddDonor(donor:Donor):Option[Donor] =
     val resource = getClass.getResource("view/AddDonor.fxml")
     val loader = new FXMLLoader(resource)
     val rootJavaFX = loader.load[javafx.scene.layout.AnchorPane]()
-    val rootScalaFX: scalafx.scene.layout.AnchorPane = rootJavaFX
-    var roots: Option[scalafx.scene.layout.AnchorPane] = None
-    roots = Some(rootScalaFX)
-    this.roots.get.center = roots.get
+    val roots2 = loader.getRoot[jfxs.Parent]
+    val controller = loader.getController[AddDonorController]
+    val dialog = new Stage():
+      initModality(Modality.ApplicationModal)
+      initOwner(stage)
+      title= "Add/Edit Donor"
+        scene = new Scene:
+          root = roots2
+    controller.dialogStage = dialog
+    controller.donor = donor
+    dialog.showAndWait()
+    controller.result
   end showAddDonor
   
   def showAbout(): Unit =

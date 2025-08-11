@@ -14,8 +14,10 @@ class Donor(donor_IDI: Int, nameS: String, emailS:String, birthdayD:LocalDate, c
   var birthdayProperty = ObjectProperty[LocalDate](birthdayD)
   var contactNoProperty = new StringProperty(contactNoS)
   var occupationProperty = new StringProperty(occupationS)
+  val originalEmail: String = emailS
 
-  def saveToDonor: Try[Int] = {
+
+  def saveToDonor: Try[Int] = 
     if (!hasRecord) then
       Try(DB autoCommit { implicit session =>
         sql"""
@@ -24,25 +26,19 @@ class Donor(donor_IDI: Int, nameS: String, emailS:String, birthdayD:LocalDate, c
            """.update.apply()
       })
     else
-      Failure(new Exception("This donor already exists within the database."))
-  }
-
-  def updateRecord: Try[Int] =
-    if (hasRecord) then
       Try(DB autoCommit {
         sql"""
              UPDATE donor
              SET
-             fName = ${nameProperty.value},
+             name = ${nameProperty.value},
              email = ${emailProperty.value},
              birthday = ${birthdayProperty.value},
              contactNo = ${contactNoProperty.value},
              occupation = ${occupationProperty.value}
-             WHERE email = ${emailProperty.value}
+             WHERE email = $originalEmail
            """.update.apply()
       })
-    else
-      throw new Exception("There are no record of this donor.")
+  end saveToDonor
 
 
   def deleteRecord: Try[Int] =
@@ -100,7 +96,7 @@ object Donor extends Database:
   def getAllDonorRecord: List[Donor] =
     DB readOnly { implicit session =>
       sql"""
-        SELECT * from donor
+        SELECT * FROM donor
         """.map(rs => Donor(
         rs.int("donor_id"),
         rs.string("name"),

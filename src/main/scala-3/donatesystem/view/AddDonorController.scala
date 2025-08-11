@@ -7,6 +7,7 @@ import javafx.scene.control.{DatePicker, TextField}
 import donatesystem.util.Alert
 import donatesystem.model.Donor
 import donatesystem.MainApp
+import scalafx.stage.Stage
 
 import java.time.LocalDate
 import scala.util.{Failure, Success}
@@ -21,6 +22,8 @@ class AddDonorController:
   @FXML private var occupationField: TextField = _
 
   private var __donor: Donor = null
+  var dialogStage:Stage = null
+  var result: Option[Donor] = None
 
   def donor = __donor
 
@@ -33,25 +36,50 @@ class AddDonorController:
     occupationField.text = __donor.occupationProperty.value
   }
 
-  def handleAddDonor(action:ActionEvent):Unit = {
-    if(nameField.text.value.isEmpty|| emailField.text.value.isEmpty|| birthdayField.value == null|| contactNoField.text.value.isEmpty ||occupationField.text.value.isEmpty) then
-      Alert.displayAlert("Empty Field", "One or more fields are left empty." , "Please fill in the empty field(s).")
-    else if (!validEmail()) then
-      Alert.displayAlert("Invalid Email", "Email provided is invalid", "Enter using the following format 'name@example.com")
-    else if(!validContactNo()) then
-      Alert.displayAlert("Invalid Contact Number", "The contact number provided is invalid", "Enter using the following format '012-3456-7890")
-    else
+  def handleAddDonor(action:ActionEvent):Unit =
+    if validInput() then
       val birthday: LocalDate = birthdayField.value()
       val donor = new Donor(1, nameField.text.value, emailField.text.value, birthday, contactNoField.text.value, occupationField.text.value)
-      donor.saveToDonor match{
-        case Success(result) => Alert.displayAlert("Success", "Success", "Password must have at least one upper case, lower case, number and symbol")
-          MainApp.showHome()
+      donor.saveToDonor match
+        case Success(x) => Alert.displayAlert("Success", "Success", "Password must have at least one upper case, lower case, number and symbol")
+          result = Some(donor)
+          dialogStage.close()
         case Failure(error) => Alert.displayAlert("Unsuccessful", "Email is in use", error.getMessage)
-      }
-    end if
-  }
   end handleAddDonor
+  
+  def assignToDonor():Unit = {
+    __donor.nameProperty <= nameField.text
+    __donor.emailProperty <= emailField.text
+    __donor.birthdayProperty <== birthdayField.valueProperty()
+    __donor.contactNoProperty <= contactNoField.text
+    __donor.occupationProperty <= occupationField.text
 
+  }
+  end assignToDonor
+  def validInput(): Boolean =
+    var errorMessage:String = ""
+    if (nameField.text.value.isEmpty) then
+      errorMessage += "Name field is empty"
+    if (emailField.text.value.isEmpty) then
+      errorMessage += "Email field is empty"
+    if (birthdayField.value == null) then
+      errorMessage += "Birthday field is empty"
+    if (contactNoField.text.value.isEmpty) then
+      errorMessage += "Contact number field is empty"
+    if (occupationField.text.value.isEmpty) then
+      errorMessage += "Occupation field is empty"
+    if (!validEmail()) then
+      errorMessage += "Email provided is invalid"
+    if(!validContactNo()) then
+      errorMessage +=  "The contact number provided is invalid"
+
+    if(errorMessage.length() == 0) then
+      true
+    else {
+      Alert.displayAlert("Invalid Fields", "Please fill in all fields correctly.", errorMessage)
+      false
+    }
+  end validInput
   def validEmail(): Boolean =
     val email_pattern = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.com$".r
     if (!email_pattern.matches(emailField.text.value)) {

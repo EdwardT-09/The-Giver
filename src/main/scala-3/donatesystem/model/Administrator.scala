@@ -11,7 +11,7 @@ class Administrator(userID: Int, fNameS:String, emailS:String, passwordS:String)
   var emailProperty = new StringProperty(emailS)
   var passwordProperty = new StringProperty(passwordS)
 
-  def saveAsRecord: Try[Int] = {
+  def saveAsRecord: Try[Int] = 
     if(!hasRecord) then
       Try (DB autoCommit{ implicit session =>
         sql"""
@@ -20,11 +20,6 @@ class Administrator(userID: Int, fNameS:String, emailS:String, passwordS:String)
            """.update.apply()
       })
     else
-      Failure(new Exception ("The email that you have provided is already registered. Please provide another email."))
-  }
-
-  def updateRecord: Try[Int] =
-    if(hasRecord) then
       Try(DB autoCommit{
         sql"""
              UPDATE administrator
@@ -35,8 +30,7 @@ class Administrator(userID: Int, fNameS:String, emailS:String, passwordS:String)
              WHERE email = ${emailProperty.value}
            """.update.apply()
       })
-      else
-        throw new Exception ("There are no records of this user.")
+  end saveAsRecord
 
 
   def deleteRecord: Try[Int] =

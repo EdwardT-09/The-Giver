@@ -42,15 +42,15 @@
             <fx:include source="Navigation.fxml" />
          </children>
       </VBox>
-      <Button layoutX="522.0" layoutY="345.0" mnemonicParsing="false" onAction="#directToAddDonor" stylesheets="@style.css" text="+" textFill="#f1ffff">
+      <Button layoutX="531.0" layoutY="343.0" mnemonicParsing="false" onAction="#directToAddDonor" prefHeight="37.0" prefWidth="39.0" stylesheets="@style.css" text="+" textFill="#f1ffff">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
       <ButtonBar layoutX="401.0" layoutY="167.0" prefHeight="40.0" prefWidth="200.0">
         <buttons>
-          <Button mnemonicParsing="false" text="Edit" textFill="#f1ffff" />
-            <Button mnemonicParsing="false" text="Delete" textFill="#f1ffff" />
+          <Button mnemonicParsing="false" onAction="#directToEditDonor" text="Edit" textFill="#f1ffff" />
+            <Button mnemonicParsing="false" onAction="#deleteDonor" text="Delete" textFill="#f1ffff" />
         </buttons>
       </ButtonBar>
    </children>
