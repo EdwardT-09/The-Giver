@@ -7,6 +7,7 @@ import scalafx.Includes.*
 import javafx.fxml.FXML
 import javafx.scene.control.{TextField, PasswordField}
 import donatesystem.util.Alert
+import donatesystem.util.Session
 
 @FXML
 class LogInController:
@@ -20,7 +21,8 @@ class LogInController:
 
 
   def handleLogIn(action: ActionEvent):Unit =
-    if(validateCredentials()) then
+    if(validateCredentials()) then 
+      getAdminRecord()
       MainApp.showHome()
     else
       Alert.displayAlert("Invalid Credentials", "Email or password provided is invalid" , "Please enter valid credentials")
@@ -28,9 +30,12 @@ class LogInController:
   
 
   def validateCredentials(): Boolean =
-    Administrator.getRecordByEmail(emailField.text.value).exists(admin => admin.passwordProperty.value == passwordField.text.value)
+      Administrator.getRecordByEmail(emailField.text.value).exists(admin => admin.passwordProperty.value == passwordField.text.value)
   end validateCredentials
 
-
-
+  def getAdminRecord(): Unit =
+    Administrator.getRecordByEmail(emailField.text.value) match
+      case Some(x) => Session.logIn(x)
+      case None =>
+  end getAdminRecord
   
