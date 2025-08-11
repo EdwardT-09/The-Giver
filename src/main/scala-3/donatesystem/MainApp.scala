@@ -120,7 +120,27 @@ object MainApp extends JFXApp3:
     dialog.showAndWait()
     controller.result
   end showAddDonor
-  
+
+  def showChangeEmail:Unit =
+    val resource = getClass.getResource("view/ChangeEmail.fxml")
+    val loader = new FXMLLoader(resource)
+    val rootJavaFX = loader.load[javafx.scene.layout.AnchorPane]()
+    val rootScalaFX: scalafx.scene.layout.AnchorPane = rootJavaFX
+    var roots: Option[scalafx.scene.layout.AnchorPane] = None
+    roots = Some(rootScalaFX)
+    this.roots.get.center = roots.get
+  end showChangeEmail
+
+  def showChangePassword: Unit =
+    val resource = getClass.getResource("view/ChangePassword.fxml")
+    val loader = new FXMLLoader(resource)
+    val rootJavaFX = loader.load[javafx.scene.layout.AnchorPane]()
+    val rootScalaFX: scalafx.scene.layout.AnchorPane = rootJavaFX
+    var roots: Option[scalafx.scene.layout.AnchorPane] = None
+    roots = Some(rootScalaFX)
+    this.roots.get.center = roots.get
+  end showChangePassword
+
   def showAbout(): Unit =
     val resource = getClass.getResource("view/About.fxml")
     val loader = new FXMLLoader(resource)
