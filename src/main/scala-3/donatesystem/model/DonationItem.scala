@@ -17,7 +17,9 @@ abstract class DonationItem(itemIDI :Int, nameS:String, categoryS:String, perish
   val quantityProperty =  IntegerProperty(quantityI)
   
   def saveAsRecord: Try[Int]
-
+  
+  def reduceQuantity(quantity:Int): Try[Int]
+  
   def deleteRecord: Try[Int] 
 
   def hasRecord: Boolean 
