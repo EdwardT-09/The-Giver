@@ -24,11 +24,12 @@ class AddDonorController:
   private var __donor: Donor = null
   var dialogStage:Stage = null
   var result: Option[Donor] = None
-
+  private var originalEmail:String = null
   def donor = __donor
 
   def donor_=( donor: Donor):Unit = {
     __donor = donor
+    originalEmail = donor.emailProperty.value
     nameField.text = __donor.nameProperty.value
     emailField.text = __donor.emailProperty.value
     birthdayField.value = __donor.birthdayProperty.value
@@ -39,12 +40,27 @@ class AddDonorController:
   def handleAddDonor(action:ActionEvent):Unit =
     if validInput() then
       val birthday: LocalDate = birthdayField.value()
-      val donor = new Donor(0, nameField.text.value, emailField.text.value, birthday, contactNoField.text.value, occupationField.text.value)
-      donor.saveToDonor match
-        case Success(x) => Alert.displayError("Success", "Success", "Password must have at least one upper case, lower case, number and symbol")
-          result = Some(donor)
-          dialogStage.close()
-        case Failure(error) => Alert.displayError("Unsuccessful", "Email is in use", error.getMessage)
+      val donor = Donor.getRecordByEmail(originalEmail)
+      donor match
+        case Some(donor) =>
+          donor.nameProperty.value = nameField.text.value
+          donor.emailProperty.value = emailField.text.value
+          donor.birthdayProperty.value = birthdayField.value.value
+          donor.contactNoProperty.value = contactNoField.text.value
+          donor.occupationProperty.value = occupationField.text.value
+          donor.saveAsRecord match
+            case Success(x) => Alert.displayError("Success", "Success", "The record has been updated")
+              result = Some(donor)
+              dialogStage.close()
+            case Failure(error) => Alert.displayError("Unsuccessful", "Record is not updated", "Please try again")
+        case None =>
+          val donor = new Donor(0, nameField.text.value, emailField.text.value, birthdayField.value.value,contactNoField.text.value,occupationField.text.value)
+          donor.saveAsRecord match
+            case Success(x) =>  Alert.displayError("Success", "Success", "A record has been created")
+              result = Some(donor)
+              dialogStage.close()
+            case Failure(error) => Alert.displayError("Unsuccessful", "Record is not created", "Please try again")
+            
   end handleAddDonor
   
   def assignToDonor():Unit = {

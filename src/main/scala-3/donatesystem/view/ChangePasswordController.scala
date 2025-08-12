@@ -17,10 +17,15 @@ class ChangePasswordController:
   def handleChangePassword(action: ActionEvent): Unit =
     if (!isNull) then
       if (validPassword && comparePassword) then
-        val admin = new Administrator(0, Session.getAdmin.get.fNameProperty.value, Session.getAdmin.get.emailProperty.value, newPasswordField.text.value)
-        admin.saveAsRecord match
-          case Success(x) => Alert.displayError("Success", "Success", "The password has been updated")
-          case Failure(error) => Alert.displayError("Unsuccessful", "Password is in use", error.getMessage)
+        val admin = Administrator.getRecordByEmail(Session.getAdmin.get.emailProperty.value)
+        admin match
+          case Some(admin) =>
+            admin.passwordProperty.value = newPasswordField.text.value
+            admin.saveAsRecord match
+              case Success(x) => Alert.displayError("Success", "Success", "The password has been updated")
+              case Failure(error) => Alert.displayError("Unsuccessful", "Password is not updated", "Please try again")
+          case None =>
+            Alert.displayError("Error", "Not found", "Admin record is not found")
   end handleChangePassword
 
   def isNull: Boolean =

@@ -39,6 +39,7 @@ class DonorsController:
     RunTheGiver.showAddDonor(donor) match
       case Some(newDonor) =>
         donorTable.items().addLast(newDonor)
+        donorTable.refresh()
       case None =>
         
   end directToAddDonor
@@ -52,6 +53,7 @@ class DonorsController:
       RunTheGiver.showAddDonor(selectedDonor) match
         case Some(updatedDonor) =>
           donorTable.items().update(selectedIndex, updatedDonor)
+          donorTable.refresh()
         case None =>
           Alert.displayError("Update Error", "The donor record was not updated", "Please try again")
     end if

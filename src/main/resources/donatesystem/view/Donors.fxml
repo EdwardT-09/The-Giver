@@ -24,12 +24,11 @@
                <children>
                   <TableView fx:id="donorTable" layoutX="30.0" prefHeight="449.0" prefWidth="560.0" stylesheets="@style.css">
                     <columns>
-                      <TableColumn prefWidth="42.39999008178711" text="ID" />
                       <TableColumn fx:id="nameColumn" minWidth="0.79998779296875" prefWidth="146.4000244140625" text="Name" />
                         <TableColumn fx:id="emailColumn" prefWidth="92.80006408691406" text="Email" />
                         <TableColumn fx:id="birthdayColumn" prefWidth="104.79998779296875" text="Birthday" />
                         <TableColumn fx:id="contactNoColumn" prefWidth="89.5999755859375" text="Contact No" />
-                        <TableColumn fx:id="occupationColumn" prefWidth="84.0" text="Occupation" />
+                        <TableColumn fx:id="occupationColumn" prefWidth="123.2000732421875" text="Occupation" />
                     </columns>
                   </TableView>
                </children></AnchorPane>
