@@ -5,7 +5,7 @@ import scalikejdbc.*
 import scala.util.{Failure, Success, Try}
 import scalafx.beans.property.{IntegerProperty, ObjectProperty, StringProperty}
 
-class Administrator(userID: Int, fNameS:String, emailS:String, passwordS:String) extends Database:
+class Administrator(val userID: Int, fNameS:String, emailS:String, passwordS:String) extends Database:
   def this() = this(0, null, null, null)
   var fNameProperty = new StringProperty(fNameS)
   var emailProperty = new StringProperty(emailS)
@@ -27,7 +27,7 @@ class Administrator(userID: Int, fNameS:String, emailS:String, passwordS:String)
              fName = ${fNameProperty.value},
              email = ${emailProperty.value},
              password = ${passwordProperty.value}
-             WHERE email = ${emailProperty.value}
+             WHERE user_id = $userID
            """.update.apply()
       })
   end saveAsRecord
@@ -48,7 +48,7 @@ class Administrator(userID: Int, fNameS:String, emailS:String, passwordS:String)
   def hasRecord:Boolean =
     DB readOnly{ implicit session =>
       sql"""
-           SELECT * FROM administrators WHERE email=${emailProperty.value}
+           SELECT * FROM administrators WHERE user_id = $userID
          """.map(_ => ()).single.apply()
     } match
       case Some(x) => true

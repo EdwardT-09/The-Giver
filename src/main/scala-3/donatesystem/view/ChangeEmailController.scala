@@ -16,10 +16,15 @@ class ChangeEmailController:
   def handleChangeEmail(action:ActionEvent): Unit =
     if (!isNull) then
       if (validEmail && compareEmail) then
-        val admin = new Administrator(0, Session.getAdmin.get.fNameProperty.value, newEmailField.text.value, Session.getAdmin.get.passwordProperty.value)
-        admin.saveAsRecord match
-          case Success(x) => Alert.displayError("Success", "Success", "The email has been updated")
-          case Failure(error) => Alert.displayError("Unsuccessful", "Email is in use", "Please try again")
+        val admin = Administrator.getRecordByEmail(Session.getAdmin.get.emailProperty.value)
+        admin match
+          case Some(admin) =>
+            admin.emailProperty.value = newEmailField.text.value
+            admin.saveAsRecord match
+              case Success(x) => Alert.displayError("Success", "Success", "The email has been updated")
+              case Failure(error) => Alert.displayError("Unsuccessful", "Email is in use", "Please try again")
+          case None =>
+            Alert.displayError("Error", "Not found", "Admin record is not found")
   end handleChangeEmail
 
   def isNull:Boolean =

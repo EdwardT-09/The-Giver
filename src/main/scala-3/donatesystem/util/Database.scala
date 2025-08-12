@@ -1,8 +1,7 @@
 package donatesystem.util
 
 import scalikejdbc.*
-import donatesystem.model.Administrator
-import donatesystem.model.Donor
+import donatesystem.model.{Administrator, Beverage, Donor, Food}
 
 
 trait Database:
@@ -27,11 +26,13 @@ object Database extends Database:
     if (!hasDBInitialized) then
         Administrator.createTable()
         Donor.createTable()
+        Food.createTable()
+        Beverage.createTable()
   end dbSetUp
   
   def hasDBInitialized:Boolean =
-    (DB.getTable ("ADMINISTRATORS"), DB.getTable("DONORS")) match
-      case (Some(_), Some(_)) => true
+    (DB.getTable ("ADMINISTRATORS"), DB.getTable("DONORS"),DB.getTable("FOODS"), DB.getTable("BEVERAGES")) match
+      case (Some(_), Some(_),Some(_), Some(_)) => true
       case _ => false
   end hasDBInitialized
 end Database
