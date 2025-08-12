@@ -15,7 +15,7 @@
             <Image url="@../../images/the_giver.png" />
          </image>
       </ImageView>
-      <Button layoutX="386.0" layoutY="33.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="120.0" styleClass="button-outline" stylesheets="@style.css" text="Add Donation Record" textAlignment="CENTER" textFill="#355e59">
+      <Button layoutX="386.0" layoutY="33.0" mnemonicParsing="false" onAction="#directToAddRecordLanding" prefHeight="33.0" prefWidth="120.0" styleClass="button-outline" stylesheets="@style.css" text="Add New Record" textAlignment="CENTER" textFill="#355e59">
          <font>
             <Font name="System Bold" size="8.0" />
          </font>

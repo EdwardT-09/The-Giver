@@ -4,6 +4,10 @@ import donatesystem.util.Session
 import donatesystem.RunTheGiver
 
 class HeaderController:
+  def directToAddRecordLanding: Unit =
+    RunTheGiver.showAddRecordLanding()
+  end directToAddRecordLanding
+
   def directToChangeEmail:Unit =
     RunTheGiver.showChangeEmail
   end directToChangeEmail

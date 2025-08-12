@@ -73,7 +73,7 @@ class ChangePasswordController:
     if(newPasswordField.text.value != newPasswordConfirmField.text.value) then
       errorMessage += "The password confirmation does not match the new password\n"
     end if
-    if (errorMessage.length() == 0) then
+    if (errorMessage.isEmpty) then
       true
     else
       Alert.displayError("Invalid Password", errorMessage, "Please try again")

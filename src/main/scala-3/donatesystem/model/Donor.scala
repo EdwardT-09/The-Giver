@@ -2,13 +2,17 @@ package donatesystem.model
 
 import donatesystem.util.Database
 import scalikejdbc.*
+
 import scala.util.{Failure, Try}
-import scalafx.beans.property.{ObjectProperty, StringProperty}
+import scalafx.beans.property.{IntegerProperty, ObjectProperty, StringProperty}
+
 import java.time.LocalDate
 
 
-class Donor(donor_IDI: Int, nameS: String, emailS:String, birthdayD:LocalDate, contactNoS: String, occupationS: String) extends Database:
+class Donor(val donor_IDI: Int, nameS: String, emailS:String, birthdayD:LocalDate, contactNoS: String, occupationS: String) extends Database:
   def this() = this(0, null, null, null, null, null)
+
+  var donorIDProperty =  IntegerProperty(donor_IDI)
   var nameProperty = new StringProperty(nameS)
   var emailProperty = new StringProperty(emailS)
   var birthdayProperty = ObjectProperty[LocalDate](birthdayD)
@@ -17,7 +21,7 @@ class Donor(donor_IDI: Int, nameS: String, emailS:String, birthdayD:LocalDate, c
   val originalEmail: String = emailS
 
 
-  def saveToDonor: Try[Int] =
+  def saveAsRecord: Try[Int] =
     if (!hasRecord) then
       Try(DB autoCommit { implicit session =>
         sql"""
@@ -35,10 +39,10 @@ class Donor(donor_IDI: Int, nameS: String, emailS:String, birthdayD:LocalDate, c
              birthday = ${birthdayProperty.value},
              contactNo = ${contactNoProperty.value},
              occupation = ${occupationProperty.value}
-             WHERE email = $originalEmail
+             WHERE donor_id = $donor_IDI
            """.update.apply()
       })
-  end saveToDonor
+  end saveAsRecord
 
 
   def deleteRecord: Try[Int] =
@@ -46,7 +50,7 @@ class Donor(donor_IDI: Int, nameS: String, emailS:String, birthdayD:LocalDate, c
       Try(DB autoCommit { implicit session =>
         sql"""
           DELETE FROM donors
-          WHERE email = ${emailProperty.value}
+          WHERE donor_id = $donor_IDI
           """.update.apply()
       })
     else
@@ -56,7 +60,7 @@ class Donor(donor_IDI: Int, nameS: String, emailS:String, birthdayD:LocalDate, c
   def hasRecord: Boolean =
     DB readOnly { implicit session =>
       sql"""
-           SELECT * FROM donors WHERE email=${emailProperty.value}
+           SELECT * FROM donors WHERE donor_id = $donor_IDI
          """.map(_ => ()).single.apply()
     } match
       case Some(x) => true
