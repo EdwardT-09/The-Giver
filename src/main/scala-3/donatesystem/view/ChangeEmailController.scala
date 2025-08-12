@@ -13,7 +13,6 @@ class ChangeEmailController:
   @FXML private var currentEmailField: TextField = _
   @FXML private var newEmailField: TextField = _
 
-
   def handleChangeEmail(action:ActionEvent): Unit =
     if (!isNull) then
       if (validEmail && compareEmail) then
