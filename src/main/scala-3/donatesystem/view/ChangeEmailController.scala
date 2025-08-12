@@ -1,10 +1,12 @@
 package donatesystem.view
 
+import donatesystem.RunTheGiver
 import donatesystem.model.Administrator
 import donatesystem.util.{Alert, PatternMatch, Session}
 import javafx.fxml.FXML
 import javafx.scene.control.TextField
 import scalafx.Includes.*
+
 import scala.util.{Failure, Success}
 import javafx.event.ActionEvent
 
@@ -22,6 +24,7 @@ class ChangeEmailController:
             admin.emailProperty.value = newEmailField.text.value
             admin.saveAsRecord match
               case Success(x) => Alert.displayError("Success", "Success", "The email has been updated")
+                RunTheGiver.showHome()
               case Failure(error) => Alert.displayError("Unsuccessful", "Email is in use", "Please try again")
           case None =>
             Alert.displayError("Error", "Not found", "Admin record is not found")

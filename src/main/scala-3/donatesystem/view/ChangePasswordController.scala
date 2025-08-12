@@ -1,11 +1,13 @@
 package donatesystem.view
 
+import donatesystem.RunTheGiver
 import donatesystem.util.{Alert, PatternMatch, Session}
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.control.PasswordField
 import scalafx.Includes.*
 import donatesystem.model.Administrator
+
 import scala.util.{Failure, Success}
 
 @FXML
@@ -23,6 +25,7 @@ class ChangePasswordController:
             admin.passwordProperty.value = newPasswordField.text.value
             admin.saveAsRecord match
               case Success(x) => Alert.displayError("Success", "Success", "The password has been updated")
+                RunTheGiver.showHome()
               case Failure(error) => Alert.displayError("Unsuccessful", "Password is not updated", "Please try again")
           case None =>
             Alert.displayError("Error", "Not found", "Admin record is not found")

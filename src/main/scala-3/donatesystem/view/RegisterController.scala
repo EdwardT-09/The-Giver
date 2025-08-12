@@ -2,13 +2,13 @@ package donatesystem.view
 
 import donatesystem.RunTheGiver
 import scalafx.Includes.*
-import javafx.scene.control.{TextField,PasswordField}
+import javafx.scene.control.{PasswordField, TextField}
 import donatesystem.model.Administrator
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
-import donatesystem.util.Alert
+import donatesystem.util.{Alert, PatternMatch, Session}
+
 import scala.util.{Failure, Success}
-import donatesystem.util.PatternMatch
 
 @FXML
 class RegisterController():
@@ -30,6 +30,7 @@ class RegisterController():
         val admin = new Administrator(1, fNameField.text.value, emailField.text.value, passwordField.text.value)
         admin.saveAsRecord match {
           case Success(result) => Alert.displayError("Success", "Success", "Password must have at least one upper case, lower case, number and symbol")
+                                  getAdminRecord()
                                   RunTheGiver.showHome()
           case Failure(error) => Alert.displayError("Unsuccessful", "Email is in use", error.getMessage)
         }
@@ -78,5 +79,11 @@ class RegisterController():
     }else{
       true
     }
+
+  def getAdminRecord(): Unit =
+    Administrator.getRecordByEmail(emailField.text.value) match
+      case Some(x) => Session.logIn(x)
+      case None =>
+  end getAdminRecord
 
 
