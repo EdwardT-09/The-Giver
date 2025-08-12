@@ -6,8 +6,8 @@
 <AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="donatesystem.view.AddRecordLandingController">
    <children>
       <fx:include source="Header.fxml" />
-      <Button layoutX="201.0" layoutY="109.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="198.0" text="Add Food Items" textFill="#f1ffff" />
-      <Button layoutX="201.0" layoutY="200.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="198.0" text="Add Beverage Items" textFill="#f1ffff" />
+      <Button layoutX="201.0" layoutY="109.0" mnemonicParsing="false" onAction="#directToAddFood" prefHeight="58.0" prefWidth="198.0" text="Add Food Items" textFill="#f1ffff" />
+      <Button layoutX="201.0" layoutY="200.0" mnemonicParsing="false" onAction="#directToAddBeverage" prefHeight="58.0" prefWidth="198.0" text="Add Beverage Items" textFill="#f1ffff" />
       <Button layoutX="200.0" layoutY="295.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="198.0" text="Add Donation Records" textFill="#f1ffff" />
    </children>
 </AnchorPane>

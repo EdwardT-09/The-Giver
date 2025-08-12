@@ -131,6 +131,26 @@ object RunTheGiver extends JFXApp3:
     this.roots.get.center = roots.get
   end showAddRecordLanding
 
+  def showAddFood(): Unit =
+    val resource = getClass.getResource("view/AddFood.fxml")
+    val loader = new FXMLLoader(resource)
+    val rootJavaFX = loader.load[javafx.scene.layout.AnchorPane]()
+    val rootScalaFX: scalafx.scene.layout.AnchorPane = rootJavaFX
+    var roots: Option[scalafx.scene.layout.AnchorPane] = None
+    roots = Some(rootScalaFX)
+    this.roots.get.center = roots.get
+  end showAddFood
+
+  def showAddBeverage(): Unit =
+    val resource = getClass.getResource("view/AddBeverage.fxml")
+    val loader = new FXMLLoader(resource)
+    val rootJavaFX = loader.load[javafx.scene.layout.AnchorPane]()
+    val rootScalaFX: scalafx.scene.layout.AnchorPane = rootJavaFX
+    var roots: Option[scalafx.scene.layout.AnchorPane] = None
+    roots = Some(rootScalaFX)
+    this.roots.get.center = roots.get
+  end showAddBeverage
+
   def showChangeEmail:Unit =
     val resource = getClass.getResource("view/ChangeEmail.fxml")
     val loader = new FXMLLoader(resource)

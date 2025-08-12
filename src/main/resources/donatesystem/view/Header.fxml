@@ -10,11 +10,6 @@
 
 <AnchorPane prefHeight="87.0" prefWidth="600.0" styleClass="background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="donatesystem.view.HeaderController">
    <children>
-      <ImageView fitHeight="28.0" fitWidth="96.0" layoutX="24.0" layoutY="41.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../images/the_giver.png" />
-         </image>
-      </ImageView>
       <Button layoutX="386.0" layoutY="33.0" mnemonicParsing="false" onAction="#directToAddRecordLanding" prefHeight="33.0" prefWidth="120.0" styleClass="button-outline" stylesheets="@style.css" text="Add New Record" textAlignment="CENTER" textFill="#355e59">
          <font>
             <Font name="System Bold" size="8.0" />
@@ -34,5 +29,14 @@
             </ImageView>
          </graphic>
       </MenuButton>
+      <Button layoutX="24.0" layoutY="32.0" mnemonicParsing="false" onAction="#directToHome" style="-fx-background-color: transparent;">
+         <graphic>
+            <ImageView fitHeight="28.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../images/the_giver.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
    </children>
 </AnchorPane>
