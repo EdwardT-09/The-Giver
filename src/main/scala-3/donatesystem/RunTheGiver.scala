@@ -1,6 +1,6 @@
 package donatesystem
 
-import donatesystem.model.{Administrator, DonationItem, Donor, Food}
+import donatesystem.model.{Administrator, Beverage, DonationItem, Donor, Food}
 import javafx.fxml.FXMLLoader
 import scalafx.scene as sfxs
 import scalafx.Includes.*
@@ -9,7 +9,7 @@ import scalafx.application.JFXApp3.PrimaryStage
 import javafx.scene as jfxs
 import scalafx.scene.Scene
 import donatesystem.util.Database
-import donatesystem.view.{AddDonorController, AddFoodController}
+import donatesystem.view.{AddBeverageController, AddDonorController, AddFoodController}
 import scalafx.collections.ObservableBuffer
 import scalafx.scene.image.Image
 import scalafx.scene.layout.BorderPane
@@ -162,14 +162,22 @@ object RunTheGiver extends JFXApp3:
     controller.result
   end showAddFood
 
-  def showAddBeverage(): Unit =
+  def showAddBeverage(beverage: Beverage): Option[Beverage] =
     val resource = getClass.getResource("view/AddBeverage.fxml")
     val loader = new FXMLLoader(resource)
     val rootJavaFX = loader.load[javafx.scene.layout.AnchorPane]()
-    val rootScalaFX: scalafx.scene.layout.AnchorPane = rootJavaFX
-    var roots: Option[scalafx.scene.layout.AnchorPane] = None
-    roots = Some(rootScalaFX)
-    this.roots.get.center = roots.get
+    val roots2 = loader.getRoot[jfxs.Parent]
+    val controller = loader.getController[AddBeverageController]
+    val dialog = new Stage():
+      initModality(Modality.ApplicationModal)
+      initOwner(stage)
+      title = "Add/Edit Food"
+      scene = new Scene:
+        root = roots2
+    controller.dialogStage = dialog
+    controller.beverage = beverage
+    dialog.showAndWait()
+    controller.result
   end showAddBeverage
 
   def showChangeEmail:Unit =

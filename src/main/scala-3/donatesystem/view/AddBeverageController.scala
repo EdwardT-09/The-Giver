@@ -34,7 +34,7 @@ class AddBeverageController:
     volumePerUnitField.text = __beverage.volumePerUnitProperty.value.toString
 
 
-  def handleAddFood(action: ActionEvent): Unit =
+  def handleAddBeverage(action: ActionEvent): Unit =
     if validInput() then
       val beverage = Beverage.getRecordByName(originalName)
       beverage match
@@ -57,7 +57,7 @@ class AddBeverageController:
               dialogStage.close()
             case Failure(error) => Alert.displayError("Unsuccessful", "Record is not created", "Please try again")
 
-  end handleAddFood
+  end handleAddBeverage
 
 
   def validInput(): Boolean =
