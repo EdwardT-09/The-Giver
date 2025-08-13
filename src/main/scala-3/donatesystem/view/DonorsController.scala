@@ -6,7 +6,6 @@ import javafx.fxml.FXML
 import javafx.scene.control.{Label, TableColumn, TableView}
 import scalafx.Includes.*
 import donatesystem.util.Alert
-
 import scala.util.{Failure, Success, Try}
 import java.time.LocalDate
 

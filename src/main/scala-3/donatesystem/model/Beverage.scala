@@ -4,15 +4,15 @@ import donatesystem.util.Database
 import scalikejdbc.*
 
 import scala.util.Try
-import scalafx.beans.property.{BooleanProperty, IntegerProperty, StringProperty}
+import scalafx.beans.property.{BooleanProperty, IntegerProperty, ObjectProperty, StringProperty}
 
 class Beverage(_itemIDI :Int, _nameS:String, _categoryS:String, _perishableB:Boolean, _quantityI:Int, volumePerUnitI: Int, isCarbonatedB: Boolean)
 extends DonationItem(_itemIDI, _nameS, _categoryS, _perishableB, _quantityI) with Database:
 
   override val nameProperty = new StringProperty(_nameS)
   override val categoryProperty = new StringProperty(_categoryS)
-  override val perishableProperty = BooleanProperty(_perishableB)
-  override val quantityProperty = IntegerProperty(_quantityI)
+  override val isPerishableProperty = ObjectProperty[Boolean](_perishableB)
+  override val quantityProperty = ObjectProperty[Int](_quantityI)
   val volumePerUnitProperty = IntegerProperty(volumePerUnitI)
   val isCarbonatedProperty =  BooleanProperty(isCarbonatedB)
 
@@ -21,7 +21,7 @@ extends DonationItem(_itemIDI, _nameS, _categoryS, _perishableB, _quantityI) wit
       Try(DB autoCommit { implicit session =>
         sql"""
               INSERT INTO beverages (name, category, perishable, quantity, volumePerUnitI, isCarbonatedB) VALUES
-              (${nameProperty.value}, ${categoryProperty.value}, ${perishableProperty.value}, ${quantityProperty.value}, ${volumePerUnitProperty.value}, ${isCarbonatedProperty.value})
+              (${nameProperty.value}, ${categoryProperty.value}, ${isPerishableProperty.value}, ${quantityProperty.value}, ${volumePerUnitProperty.value}, ${isCarbonatedProperty.value})
             """.update.apply()
       })
     else
@@ -31,11 +31,11 @@ extends DonationItem(_itemIDI, _nameS, _categoryS, _perishableB, _quantityI) wit
               SET
               name = ${nameProperty.value},
               category = ${categoryProperty.value},
-              perishable = ${perishableProperty.value},
+              perishable = ${isPerishableProperty.value},
               quantity = quantity + ${quantityProperty.value},
               volumePerUnit = ${volumePerUnitProperty.value},
               isCarbonated = ${isCarbonatedProperty.value}
-              WHERE item_id = $_itemIDI
+              WHERE beverage_id = $_itemIDI
             """.update.apply()
       })
   end saveAsRecord
@@ -52,7 +52,7 @@ extends DonationItem(_itemIDI, _nameS, _categoryS, _perishableB, _quantityI) wit
             UPDATE beverages
             SET
             quantity = quantity - ${quantityProperty.value},
-            WHERE item_id = $_itemIDI
+            WHERE beverage_id = $_itemIDI
           """.update.apply()
       })
     else
@@ -65,7 +65,7 @@ extends DonationItem(_itemIDI, _nameS, _categoryS, _perishableB, _quantityI) wit
       Try(DB autoCommit { implicit session =>
         sql"""
            DELETE FROM beverages
-           WHERE item_id=$_itemIDI
+           WHERE beverage_id=$_itemIDI
            """.update.apply()
       })
     else
@@ -75,7 +75,7 @@ extends DonationItem(_itemIDI, _nameS, _categoryS, _perishableB, _quantityI) wit
   def hasRecord: Boolean =
     DB readOnly { implicit session =>
       sql"""
-            SELECT * FROM beverages WHERE name = ${nameProperty.value}
+            SELECT * FROM beverages WHERE beverage_id = $_itemIDI
           """.map(_ => ()).single.apply()
     } match
       case Some(x) => true
@@ -101,7 +101,7 @@ object Beverage extends Database:
     DB autoCommit { implicit session =>
       sql"""
                CREATE TABLE beverages(
-               food_id INT NOT NULL GENERATED ALWAYS AS IDENTITY,
+               beverage_id INT NOT NULL GENERATED ALWAYS AS IDENTITY,
                name varchar (32),
                category varchar(32),
                perishable BOOLEAN,

@@ -8,13 +8,13 @@ import scalafx.beans.property.{BooleanProperty, IntegerProperty, ObjectProperty,
 
 import java.time.LocalDate
 
-abstract class DonationItem(itemIDI :Int, nameS:String, categoryS:String, perishableB:Boolean, quantityI:Int):
+abstract class DonationItem(val itemIDI :Int, nameS:String, categoryS:String, perishableB:Boolean, quantityI:Int):
   
   def this() = this(0, "", "", false, 0)
   val nameProperty = new StringProperty(nameS)
   val categoryProperty = new StringProperty(categoryS)
-  val perishableProperty =  BooleanProperty(perishableB)
-  val quantityProperty =  IntegerProperty(quantityI)
+  val isPerishableProperty =  ObjectProperty[Boolean](perishableB)
+  val quantityProperty =  ObjectProperty[Int](quantityI)
   
   def saveAsRecord: Try[Int]
   

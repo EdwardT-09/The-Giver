@@ -1,7 +1,6 @@
 package donatesystem
 
-import donatesystem.model.Administrator
-import donatesystem.model.Donor
+import donatesystem.model.{Administrator, DonationItem, Donor, Food}
 import javafx.fxml.FXMLLoader
 import scalafx.scene as sfxs
 import scalafx.Includes.*
@@ -10,7 +9,7 @@ import scalafx.application.JFXApp3.PrimaryStage
 import javafx.scene as jfxs
 import scalafx.scene.Scene
 import donatesystem.util.Database
-import donatesystem.view.AddDonorController
+import donatesystem.view.{AddDonorController, AddFoodController}
 import scalafx.collections.ObservableBuffer
 import scalafx.scene.image.Image
 import scalafx.scene.layout.BorderPane
@@ -23,8 +22,11 @@ object RunTheGiver extends JFXApp3:
 //  println(Administrator.getAllAdminRecord)
 
   val donorData = new ObservableBuffer[Donor]()
+  val foodData = new ObservableBuffer[Food]()
   
   donorData ++= Donor.getAllDonorRecord
+  foodData ++= Food.getAllFoodRecord
+  
   var roots: Option[scalafx.scene.layout.BorderPane] = None
 
   override def start():Unit =
@@ -93,7 +95,7 @@ object RunTheGiver extends JFXApp3:
     this.roots.get.center = roots.get
   end showHome
   
-  def showDonor():Unit =
+  def showDonors():Unit =
     val resource = getClass.getResource("view/Donors.fxml")
     val loader = new FXMLLoader(resource)
     val rootJavaFX = loader.load[javafx.scene.layout.AnchorPane]()
@@ -101,7 +103,7 @@ object RunTheGiver extends JFXApp3:
     var roots: Option[scalafx.scene.layout.AnchorPane] = None
     roots = Some(rootScalaFX)
     this.roots.get.center = roots.get
-  end showDonor
+  end showDonors
   
   def showAddDonor(donor:Donor):Option[Donor] =
     val resource = getClass.getResource("view/AddDonor.fxml")
@@ -121,24 +123,43 @@ object RunTheGiver extends JFXApp3:
     controller.result
   end showAddDonor
 
-  def showAddRecordLanding(): Unit =
-    val resource = getClass.getResource("view/AddRecordLanding.fxml")
+  def showFoods(): Unit =
+    val resource = getClass.getResource("view/Foods.fxml")
     val loader = new FXMLLoader(resource)
     val rootJavaFX = loader.load[javafx.scene.layout.AnchorPane]()
     val rootScalaFX: scalafx.scene.layout.AnchorPane = rootJavaFX
     var roots: Option[scalafx.scene.layout.AnchorPane] = None
     roots = Some(rootScalaFX)
     this.roots.get.center = roots.get
-  end showAddRecordLanding
+  end showFoods
 
-  def showAddFood(): Unit =
+  def showBeverages(): Unit =
+    val resource = getClass.getResource("view/Beverages.fxml")
+    val loader = new FXMLLoader(resource)
+    val rootJavaFX = loader.load[javafx.scene.layout.AnchorPane]()
+    val rootScalaFX: scalafx.scene.layout.AnchorPane = rootJavaFX
+    var roots: Option[scalafx.scene.layout.AnchorPane] = None
+    roots = Some(rootScalaFX)
+    this.roots.get.center = roots.get
+  end showBeverages
+
+
+  def showAddFood(food:Food):Option[Food] =
     val resource = getClass.getResource("view/AddFood.fxml")
     val loader = new FXMLLoader(resource)
     val rootJavaFX = loader.load[javafx.scene.layout.AnchorPane]()
-    val rootScalaFX: scalafx.scene.layout.AnchorPane = rootJavaFX
-    var roots: Option[scalafx.scene.layout.AnchorPane] = None
-    roots = Some(rootScalaFX)
-    this.roots.get.center = roots.get
+    val roots2 = loader.getRoot[jfxs.Parent]
+    val controller = loader.getController[AddFoodController]
+    val dialog = new Stage():
+      initModality(Modality.ApplicationModal)
+      initOwner(stage)
+      title = "Add/Edit Food"
+      scene = new Scene:
+        root = roots2
+    controller.dialogStage = dialog
+    controller.food = food
+    dialog.showAndWait()
+    controller.result
   end showAddFood
 
   def showAddBeverage(): Unit =

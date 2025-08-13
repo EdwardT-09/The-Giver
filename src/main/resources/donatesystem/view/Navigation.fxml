@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="78.0" prefWidth="600.0" styleClass="background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="donatesystem.view.NavigationController">
    <children>
-      <ToolBar layoutX="92.0" layoutY="22.0" prefHeight="40.0" prefWidth="412.0" styleClass="nav-bar" stylesheets="@style.css">
+      <ToolBar layoutX="40.0" layoutY="22.0" prefHeight="40.0" prefWidth="543.0" styleClass="nav-bar" stylesheets="@style.css">
          <items>
             <Button mnemonicParsing="false" onAction="#directToHome" styleClass="link" text="home" textFill="#355e59" underline="true">
                <font>
                   <Font name="System Bold" size="10.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" onAction="#directToDonor" styleClass="link" text="manage donors" textFill="#355e59" underline="true">
+            <Button mnemonicParsing="false" onAction="#directToDonors" styleClass="link" text="manage donors" textFill="#355e59" underline="true">
                <font>
                   <Font name="System Bold" size="10.0" />
                </font>
@@ -25,12 +26,26 @@
                   <Font name="System Bold" size="10.0" />
                </font>
             </Button>
+            <MenuButton mnemonicParsing="false" text="manage food" textFill="#355e59" underline="true">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#directToFoods" text="Manage food" />
+                <MenuItem mnemonicParsing="false" onAction="#directToBeverages" text="Manage beverage" />
+              </items>
+               <font>
+                  <Font name="System Bold" size="10.0" />
+               </font>
+            </MenuButton>
             <Button mnemonicParsing="false" styleClass="link" text="distribution centers" textFill="#355e59" underline="true">
                <font>
                   <Font name="System Bold" size="10.0" />
                </font>
             </Button>
             <Button mnemonicParsing="false" onAction="#directToAbout" styleClass="link" text="about" textFill="#355e59" underline="true">
+               <font>
+                  <Font name="System Bold" size="10.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" styleClass="link" text="distribution centers" textFill="#355e59" underline="true">
                <font>
                   <Font name="System Bold" size="10.0" />
                </font>

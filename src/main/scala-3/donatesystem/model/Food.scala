@@ -2,18 +2,20 @@ package donatesystem.model
 
 import donatesystem.util.Database
 import scalikejdbc.*
+
 import scala.util.{Failure, Success, Try}
-import scalafx.beans.property.{IntegerProperty, BooleanProperty, StringProperty}
+import scalafx.beans.property.{BooleanProperty, IntegerProperty, ObjectProperty, StringProperty}
+
 import java.time.LocalDate
 
 
-class Food(_itemIDI :Int, _nameS:String, _categoryS:String, _perishableB:Boolean, _quantityI:Int, isVegetarianB: Boolean, containsAllergensS: String) extends DonationItem(_itemIDI, _nameS, _categoryS, _perishableB, _quantityI) with Database:
+class Food(val _itemIDI :Int, _nameS:String, _categoryS:String, _perishableB:Boolean, _quantityI:Int, isVegetarianB: Boolean, containsAllergensS: String) extends DonationItem(_itemIDI, _nameS, _categoryS, _perishableB, _quantityI) with Database:
 
   override val nameProperty = new StringProperty(_nameS)
   override val categoryProperty = new StringProperty(_categoryS)
-  override val perishableProperty = BooleanProperty(_perishableB)
-  override val quantityProperty = IntegerProperty(_quantityI)
-  val isVegetarianProperty = BooleanProperty(isVegetarianB)
+  override val isPerishableProperty = ObjectProperty[Boolean](_perishableB)
+  override val quantityProperty = ObjectProperty[Int](_quantityI)
+  val isVegetarianProperty = ObjectProperty[Boolean](isVegetarianB)
   val containsAllergensProperty = new StringProperty(containsAllergensS)
 
   def saveAsRecord: Try[Int] =
@@ -21,7 +23,7 @@ class Food(_itemIDI :Int, _nameS:String, _categoryS:String, _perishableB:Boolean
       Try(DB autoCommit { implicit session =>
         sql"""
               INSERT INTO foods (name, category, perishable, quantity, isVegetarian, containsAllergens) VALUES
-              (${nameProperty.value}, ${categoryProperty.value}, ${perishableProperty.value}, ${quantityProperty.value}, ${isVegetarianProperty.value}, ${containsAllergensProperty.value})
+              (${nameProperty.value}, ${categoryProperty.value}, ${isPerishableProperty.value}, ${quantityProperty.value}, ${isVegetarianProperty.value}, ${containsAllergensProperty.value})
             """.update.apply()
       })
     else
@@ -31,11 +33,11 @@ class Food(_itemIDI :Int, _nameS:String, _categoryS:String, _perishableB:Boolean
               SET
               name = ${nameProperty.value},
               category = ${categoryProperty.value},
-              perishable = ${perishableProperty.value},
+              perishable = ${isPerishableProperty.value},
               quantity = quantity + ${quantityProperty.value},
               isVegetarian = ${isVegetarianProperty.value},
               containsAllergens = ${containsAllergensProperty.value}
-              WHERE item_id = $_itemIDI
+              WHERE food_id = $_itemIDI
             """.update.apply()
       })
   end saveAsRecord
@@ -53,7 +55,7 @@ class Food(_itemIDI :Int, _nameS:String, _categoryS:String, _perishableB:Boolean
           UPDATE foods
           SET
           quantity = quantity - ${quantityProperty.value},
-          WHERE item_id = $_itemIDI
+          WHERE food_id = $_itemIDI
         """.update.apply()
       })
     else
@@ -67,7 +69,7 @@ class Food(_itemIDI :Int, _nameS:String, _categoryS:String, _perishableB:Boolean
       Try(DB autoCommit { implicit session =>
         sql"""
            DELETE FROM foods
-           WHERE item_id=$_itemIDI
+           WHERE food_id=$_itemIDI
            """.update.apply()
       })
     else
@@ -77,12 +79,13 @@ class Food(_itemIDI :Int, _nameS:String, _categoryS:String, _perishableB:Boolean
   def hasRecord: Boolean =
     DB readOnly { implicit session =>
       sql"""
-            SELECT * FROM foods WHERE name = ${nameProperty.value}
+            SELECT * FROM foods WHERE food_id = $_itemIDI
           """.map(_ => ()).single.apply()
     } match
       case Some(x) => true
       case None => false
   end hasRecord
+  
 end Food
 
 object Food extends Database:

@@ -8,9 +8,17 @@ class NavigationController:
     RunTheGiver.showHome()
   end directToHome
 
-  def directToDonor():Unit =
-    RunTheGiver.showDonor()
-  end directToDonor
+  def directToDonors():Unit =
+    RunTheGiver.showDonors()
+  end directToDonors
+
+  def directToFoods():Unit =
+    RunTheGiver.showFoods()
+  end directToFoods
+
+  def directToBeverages():Unit =
+    RunTheGiver.showBeverages()
+  end directToBeverages
 
   def directToAbout():Unit =
     RunTheGiver.showAbout()
