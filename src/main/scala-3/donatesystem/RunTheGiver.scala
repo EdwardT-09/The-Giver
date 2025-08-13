@@ -173,7 +173,7 @@ object RunTheGiver extends JFXApp3:
     val dialog = new Stage():
       initModality(Modality.ApplicationModal)
       initOwner(stage)
-      title = "Add/Edit Food"
+      title = "Add/Edit Beverage"
       scene = new Scene:
         root = roots2
     controller.dialogStage = dialog

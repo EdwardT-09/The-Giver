@@ -21,14 +21,14 @@
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="448.0" prefWidth="710.0" styleClass="scroll-pane">
                <children>
-                  <TableView layoutX="30.0" prefHeight="450.0" prefWidth="650.0" stylesheets="@style.css">
+                  <TableView fx:id="beverageTable" layoutX="30.0" prefHeight="450.0" prefWidth="678.0" stylesheets="@style.css">
                      <columns>
-                        <TableColumn minWidth="0.79998779296875" prefWidth="117.59994125366211" text="Name" />
-                        <TableColumn prefWidth="123.20008850097656" text="Category" />
-                        <TableColumn prefWidth="104.79998779296875" text="Perishable" />
-                        <TableColumn prefWidth="89.5999755859375" text="Quantity" />
-                        <TableColumn prefWidth="123.2000732421875" text="Volume Per Unit" />
-                        <TableColumn prefWidth="89.59995117187498" text="Carbonated" />
+                        <TableColumn fx:id="nameColumn" minWidth="0.79998779296875" prefWidth="117.59994125366211" text="Name" />
+                        <TableColumn fx:id="categoryColumn" prefWidth="123.20008850097656" text="Category" />
+                        <TableColumn fx:id="isPerishableColumn" prefWidth="104.79998779296875" text="Perishable" />
+                        <TableColumn fx:id="quantityColumn" prefWidth="89.5999755859375" text="Quantity" />
+                        <TableColumn fx:id="volumePerUnitColumn" prefWidth="123.2000732421875" text="Volume Per Unit" />
+                        <TableColumn fx:id="isCarbonatedColumn" prefWidth="89.59995117187498" text="Carbonated" />
                      </columns>
                   </TableView>
                </children>
@@ -48,8 +48,8 @@
       </Button>
       <ButtonBar layoutX="401.0" layoutY="167.0" prefHeight="40.0" prefWidth="200.0">
          <buttons>
-            <Button mnemonicParsing="false" text="Edit" textFill="#f1ffff" />
-            <Button mnemonicParsing="false" text="Delete" textFill="#f1ffff" />
+            <Button mnemonicParsing="false" onAction="#directToEditBeverage" text="Edit" textFill="#f1ffff" />
+            <Button mnemonicParsing="false" onAction="#deleteBeverage" text="Delete" textFill="#f1ffff" />
          </buttons>
       </ButtonBar>
    </children>

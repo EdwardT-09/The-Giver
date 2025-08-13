@@ -64,16 +64,16 @@ class AddBeverageController:
     val volume = volumePerUnitField.text.value.trim
     var errorMessage: String = ""
     if (nameField.text.value.isEmpty) then
-      errorMessage += "Name field is empty"
+      errorMessage += "Name field is empty\n"
     if (categoryField.text.value.isEmpty) then
-      errorMessage += "Category field is empty"
+      errorMessage += "Category field is empty\n"
     if (volume.isEmpty) then
-      errorMessage += "Volume Per Unit field is empty"
-    if (!volume.matches("""\d+"""))
+      errorMessage += "Volume Per Unit field is empty\n"
+    else if (!volume.matches("""\d+"""))
       errorMessage += "Volume per unit must be a non-negative number\n"
-    if(volume.toInt < 0) then
+    else if(volume.toInt < 0) then
       errorMessage += "Volume per unit must be a non-negative number\n"
-    
+
     if (errorMessage.isEmpty) then
       true
     else

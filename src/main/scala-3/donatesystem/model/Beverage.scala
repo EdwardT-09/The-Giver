@@ -6,7 +6,7 @@ import scalikejdbc.*
 import scala.util.Try
 import scalafx.beans.property.{BooleanProperty, IntegerProperty, ObjectProperty, StringProperty}
 
-class Beverage(_itemIDI :Int, _nameS:String, _categoryS:String, _perishableB:Boolean, _quantityI:Int, volumePerUnitI: Int, isCarbonatedB: Boolean)
+class Beverage(val _itemIDI :Int, _nameS:String, _categoryS:String, _perishableB:Boolean, _quantityI:Int, volumePerUnitI: Int, isCarbonatedB: Boolean)
 extends DonationItem(_itemIDI, _nameS, _categoryS, _perishableB, _quantityI) with Database:
 
   override val nameProperty = new StringProperty(_nameS)
@@ -20,7 +20,7 @@ extends DonationItem(_itemIDI, _nameS, _categoryS, _perishableB, _quantityI) wit
     if (!hasRecord) then
       Try(DB autoCommit { implicit session =>
         sql"""
-              INSERT INTO beverages (name, category, perishable, quantity, volumePerUnitI, isCarbonatedB) VALUES
+              INSERT INTO beverages (name, category, perishable, quantity, volumePerUnit, isCarbonated) VALUES
               (${nameProperty.value}, ${categoryProperty.value}, ${isPerishableProperty.value}, ${quantityProperty.value}, ${volumePerUnitProperty.value}, ${isCarbonatedProperty.value})
             """.update.apply()
       })
@@ -107,7 +107,7 @@ object Beverage extends Database:
                perishable BOOLEAN,
                quantity INT,
                volumePerUnit INT,
-               isCarbonatedB BOOLEAN
+               isCarbonated BOOLEAN
                )
              """.execute.apply()
     }
@@ -118,13 +118,13 @@ object Beverage extends Database:
       sql"""
         SELECT * FROM beverages
         """.map(rs => Beverage(
-        rs.int("food_id"),
+        rs.int("beverage_id"),
         rs.string("name"),
         rs.string("category"),
         rs.boolean("perishable"),
         rs.int("quantity"),
         rs.int("volumePerUnit"),
-        rs.boolean("isCarbonatedB")
+        rs.boolean("isCarbonated")
       )).list.apply()
     }
 
@@ -133,13 +133,13 @@ object Beverage extends Database:
       sql"""
         SELECT * FROM beverages WHERE name = $name
            """.map(rs => Beverage(
-        rs.int("food_id"),
+        rs.int("beverage_id"),
         rs.string("name"),
         rs.string("category"),
         rs.boolean("perishable"),
         rs.int("quantity"),
         rs.int("volumePerUnit"),
-        rs.boolean("isCarbonatedB")
+        rs.boolean("isCarbonated")
       )).single.apply()
     }
 end Beverage
