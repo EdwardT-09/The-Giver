@@ -2,15 +2,14 @@ package donatesystem.view
 
 import donatesystem.util.Alert
 import donatesystem.RunTheGiver
-import scalafx.Includes.*
-import donatesystem.model.Food
 
+import donatesystem.model.Food
+import scalafx.Includes.*
 import javafx.beans.value.ObservableValue
 import javafx.fxml.FXML
 import javafx.scene.control.{Label, TableColumn, TableView}
 
 import scala.util.{Failure, Success, Try}
-import scalafx.beans.property.ReadOnlyObjectWrapper
 
 @FXML
 class FoodsController:

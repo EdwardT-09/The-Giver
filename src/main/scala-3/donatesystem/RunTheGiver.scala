@@ -23,9 +23,11 @@ object RunTheGiver extends JFXApp3:
 
   val donorData = new ObservableBuffer[Donor]()
   val foodData = new ObservableBuffer[Food]()
+  val beverageData = new ObservableBuffer[Beverage]()
   
   donorData ++= Donor.getAllDonorRecord
   foodData ++= Food.getAllFoodRecord
+  beverageData ++= Beverage.getAllBeverageRecord
   
   var roots: Option[scalafx.scene.layout.BorderPane] = None
 

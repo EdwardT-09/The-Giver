@@ -13,8 +13,8 @@ extends DonationItem(_itemIDI, _nameS, _categoryS, _perishableB, _quantityI) wit
   override val categoryProperty = new StringProperty(_categoryS)
   override val isPerishableProperty = ObjectProperty[Boolean](_perishableB)
   override val quantityProperty = ObjectProperty[Int](_quantityI)
-  val volumePerUnitProperty = IntegerProperty(volumePerUnitI)
-  val isCarbonatedProperty =  BooleanProperty(isCarbonatedB)
+  val volumePerUnitProperty = ObjectProperty[Int](volumePerUnitI)
+  val isCarbonatedProperty =  ObjectProperty[Boolean](isCarbonatedB)
 
   def saveAsRecord: Try[Int] =
     if (!hasRecord) then
