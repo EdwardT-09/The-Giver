@@ -57,11 +57,11 @@ class LogInController:
   end validInput
 
   def validateCredentials(): Boolean =
-      Administrator.getRecordByEmail(emailField.text.value).exists(admin => admin.passwordProperty.value == passwordField.text.value)
+      Administrator.getRecordByKey(emailField.text.value).exists(admin => admin.passwordProperty.value == passwordField.text.value)
   end validateCredentials
 
   def getAdminRecord(): Unit =
-    Administrator.getRecordByEmail(emailField.text.value) match
+    Administrator.getRecordByKey(emailField.text.value) match
       case Some(x) => Session.logIn(x)
       case None =>
   end getAdminRecord

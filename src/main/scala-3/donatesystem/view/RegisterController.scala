@@ -81,7 +81,7 @@ class RegisterController():
     }
 
   def getAdminRecord(): Unit =
-    Administrator.getRecordByEmail(emailField.text.value) match
+    Administrator.getRecordByKey(emailField.text.value) match
       case Some(x) => Session.logIn(x)
       case None =>
   end getAdminRecord

@@ -1,13 +1,13 @@
 package donatesystem.model
 
-import donatesystem.util.Database
+import donatesystem.util.{Database, GenericCompanion, GenericModel}
 import scalikejdbc.*
 
 import scala.util.Try
 import scalafx.beans.property.{BooleanProperty, IntegerProperty, ObjectProperty, StringProperty}
 
 class Beverage(val _itemIDI :Int, _nameS:String, _categoryS:String, _perishableB:Boolean, _quantityI:Int, volumePerUnitI: Int, isCarbonatedB: Boolean)
-extends DonationItem(_itemIDI, _nameS, _categoryS, _perishableB, _quantityI) with Database:
+extends DonationItem(_itemIDI, _nameS, _categoryS, _perishableB, _quantityI) with Database with GenericModel[Beverage]:
 
   override val nameProperty = new StringProperty(_nameS)
   override val categoryProperty = new StringProperty(_categoryS)
@@ -83,7 +83,7 @@ extends DonationItem(_itemIDI, _nameS, _categoryS, _perishableB, _quantityI) wit
   end hasRecord
 end Beverage
 
-object Beverage extends Database:
+object Beverage extends GenericCompanion[Beverage] with Database:
   def apply(
              itemIDI: Int,
              nameS: String,
@@ -113,7 +113,7 @@ object Beverage extends Database:
     }
   end createTable
 
-  def getAllBeverageRecord: List[Beverage] =
+  def getAllRecords(): List[Beverage] =
     DB readOnly { implicit session =>
       sql"""
         SELECT * FROM beverages
@@ -128,6 +128,12 @@ object Beverage extends Database:
       )).list.apply()
     }
 
+  def getRecordByKey(key: Any): Option[Beverage] =
+    key match
+      case name:String => getRecordByName(name)
+      case _ => None
+  end getRecordByKey
+  
   def getRecordByName(name: String): Option[Beverage] =
     DB readOnly { implicit session =>
       sql"""

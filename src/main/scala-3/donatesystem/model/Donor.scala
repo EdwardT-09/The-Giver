@@ -1,6 +1,6 @@
 package donatesystem.model
 
-import donatesystem.util.Database
+import donatesystem.util.{Database, GenericCompanion, GenericModel}
 import scalikejdbc.*
 
 import scala.util.{Failure, Try}
@@ -9,7 +9,7 @@ import scalafx.beans.property.{IntegerProperty, ObjectProperty, StringProperty}
 import java.time.LocalDate
 
 
-class Donor(val donor_IDI: Int, nameS: String, emailS:String, birthdayD:LocalDate, contactNoS: String, occupationS: String) extends Database:
+class Donor(val donor_IDI: Int, nameS: String, emailS:String, birthdayD:LocalDate, contactNoS: String, occupationS: String) extends GenericModel[Donor] with Database:
   def this() = this(0, null, null, null, null, null)
 
   var donorIDProperty =  IntegerProperty(donor_IDI)
@@ -69,7 +69,7 @@ class Donor(val donor_IDI: Int, nameS: String, emailS:String, birthdayD:LocalDat
 
 end Donor
 
-object Donor extends Database:
+object Donor extends GenericCompanion[Donor] with Database:
   def apply(
            donor_IDI:Int,
            nameS: String,
@@ -97,7 +97,7 @@ object Donor extends Database:
     }
   end createTable
 
-  def getAllDonorRecord: List[Donor] =
+  def getAllRecords(): List[Donor] =
     DB readOnly { implicit session =>
       sql"""
         SELECT * FROM donors
@@ -110,6 +110,12 @@ object Donor extends Database:
         rs.string("occupation")
       )).list.apply()
     }
+
+  def getRecordByKey(key: Any): Option[Donor] =
+    key match
+      case email: String => getRecordByEmail(email)
+      case _ => None
+  end getRecordByKey
 
   def getRecordByEmail(email: String): Option[Donor] =
     DB readOnly { implicit session =>

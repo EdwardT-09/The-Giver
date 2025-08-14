@@ -36,7 +36,7 @@ class AddBeverageController:
 
   def handleAddBeverage(action: ActionEvent): Unit =
     if validInput() then
-      val beverage = Beverage.getRecordByName(originalName)
+      val beverage = Beverage.getRecordByKey(originalName)
       beverage match
         case Some(beverage) =>
           beverage.nameProperty.value = nameField.text.value

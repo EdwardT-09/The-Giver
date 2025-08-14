@@ -19,7 +19,7 @@ class ChangePasswordController:
   def handleChangePassword(action: ActionEvent): Unit =
     if (!isNull) then
       if (validPassword && comparePassword) then
-        val admin = Administrator.getRecordByEmail(Session.getAdmin.get.emailProperty.value)
+        val admin = Administrator.getRecordByKey(Session.getAdmin.get.emailProperty.value)
         admin match
           case Some(admin) =>
             admin.passwordProperty.value = newPasswordField.text.value

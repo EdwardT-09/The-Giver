@@ -40,7 +40,7 @@ class AddDonorController:
   def handleAddDonor(action:ActionEvent):Unit =
     if validInput() then
       val birthday: LocalDate = birthdayField.value()
-      val donor = Donor.getRecordByEmail(originalEmail)
+      val donor = Donor.getRecordByKey(originalEmail)
       donor match
         case Some(donor) =>
           donor.nameProperty.value = nameField.text.value

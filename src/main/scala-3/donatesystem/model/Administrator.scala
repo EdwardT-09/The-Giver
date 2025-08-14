@@ -1,11 +1,12 @@
 package donatesystem.model
 
-import donatesystem.util.Database
+import donatesystem.util.{Database, GenericCompanion, GenericModel}
 import scalikejdbc.*
+
 import scala.util.{Failure, Success, Try}
 import scalafx.beans.property.{IntegerProperty, ObjectProperty, StringProperty}
 
-class Administrator(val userID: Int, fNameS:String, emailS:String, passwordS:String) extends Database:
+class Administrator(val userID: Int, fNameS:String, emailS:String, passwordS:String) extends GenericModel[Administrator] with Database:
   def this() = this(0, null, null, null)
   var fNameProperty = new StringProperty(fNameS)
   var emailProperty = new StringProperty(emailS)
@@ -57,7 +58,7 @@ class Administrator(val userID: Int, fNameS:String, emailS:String, passwordS:Str
 end Administrator
 
 
-object Administrator extends Database:
+object Administrator extends GenericCompanion[Administrator] with Database:
   def apply(
              user_idI:Int,
              fNameS: String,
@@ -81,15 +82,9 @@ object Administrator extends Database:
     }
   end createTable
 
-  def dropTable() =
-    DB autoCommit { implicit session =>
-      sql"""
-           DROP TABLE administrators
-         """.execute.apply()
-    }
-  end dropTable
 
-  def getAllAdminRecord: List[Administrator] =
+
+  def getAllRecords(): List[Administrator] =
     DB readOnly{implicit session =>
       sql"""
       SELECT * from administrators
@@ -100,7 +95,12 @@ object Administrator extends Database:
         rs.string("password")
       )).list.apply()
     }
-    
+  def getRecordByKey(key:Any):Option[Administrator] =
+    key match
+      case email:String => getRecordByEmail(email)
+      case _ => None
+  end getRecordByKey
+  
   def getRecordByEmail(email: String):Option[Administrator] =
     DB readOnly{ implicit session =>
       sql"""

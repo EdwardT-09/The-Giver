@@ -1,6 +1,6 @@
 package donatesystem.model
 
-import donatesystem.util.Database
+import donatesystem.util.{Database, GenericCompanion, GenericModel}
 import scalikejdbc.*
 
 import scala.util.{Failure, Success, Try}
@@ -9,7 +9,7 @@ import scalafx.beans.property.{BooleanProperty, IntegerProperty, ObjectProperty,
 import java.time.LocalDate
 
 
-class Food(val _itemIDI :Int, _nameS:String, _categoryS:String, _perishableB:Boolean, _quantityI:Int, isVegetarianB: Boolean, containsAllergensS: String) extends DonationItem(_itemIDI, _nameS, _categoryS, _perishableB, _quantityI) with Database:
+class Food(val _itemIDI :Int, _nameS:String, _categoryS:String, _perishableB:Boolean, _quantityI:Int, isVegetarianB: Boolean, containsAllergensS: String) extends DonationItem(_itemIDI, _nameS, _categoryS, _perishableB, _quantityI) with Database with GenericModel[Food]:
 
   override val nameProperty = new StringProperty(_nameS)
   override val categoryProperty = new StringProperty(_categoryS)
@@ -88,7 +88,7 @@ class Food(val _itemIDI :Int, _nameS:String, _categoryS:String, _perishableB:Boo
   
 end Food
 
-object Food extends Database:
+object Food extends GenericCompanion[Food] with Database:
   def apply(
              itemIDI :Int,
              nameS:String,
@@ -118,7 +118,7 @@ object Food extends Database:
     }
   end createTable
 
-  def getAllFoodRecord: List[Food] =
+  def getAllRecords(): List[Food] =
     DB readOnly { implicit session =>
       sql"""
         SELECT * FROM foods
@@ -132,6 +132,12 @@ object Food extends Database:
         rs.string("containsAllergens")
       )).list.apply()
     }
+
+  def getRecordByKey(key: Any): Option[Food] =
+    key match
+      case name: String => getRecordByName(name)
+      case _ => None
+  end getRecordByKey
 
   def getRecordByName(name: String): Option[Food] =
     DB readOnly { implicit session =>

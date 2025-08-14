@@ -37,7 +37,7 @@ class AddFoodController:
 
   def handleAddFood(action: ActionEvent): Unit =
     if validInput() then
-      val food = Food.getRecordByName(originalName)
+      val food = Food.getRecordByKey(originalName)
       food match
         case Some(food) =>
           food.nameProperty.value = nameField.text.value
