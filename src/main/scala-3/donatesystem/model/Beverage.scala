@@ -7,7 +7,7 @@ import scala.util.Try
 import scalafx.beans.property.{BooleanProperty, IntegerProperty, ObjectProperty, StringProperty}
 
 class Beverage(val _itemIDI :Int, _nameS:String, _categoryS:String, _perishableB:Boolean, _quantityI:Int, volumePerUnitI: Int, isCarbonatedB: Boolean)
-extends DonationItem(_itemIDI, _nameS, _categoryS, _perishableB, _quantityI) with Database with GenericModel[Beverage]:
+extends CatalogItem(_itemIDI, _nameS, _categoryS, _perishableB, _quantityI) with Database with GenericModel[Beverage]:
 
   override val nameProperty = new StringProperty(_nameS)
   override val categoryProperty = new StringProperty(_categoryS)
@@ -18,10 +18,11 @@ extends DonationItem(_itemIDI, _nameS, _categoryS, _perishableB, _quantityI) wit
 
   def saveAsRecord: Try[Int] =
     if (!hasRecord) then
+      val catalogID = CatalogItem.saveItem(nameProperty.value, categoryProperty.value, isPerishableProperty.value,quantityProperty.value)
       Try(DB autoCommit { implicit session =>
         sql"""
-              INSERT INTO beverages (name, category, perishable, quantity, volumePerUnit, isCarbonated) VALUES
-              (${nameProperty.value}, ${categoryProperty.value}, ${isPerishableProperty.value}, ${quantityProperty.value}, ${volumePerUnitProperty.value}, ${isCarbonatedProperty.value})
+              INSERT INTO beverages (beverage_id, name, category, perishable, quantity, volumePerUnit, isCarbonated) VALUES
+              (${catalogID},${nameProperty.value}, ${categoryProperty.value}, ${isPerishableProperty.value}, ${quantityProperty.value}, ${volumePerUnitProperty.value}, ${isCarbonatedProperty.value})
             """.update.apply()
       })
     else
@@ -101,7 +102,7 @@ object Beverage extends GenericCompanion[Beverage] with Database:
     DB autoCommit { implicit session =>
       sql"""
                CREATE TABLE beverages(
-               beverage_id INT NOT NULL GENERATED ALWAYS AS IDENTITY,
+               beverage_id INT PRIMARY KEY REFERENCES catalog_items(item_id),
                name varchar (32),
                category varchar(32),
                perishable BOOLEAN,

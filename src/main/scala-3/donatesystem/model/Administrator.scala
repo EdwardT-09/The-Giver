@@ -73,7 +73,7 @@ object Administrator extends GenericCompanion[Administrator] with Database:
     DB autoCommit{implicit session =>
       sql"""
            CREATE TABLE administrators(
-           user_id int NOT NULL GENERATED ALWAYS AS IDENTITY,
+           user_id int NOT NULL GENERATED ALWAYS AS IDENTITY  (START WITH 1, INCREMENT BY 1) PRIMARY KEY ,
            fName varchar (40),
            email varchar(64),
            password varchar(64)

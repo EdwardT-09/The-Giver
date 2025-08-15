@@ -10,7 +10,7 @@
 
 <AnchorPane prefHeight="87.0" prefWidth="600.0" styleClass="background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="donatesystem.view.HeaderController">
    <children>
-      <Button layoutX="386.0" layoutY="33.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="120.0" styleClass="button-outline" stylesheets="@style.css" text="Add New Record" textAlignment="CENTER" textFill="#355e59">
+      <Button layoutX="386.0" layoutY="33.0" mnemonicParsing="false" onAction="#directToAddDonation" prefHeight="33.0" prefWidth="120.0" styleClass="button-outline" stylesheets="@style.css" text="Add New Record" textAlignment="CENTER" textFill="#355e59">
          <font>
             <Font name="System Bold" size="8.0" />
          </font>

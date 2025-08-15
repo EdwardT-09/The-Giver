@@ -1,7 +1,7 @@
 package donatesystem.util
 
 import scalikejdbc.*
-import donatesystem.model.{Administrator, Beverage, Donor, Food}
+import donatesystem.model.{Administrator, Beverage, CatalogItem, DonatedItems, Donation, Donor, Food}
 
 
 trait Database:
@@ -14,7 +14,7 @@ trait Database:
   Class.forName(derbyDriver)
 
   //create a singleton database connection ppol
-  ConnectionPool.singleton(dbURL,"ME", "MINE")
+  ConnectionPool.singleton(dbURL,"DONATESYSTEM", "DONATESYSTEM")
 
   // to allows an automatic database session for all the queries
   given AutoSession = AutoSession
@@ -26,13 +26,17 @@ object Database extends Database:
     if (!hasDBInitialized) then
         Administrator.createTable()
         Donor.createTable()
+        CatalogItem.createTable()
         Food.createTable()
         Beverage.createTable()
+        Donation.createTable()
+        DonatedItems.createTable()
+
   end dbSetUp
   
   def hasDBInitialized:Boolean =
-    (DB.getTable ("ADMINISTRATORS"), DB.getTable("DONORS"),DB.getTable("FOODS"), DB.getTable("BEVERAGES")) match
-      case (Some(_), Some(_),Some(_), Some(_)) => true
+    (DB.getTable ("ADMINISTRATORS"), DB.getTable("DONORS"),DB.getTable("FOODS"), DB.getTable("BEVERAGES"), DB.getTable("DONATIONS"), DB.getTable("DONATED_ITEMS")) match
+      case (Some(_), Some(_),Some(_), Some(_), Some(_), Some(_)) => true
       case _ => false
   end hasDBInitialized
 end Database

@@ -86,7 +86,7 @@ object Donor extends GenericCompanion[Donor] with Database:
     DB autoCommit { implicit session =>
       sql"""
                CREATE TABLE donors(
-               donor_id int NOT NULL GENERATED ALWAYS AS IDENTITY,
+               donor_id int NOT NULL GENERATED ALWAYS AS IDENTITY  (START WITH 1, INCREMENT BY 1) PRIMARY KEY ,  
                name varchar (32),
                email varchar(32),
                birthday date,
@@ -114,6 +114,7 @@ object Donor extends GenericCompanion[Donor] with Database:
   def getRecordByKey(key: Any): Option[Donor] =
     key match
       case email: String => getRecordByEmail(email)
+      case id: Int => getRecordByID(id)
       case _ => None
   end getRecordByKey
 
@@ -129,5 +130,19 @@ object Donor extends GenericCompanion[Donor] with Database:
         rs.string("contactNo"),
         rs.string("occupation")
         )).single.apply()
+    }
+
+  def getRecordByID(donorId:Int): Option[Donor] =
+    DB readOnly { implicit session =>
+      sql"""
+      SELECT * FROM donors WHERE donor_id = $donorId
+         """.map(rs => Donor(
+        rs.int("donor_id"),
+        rs.string("name"),
+        rs.string("email"),
+        rs.localDate("birthday"),
+        rs.string("contactNo"),
+        rs.string("occupation")
+      )).single.apply()
     }
 end Donor

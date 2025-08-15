@@ -56,7 +56,7 @@ class AddFoodController:
             case Success(x) => Alert.displayError("Success", "Success", "A record has been created")
               result = Some(food)
               dialogStage.close()
-            case Failure(error) => Alert.displayError("Unsuccessful", "Record is not created", "Please try again")
+            case Failure(error) => Alert.displayError("Unsuccessful", "Record is not created", error.getMessage)
 
   end handleAddFood
 

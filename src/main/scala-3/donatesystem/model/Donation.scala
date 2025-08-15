@@ -1,18 +1,16 @@
 package donatesystem.model
 
 import java.time.LocalDate
-import donatesystem.util.Database
+import donatesystem.util.{Database, GenericCompanion, GenericModel}
 import scalikejdbc.*
-
+import donatesystem.model.Donor
 import scala.util.{Failure, Success, Try}
 import scalafx.beans.property.{IntegerProperty, ObjectProperty, StringProperty}
-import scalafx.collections.ObservableBuffer
 
-class Donation(val donationID: Int, donor: Donor, items:List[DonationItem], donationDate:LocalDate) extends Database:
-  def this() = this(0, null, null, null)
+class Donation(val donationID: Int, donor: Donor, donationDate:LocalDate) extends GenericModel[Donation] with Database:
+  def this() = this(0, null,  null)
 
   var donorIDProperty = IntegerProperty(donor.donor_IDI)
-  val itemsProperty: ObservableBuffer[DonationItem] = ObservableBuffer(items: _*)
   var donationDateProperty =  ObjectProperty[LocalDate](donationDate)
 
 
@@ -20,8 +18,8 @@ class Donation(val donationID: Int, donor: Donor, items:List[DonationItem], dona
     if (!hasRecord) then
       Try(DB autoCommit { implicit session =>
         sql"""
-             INSERT INTO donations (donorID, items, date) VALUES
-             (${donorIDProperty.value}, ${itemsProperty} ${donationDateProperty.value})
+             INSERT INTO donations (donorID, date) VALUES
+             (${donorIDProperty.value},  ${donationDateProperty.value})
            """.update.apply()
 
       })
@@ -30,7 +28,7 @@ class Donation(val donationID: Int, donor: Donor, items:List[DonationItem], dona
   end saveAsRecord
 
 
-  def deleteRecord(donationID:Int): Try[Int] =
+  def deleteRecord: Try[Int] =
     if (hasRecord) then
       Try(DB autoCommit { implicit session =>
         sql"""
@@ -54,14 +52,13 @@ class Donation(val donationID: Int, donor: Donor, items:List[DonationItem], dona
 end Donation
 
 
-object Donation extends Database:
+object Donation extends GenericCompanion[Donation] with Database:
   def apply(
              donationID: Int,
              donor: Donor,
-             items:List[DonationItem],
-             donationDate:LocalDate
-           ): Donation =
-    new Donation (donationID, donor, items, donationDate)
+             date:LocalDate
+           ): Donation = 
+    new Donation (donationID, donor, date)
 
   end apply
 
@@ -69,10 +66,10 @@ object Donation extends Database:
     DB autoCommit { implicit session =>
       sql"""
            CREATE TABLE donations(
-           donationID int NOT NULL GENERATED ALWAYS AS IDENTITY,
-           donorID INT REFERENCES donors(donor_id),
-           email varchar(64),
-           password varchar(64)
+           donation_id int NOT NULL GENERATED ALWAYS AS IDENTITY  (START WITH 1, INCREMENT BY 1) PRIMARY KEY,
+           donor_id INT REFERENCES donors(donor_id),
+           date DATE,
+           FOREIGN KEY (donor_id) REFERENCES donors(donor_id)
            )
          """.execute.apply()
     }
@@ -86,28 +83,30 @@ object Donation extends Database:
     }
   end dropTable
 
-  def getAllAdminRecord: List[Administrator] =
+  def getAllRecords(): List[Donation] =
     DB readOnly { implicit session =>
       sql"""
       SELECT * from donations
-      """.map(rs => Administrator(
-        rs.int("user_id"),
-        rs.string("fName"),
-        rs.string("email"),
-        rs.string("password")
-      )).list.apply()
+      """.map(rs =>
+        val donor = Donor.getRecordByKey(rs.int("donorID")).getOrElse(Donor(0, null, null, null, null, null))
+        Donation(rs.int("donationID"), donor, rs.localDate("date"))
+      ).list.apply()
     }
 
-  def getRecordByEmail(email: String): Option[Administrator] =
+
+  def getRecordByKey(key: Any): Option[Donation] =
+    key match
+      case id:Int => getRecordByID(id)
+      case _ => None
+  end getRecordByKey
+
+  def getRecordByID(id:Int): Option[Donation] =
     DB readOnly { implicit session =>
       sql"""
-           SELECT * FROM donations WHERE email = $email
+           SELECT * FROM donations WHERE donation_id = $id
          """.map(rs =>
-        Administrator(
-          rs.int("user_id"),
-          rs.string("fname"),
-          rs.string("email"),
-          rs.string("password"),
-        )).single.apply()
+        val donor = Donor.getRecordByKey(rs.int("donorID")).getOrElse(Donor(0, null, null, null, null, null))
+        Donation(rs.int("donationID"), donor, rs.localDate("date"))
+        ).single.apply()
     }
 end Donation

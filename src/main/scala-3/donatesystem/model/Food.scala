@@ -9,8 +9,7 @@ import scalafx.beans.property.{BooleanProperty, IntegerProperty, ObjectProperty,
 import java.time.LocalDate
 
 
-class Food(val _itemIDI :Int, _nameS:String, _categoryS:String, _perishableB:Boolean, _quantityI:Int, isVegetarianB: Boolean, containsAllergensS: String) extends DonationItem(_itemIDI, _nameS, _categoryS, _perishableB, _quantityI) with Database with GenericModel[Food]:
-
+class Food(val _itemIDI :Int, _nameS:String, _categoryS:String, _perishableB:Boolean, _quantityI:Int, isVegetarianB: Boolean, containsAllergensS: String) extends CatalogItem(_itemIDI, _nameS, _categoryS, _perishableB, _quantityI) with Database with GenericModel[Food]:
   override val nameProperty = new StringProperty(_nameS)
   override val categoryProperty = new StringProperty(_categoryS)
   override val isPerishableProperty = ObjectProperty[Boolean](_perishableB)
@@ -19,14 +18,15 @@ class Food(val _itemIDI :Int, _nameS:String, _categoryS:String, _perishableB:Boo
   val containsAllergensProperty = new StringProperty(containsAllergensS)
 
   def saveAsRecord: Try[Int] =
-    if (!hasRecord) then
+    if (!hasRecord) then {
+      val catalogID = CatalogItem.saveItem(nameProperty.value, categoryProperty.value, isPerishableProperty.value,quantityProperty.value)
       Try(DB autoCommit { implicit session =>
         sql"""
-              INSERT INTO foods (name, category, perishable, quantity, isVegetarian, containsAllergens) VALUES
-              (${nameProperty.value}, ${categoryProperty.value}, ${isPerishableProperty.value}, ${quantityProperty.value}, ${isVegetarianProperty.value}, ${containsAllergensProperty.value})
+              INSERT INTO foods (food_id, name, category, perishable, quantity, isVegetarian, containsAllergens) VALUES
+              (${catalogID}, ${nameProperty.value}, ${categoryProperty.value}, ${isPerishableProperty.value}, ${quantityProperty.value}, ${isVegetarianProperty.value}, ${containsAllergensProperty.value})
             """.update.apply()
       })
-    else
+    } else
       Try(DB autoCommit {
         sql"""
               UPDATE foods
@@ -106,11 +106,7 @@ object Food extends GenericCompanion[Food] with Database:
     DB autoCommit { implicit session =>
       sql"""
                CREATE TABLE foods(
-               food_id int NOT NULL GENERATED ALWAYS AS IDENTITY,
-               name varchar (32),
-               category varchar(32),
-               perishable BOOLEAN,
-               quantity INT,
+               food_id int PRIMARY KEY REFERENCES catalog_items(item_id),
                isVegetarian BOOLEAN,
                containsAllergens varchar(64)
                )

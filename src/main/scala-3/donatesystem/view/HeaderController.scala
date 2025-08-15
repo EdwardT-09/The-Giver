@@ -8,6 +8,10 @@ class HeaderController:
     RunTheGiver.showHome()
   end directToHome
   
+  def directToAddDonation:Unit =
+    RunTheGiver.showAddDonation()
+  end directToAddDonation
+  
   def directToChangeEmail:Unit =
     RunTheGiver.showChangeEmail
   end directToChangeEmail
