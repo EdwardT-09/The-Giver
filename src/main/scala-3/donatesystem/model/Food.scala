@@ -41,6 +41,21 @@ class Food(val _itemIDI :Int, _nameS:String, _categoryS:String, _perishableB:Boo
             """.update.apply()
       })
   end saveAsRecord
+
+  def increaseQuantity(quantity: Int): Try[Int] =
+
+    if (hasRecord) then
+      Try(DB autoCommit {
+        sql"""
+          UPDATE foods
+          SET
+          quantity = quantity + $quantity
+          WHERE food_id = $_itemIDI
+        """.update.apply()
+      })
+    else
+      throw new Exception("There was an error. The quantity of the food was not reduced.")
+  end increaseQuantity
   
   def reduceQuantity(quantity:Int): Try[Int] =
     
@@ -54,7 +69,7 @@ class Food(val _itemIDI :Int, _nameS:String, _categoryS:String, _perishableB:Boo
         sql"""
           UPDATE foods
           SET
-          quantity = quantity - ${quantityProperty.value},
+          quantity = quantity - $quantityProperty
           WHERE food_id = $_itemIDI
         """.update.apply()
       })

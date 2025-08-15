@@ -13,22 +13,23 @@ import java.time.LocalDate
 
 class DonatedItems(val id: Int, donation: Donation, val item: CatalogItem, val quantity: Int) extends GenericModel[DonatedItems] with Database:
   def this() = this(0,null,null,0)
-  
-  var donationIDProperty = ObjectProperty[Int](donation.donationID)
+
+  var donationIDProperty =
+    ObjectProperty[Int](if donation != null then donation.donationID else 0)
   var itemProperty = ObjectProperty[Int](item.itemIDI)
   var quantityProperty = ObjectProperty[Int](quantity)
 
 
   def saveAsRecord: Try[Int] =
-    if (!hasRecord) then
+    println(s"[DEBUG] donationID = ${donation.donationID}")
+    println(s"[DEBUG] itemID = ${item.itemIDI}")
+    println(s"[DEBUG] quantity = $quantity")
       Try(DB autoCommit { implicit session =>
         sql"""
              INSERT INTO donated_items (donation_id, item_id, quantity) VALUES
-             (${donationIDProperty}, ${itemProperty}, ${quantityProperty})
+             (${donationIDProperty.value}, ${itemProperty.value}, ${quantityProperty.value})
            """.update.apply()
       })
-    else
-      throw new Exception("An error has occured. The record was not saved")
   end saveAsRecord
 
 
@@ -37,7 +38,7 @@ class DonatedItems(val id: Int, donation: Donation, val item: CatalogItem, val q
       Try(DB autoCommit { implicit session =>
         sql"""
           DELETE FROM donated_items
-          WHERE id = $id
+          WHERE donated_id = $id
           """.update.apply()
       })
     else
@@ -47,7 +48,7 @@ class DonatedItems(val id: Int, donation: Donation, val item: CatalogItem, val q
   def hasRecord: Boolean =
     DB readOnly { implicit session =>
       sql"""
-           SELECT * FROM donated_items WHERE id = $id
+           SELECT * FROM donated_items WHERE donated_id = $id
          """.map(_ => ()).single.apply()
     } match
       case Some(x) => true
@@ -100,7 +101,8 @@ object DonatedItems extends GenericCompanion[DonatedItems] with Database:
         )
 
         DonatedItems(
-          rs.int("id"),
+          
+          rs.int("donated_id"),
           donation,
           item,
           rs.int("quantity")
@@ -117,7 +119,7 @@ object DonatedItems extends GenericCompanion[DonatedItems] with Database:
   def getRecordByID(donatedID: Int): Option[DonatedItems] =
     DB.readOnly { implicit session: DBSession =>
       sql"""
-      SELECT * FROM donated_items WHERE id = $donatedID
+      SELECT * FROM donated_items WHERE donated_id = $donatedID
     """.map { rs =>
         val donationID = rs.int("donation_id")
         val itemID = rs.int("item_id")
@@ -131,7 +133,7 @@ object DonatedItems extends GenericCompanion[DonatedItems] with Database:
         )
 
         DonatedItems(
-          rs.int("id"),
+          rs.int("donated_id"),
           donation,
           item,
           rs.int("quantity")

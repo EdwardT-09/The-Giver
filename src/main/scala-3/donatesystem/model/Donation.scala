@@ -10,7 +10,8 @@ import scalafx.beans.property.{IntegerProperty, ObjectProperty, StringProperty}
 class Donation(val donationID: Int, donor: Donor, donationDate:LocalDate) extends GenericModel[Donation] with Database:
   def this() = this(0, null,  null)
 
-  var donorIDProperty = IntegerProperty(donor.donor_IDI)
+  def donorIDProperty =
+    ObjectProperty[Int](if donor != null then donor.donor_IDI else 0)
   var donationDateProperty =  ObjectProperty[LocalDate](donationDate)
 
 
@@ -18,7 +19,7 @@ class Donation(val donationID: Int, donor: Donor, donationDate:LocalDate) extend
     if (!hasRecord) then
       Try(DB autoCommit { implicit session =>
         sql"""
-             INSERT INTO donations (donorID, date) VALUES
+             INSERT INTO donations (donor_id, date) VALUES
              (${donorIDProperty.value},  ${donationDateProperty.value})
            """.update.apply()
 
@@ -33,17 +34,17 @@ class Donation(val donationID: Int, donor: Donor, donationDate:LocalDate) extend
       Try(DB autoCommit { implicit session =>
         sql"""
           DELETE FROM donations
-          WHERE donationID = $donationID
+          WHERE donation_id = $donationID
           """.update.apply()
       })
     else
-      throw new Exception("There are no records of this email. Deletion failed!")
+      throw new Exception("There are no records of this donation. Deletion failed!")
   end deleteRecord
 
   def hasRecord: Boolean =
     DB readOnly { implicit session =>
       sql"""
-           SELECT * FROM donations WHERE email=${this.donationID}
+           SELECT * FROM donations WHERE donation_id=${this.donationID}
          """.map(_ => ()).single.apply()
     } match
       case Some(x) => true
@@ -88,8 +89,8 @@ object Donation extends GenericCompanion[Donation] with Database:
       sql"""
       SELECT * from donations
       """.map(rs =>
-        val donor = Donor.getRecordByKey(rs.int("donorID")).getOrElse(Donor(0, null, null, null, null, null))
-        Donation(rs.int("donationID"), donor, rs.localDate("date"))
+        val donor = Donor.getRecordByKey(rs.int("donor_id")).getOrElse(Donor(0, null, null, null, null, null))
+        Donation(rs.int("donation_id"), donor, rs.localDate("date"))
       ).list.apply()
     }
 
@@ -105,8 +106,11 @@ object Donation extends GenericCompanion[Donation] with Database:
       sql"""
            SELECT * FROM donations WHERE donation_id = $id
          """.map(rs =>
-        val donor = Donor.getRecordByKey(rs.int("donorID")).getOrElse(Donor(0, null, null, null, null, null))
-        Donation(rs.int("donationID"), donor, rs.localDate("date"))
+        val donor = Donor.getRecordByKey(rs.int("donor_id")).getOrElse(Donor(0, null, null, null, null, null))
+        Donation(
+          rs.int("donation_id"), 
+          donor, 
+          rs.localDate("date"))
         ).single.apply()
     }
 end Donation

@@ -57,45 +57,50 @@ class AddDonationController:
         x.value.quantityProperty
       }
 
-    
+
   end initialize
 
   def handleAddDonation(event:ActionEvent): Unit =
     if (validInput) then
       val donation = new Donation(0, donorChoiceBox.value.value, LocalDate.now())
       val savedDonationID = donation.saveAsRecord
-
       savedDonationID match
         case Success(id) =>
-          Donation.getRecordByKey(savedDonationID) match
+          Donation.getRecordByKey(id) match
             case Some(savedDonation) =>
-              for donatedItem <- itemsBuffer do
-                val saveDonatedItem = new DonatedItems(0, savedDonation, donatedItem.item, donatedItem.quantity)
-                saveDonatedItem.saveAsRecord
+              for i <- itemsBuffer.indices do
+                val item = itemsBuffer(i)
+                val saveDonatedItem = new DonatedItems(0, savedDonation, item.item, item.quantity)
+                itemsBuffer(i) = saveDonatedItem
+                saveDonatedItem.saveAsRecord match
+                  case Success(x) =>
+                    Alert.displayError("Yay", "Yay","Yay")
+                  case Failure(error) =>
+                    Alert.displayError("No", "No",error.getMessage)
             case None =>
               Alert.displayError("Record not found", "Donation record not found","Please try again")
         case Failure(error) =>
-          Alert.displayError("Unsuccessful", "Failed to save","Please try again")
+          Alert.displayError("Unsuccessful", "Failed to save",error.getMessage)
     end if
   end handleAddDonation
 
-  def handleAddItemClick(event:ActionEvent):Unit =
+  def handleAddItem(event:ActionEvent):Unit =
     val selectedItem = itemChoiceBox.value.value
     val quantity = quantityField.text.value.toInt
 
-    if validInput then
+    if validItemInput then
       val donatedItem = new DonatedItems(0, null, selectedItem, quantity)
       itemsBuffer += donatedItem
-  end handleAddItemClick
+  end handleAddItem
 
   def validInput: Boolean =
-    var errorMessage: String = " "
-    if(donorChoiceBox == null) then
+    var errorMessage: String = ""
+    if(donorChoiceBox.value.value == null) then
       errorMessage += "Donor field is empty"
     if(itemsBuffer.isEmpty) then
       errorMessage += "Items Buffer is empty"
     if (errorMessage.isEmpty) then
-        true
+      true
     else
       Alert.displayError("Invalid Fields", "Please fill in all required fields correctly.", errorMessage)
       false

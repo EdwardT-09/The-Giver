@@ -60,7 +60,7 @@ class AddFoodController:
 
   end handleAddFood
 
-
+  
 
   def validInput(): Boolean =
     var errorMessage: String = ""

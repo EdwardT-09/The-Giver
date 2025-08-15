@@ -141,7 +141,7 @@ object RunTheGiver extends JFXApp3:
     dialog.showAndWait()
 //    controller.result
   end showAddDonation
-  
+
   def showFoods(): Unit =
     val resource = getClass.getResource("view/Foods.fxml")
     val loader = new FXMLLoader(resource)
