@@ -1,6 +1,6 @@
 package donatesystem
 
-import donatesystem.model.{Administrator, Beverage, CatalogItem, Donor, Food}
+import donatesystem.model.{Beverage, Donor, Food}
 import javafx.fxml.FXMLLoader
 import scalafx.scene as sfxs
 import scalafx.Includes.*
@@ -18,7 +18,7 @@ import scalafx.stage.{Modality, Stage}
 object RunTheGiver extends JFXApp3:
   // initialise the database to create table if it does not exists
   Database.dbSetUp()
-//  println(Administrator.getAllAdminRecord)
+
 
   val donorData = new ObservableBuffer[Donor]()
   val foodData = new ObservableBuffer[Food]()
@@ -27,26 +27,33 @@ object RunTheGiver extends JFXApp3:
   donorData ++= Donor.getAllRecords()
   foodData ++= Food.getAllRecords()
   beverageData ++= Beverage.getAllRecords()
-  
-  var roots: Option[scalafx.scene.layout.BorderPane] = None
 
+  //window root pane
+  var roots: Option[scalafx.scene.layout.BorderPane] = None
+  //assign the stylesheet to a variable
+  var cssResource = getClass.getResource("view/style.css")
   override def start():Unit =
     //get the RootResource.fxml to be displayed
     val navigationResource = getClass.getResource("view/RootResource.fxml")
 
+    //initialize the loader object
     val loader = new FXMLLoader(navigationResource)
-    
+
     val rootJavaFX = loader.load[javafx.scene.layout.BorderPane]()
 
+    //transform from javafx to scalafx
     val rootScalaFX: BorderPane = rootJavaFX
 
     roots =Some(rootScalaFX)
     //set the stage to display the pages
     stage = new PrimaryStage():
+      //the title that will be displayed on the stage
       title = "Donate System"
+      //assign an icon for the stage
       icons += new Image(getClass.getResource(
         "/images/Donate.png").toExternalForm)
       scene = new Scene():
+        stylesheets = Seq(cssResource.toExternalForm)
         root = roots.get
       //the first page is the authentication landing page 
       showAuthLanding();
@@ -54,9 +61,12 @@ object RunTheGiver extends JFXApp3:
 
   // authentication landing page for users to choose between registration or log in
   def showAuthLanding():Unit =
+    //get the AuthLanding.fxml to be displayed
     val resource = getClass.getResource("view/AuthLanding.fxml")
+    //initialize the loader object
     val loader = new FXMLLoader(resource)
     val rootJavaFX = loader.load[javafx.scene.layout.AnchorPane]()
+    //transform from javafx to scalafx
     val rootScalaFX: scalafx.scene.layout.AnchorPane = rootJavaFX
     var roots: Option[scalafx.scene.layout.AnchorPane] = None
     roots = Some(rootScalaFX)
@@ -65,9 +75,12 @@ object RunTheGiver extends JFXApp3:
   
   // display the registration page 
   def showRegister():Unit =
+    //get the Register.fxml to be displayed
     val resource = getClass.getResource("view/Register.fxml")
+    //initialize the loader object
     val loader = new FXMLLoader(resource)
     val rootJavaFX = loader.load[javafx.scene.layout.AnchorPane]()
+    //transform from javafx to scalafx
     val rootScalaFX: scalafx.scene.layout.AnchorPane = rootJavaFX
     var roots: Option[scalafx.scene.layout.AnchorPane] = None
     roots = Some(rootScalaFX)
@@ -76,9 +89,12 @@ object RunTheGiver extends JFXApp3:
 
   // display the log in page 
   def showLogIn():Unit =
+    //get the LogIn.fxml to be displayed
     val resource = getClass.getResource("view/LogIn.fxml")
+    //initialize the loader object
     val loader = new FXMLLoader(resource)
     val rootJavaFX = loader.load[javafx.scene.layout.AnchorPane]()
+    //transform from javafx to scalafx
     val rootScalaFX: scalafx.scene.layout.AnchorPane = rootJavaFX
     var roots: Option[scalafx.scene.layout.AnchorPane] = None
     roots = Some(rootScalaFX)
@@ -87,9 +103,12 @@ object RunTheGiver extends JFXApp3:
 
   // display the log in page 
   def showHome(): Unit =
+    //get the Home.fxml to be displayed
     val resource = getClass.getResource("view/Home.fxml")
+    //initialize the loader object
     val loader = new FXMLLoader(resource)
     val rootJavaFX = loader.load[javafx.scene.layout.AnchorPane]()
+    //transform from javafx to scalafx
     val rootScalaFX: scalafx.scene.layout.AnchorPane = rootJavaFX
     var roots: Option[scalafx.scene.layout.AnchorPane] = None
     roots = Some(rootScalaFX)
@@ -97,9 +116,12 @@ object RunTheGiver extends JFXApp3:
   end showHome
   
   def showDonors():Unit =
+    //get the Donors.fxml to be displayed
     val resource = getClass.getResource("view/Donors.fxml")
+    //initialize the loader object
     val loader = new FXMLLoader(resource)
     val rootJavaFX = loader.load[javafx.scene.layout.AnchorPane]()
+    //transform from javafx to scalafx
     val rootScalaFX: scalafx.scene.layout.AnchorPane = rootJavaFX
     var roots: Option[scalafx.scene.layout.AnchorPane] = None
     roots = Some(rootScalaFX)
@@ -107,105 +129,155 @@ object RunTheGiver extends JFXApp3:
   end showDonors
   
   def showAddDonor(donor:Donor):Option[Donor] =
+    //get the AddDonor.fxml to be displayed
     val resource = getClass.getResource("view/AddDonor.fxml")
+    //initialize the loader object
     val loader = new FXMLLoader(resource)
     val rootJavaFX = loader.load[javafx.scene.layout.AnchorPane]()
     val roots2 = loader.getRoot[jfxs.Parent]
+    // get AddDonorController
     val controller = loader.getController[AddDonorController]
+    //set the stage to display the add donor page
     val dialog = new Stage():
       initModality(Modality.ApplicationModal)
       initOwner(stage)
+      //the title that will be displayed on the stage is "Add/Edit Donor"
       title= "Add/Edit Donor"
         scene = new Scene:
+          stylesheets = Seq(cssResource.toExternalForm)
           root = roots2
+    //gain access to the dialogStage from the controller
     controller.dialogStage = dialog
+    //gain access to the donor from the controller
     controller.donor = donor
+    //pause until the showAddDonor page is closed
     dialog.showAndWait()
+    //retrieve the result
     controller.result
   end showAddDonor
 
   def showAddDonation(): Unit =
+    //get the AddDonation.fxml to be displayed
     val resource = getClass.getResource("view/AddDonation.fxml")
+    //initialize the loader object
     val loader = new FXMLLoader(resource)
     val rootJavaFX = loader.load[javafx.scene.layout.AnchorPane]()
     val roots2 = loader.getRoot[jfxs.Parent]
+    // get AddDonationController
     val controller = loader.getController[AddDonationController]
+    //set the stage to display the add donation page
     val dialog = new Stage():
       initModality(Modality.ApplicationModal)
       initOwner(stage)
-      title = "Add/Edit Donor"
+      //the title that will be displayed on the stage is "Add/ Edit Donation"
+      title = "Add/Edit Donation"
       scene = new Scene:
+        stylesheets = Seq(cssResource.toExternalForm)
         root = roots2
+    //gain access to the dialogStage from the controller
     controller.dialogStage = dialog
+    //pause until the showAddDonation page is closed
     dialog.showAndWait()
-//    controller.result
   end showAddDonation
 
   def showFoods(): Unit =
+    //get the Foods.fxml to be displayed
     val resource = getClass.getResource("view/Foods.fxml")
+    //initialize the loader object
     val loader = new FXMLLoader(resource)
     val rootJavaFX = loader.load[javafx.scene.layout.AnchorPane]()
+    //transform from javafx to scalafx
     val rootScalaFX: scalafx.scene.layout.AnchorPane = rootJavaFX
     var roots: Option[scalafx.scene.layout.AnchorPane] = None
     roots = Some(rootScalaFX)
     this.roots.get.center = roots.get
+    // get FoodsController
     val foodsController = loader.getController[FoodsController]()
+    //refresh the foodsTable every time the page is accessed
     foodsController.refreshTable()
   end showFoods
 
   def showBeverages(): Unit =
+    //get the Beverages.fxml to be displayed
     val resource = getClass.getResource("view/Beverages.fxml")
+    //initialize the loader object
     val loader = new FXMLLoader(resource)
     val rootJavaFX = loader.load[javafx.scene.layout.AnchorPane]()
+    //transform from javafx to scalafx
     val rootScalaFX: scalafx.scene.layout.AnchorPane = rootJavaFX
     var roots: Option[scalafx.scene.layout.AnchorPane] = None
     roots = Some(rootScalaFX)
     this.roots.get.center = roots.get
+    // get BeveragesController
     val beveragesController = loader.getController[BeveragesController]()
+    //refresh the beveragesTable every time the page is accessed
     beveragesController.refreshTable()
   end showBeverages
 
 
   def showAddFood(food:Food):Option[Food] =
+    //get the AddFood.fxml to be displayed
     val resource = getClass.getResource("view/AddFood.fxml")
+    //initialize the loader object
     val loader = new FXMLLoader(resource)
     val rootJavaFX = loader.load[javafx.scene.layout.AnchorPane]()
     val roots2 = loader.getRoot[jfxs.Parent]
+    // get AddFoodController
     val controller = loader.getController[AddFoodController]
+    //set the stage to display the add food page
     val dialog = new Stage():
       initModality(Modality.ApplicationModal)
       initOwner(stage)
+      //the title that will be displayed on the stage is "Add/Edit Food"
       title = "Add/Edit Food"
       scene = new Scene:
+        stylesheets = Seq(cssResource.toExternalForm)
         root = roots2
+    //gain access to the dialogStage from the controller
     controller.dialogStage = dialog
+    //gain access to the food from the controller
     controller.food = food
+    //pause until the showAddFood page is closed
     dialog.showAndWait()
+    //retrieve the result
     controller.result
   end showAddFood
 
   def showAddBeverage(beverage: Beverage): Option[Beverage] =
+    //get the Beverage.fxml to be displayed
     val resource = getClass.getResource("view/AddBeverage.fxml")
+    //initialize the loader object
     val loader = new FXMLLoader(resource)
     val rootJavaFX = loader.load[javafx.scene.layout.AnchorPane]()
     val roots2 = loader.getRoot[jfxs.Parent]
+    // get AddBeverageController
     val controller = loader.getController[AddBeverageController]
+    //set the stage to display the add beverage page
     val dialog = new Stage():
       initModality(Modality.ApplicationModal)
       initOwner(stage)
+      //the title that will be displayed on the stage is "Add/Edit Beverage"
       title = "Add/Edit Beverage"
       scene = new Scene:
+        stylesheets = Seq(cssResource.toExternalForm)
         root = roots2
+    //gain access to the dialogStage from the controller
     controller.dialogStage = dialog
+    //gain access to the beverage from the controller
     controller.beverage = beverage
+    //pause until the showAddBeverage page is closed
     dialog.showAndWait()
+    //retrieve the result
     controller.result
   end showAddBeverage
 
   def showChangeEmail:Unit =
+    //get the ChangeEmail.fxml to be displayed
     val resource = getClass.getResource("view/ChangeEmail.fxml")
+    //initialize the loader object
     val loader = new FXMLLoader(resource)
     val rootJavaFX = loader.load[javafx.scene.layout.AnchorPane]()
+    //transform from javafx to scalafx
     val rootScalaFX: scalafx.scene.layout.AnchorPane = rootJavaFX
     var roots: Option[scalafx.scene.layout.AnchorPane] = None
     roots = Some(rootScalaFX)
@@ -213,9 +285,12 @@ object RunTheGiver extends JFXApp3:
   end showChangeEmail
 
   def showChangePassword: Unit =
+    //get the ChangePassword.fxml to be displayed
     val resource = getClass.getResource("view/ChangePassword.fxml")
+    //initialize the loader object
     val loader = new FXMLLoader(resource)
     val rootJavaFX = loader.load[javafx.scene.layout.AnchorPane]()
+    //transform from javafx to scalafx
     val rootScalaFX: scalafx.scene.layout.AnchorPane = rootJavaFX
     var roots: Option[scalafx.scene.layout.AnchorPane] = None
     roots = Some(rootScalaFX)
@@ -223,9 +298,12 @@ object RunTheGiver extends JFXApp3:
   end showChangePassword
 
   def showAbout(): Unit =
+    //get the About.fxml to be displayed
     val resource = getClass.getResource("view/About.fxml")
+    //initialize the loader object
     val loader = new FXMLLoader(resource)
     val rootJavaFX = loader.load[javafx.scene.layout.AnchorPane]()
+    //transform from javafx to scalafx
     val rootScalaFX: scalafx.scene.layout.AnchorPane = rootJavaFX
     var roots: Option[scalafx.scene.layout.AnchorPane] = None
     roots = Some(rootScalaFX)
