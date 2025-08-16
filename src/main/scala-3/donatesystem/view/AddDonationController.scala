@@ -72,6 +72,9 @@ class AddDonationController:
                 val item = itemsBuffer(i)
                 val saveDonatedItem = new DonatedItems(0, savedDonation, item.item, item.quantity)
                 itemsBuffer(i) = saveDonatedItem
+                item.item.increaseQuantity(item.quantity) match
+                  case Success(rows) => println(s"Updated ${item.item.itemIDI} +${item.quantity}")
+                  case Failure(err) => println(s"Failed qty update: ${err.getMessage}")
                 saveDonatedItem.saveAsRecord match
                   case Success(x) =>
                     Alert.displayError("Yay", "Yay","Yay")

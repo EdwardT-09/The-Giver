@@ -41,6 +41,21 @@ extends CatalogItem(_itemIDI, _nameS, _categoryS, _perishableB, _quantityI) with
       })
   end saveAsRecord
 
+  def increaseQuantity(quantity: Int): Try[Int] =
+
+    if (hasRecord) then
+      Try(DB autoCommit {
+        sql"""
+           UPDATE beverages
+           SET
+           quantity = quantity + $quantity
+           WHERE beverage_id = $_itemIDI
+         """.update.apply()
+      })
+    else
+      throw new Exception("There was an error. The quantity of the food was not reduced.")
+  end increaseQuantity
+
   def reduceQuantity(quantity:Int): Try[Int] =
     if(hasRecord) then
       if (quantity <= 0)

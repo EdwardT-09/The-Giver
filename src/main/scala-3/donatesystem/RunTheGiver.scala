@@ -9,7 +9,7 @@ import scalafx.application.JFXApp3.PrimaryStage
 import javafx.scene as jfxs
 import scalafx.scene.Scene
 import donatesystem.util.Database
-import donatesystem.view.{AddBeverageController, AddDonationController, AddDonorController, AddFoodController}
+import donatesystem.view.{AddBeverageController, AddDonationController, AddDonorController, AddFoodController, BeveragesController, FoodsController}
 import scalafx.collections.ObservableBuffer
 import scalafx.scene.image.Image
 import scalafx.scene.layout.BorderPane
@@ -17,7 +17,6 @@ import scalafx.stage.{Modality, Stage}
 
 object RunTheGiver extends JFXApp3:
   // initialise the database to create table if it does not exists
-
   Database.dbSetUp()
 //  println(Administrator.getAllAdminRecord)
 
@@ -150,6 +149,8 @@ object RunTheGiver extends JFXApp3:
     var roots: Option[scalafx.scene.layout.AnchorPane] = None
     roots = Some(rootScalaFX)
     this.roots.get.center = roots.get
+    val foodsController = loader.getController[FoodsController]()
+    foodsController.refreshTable()
   end showFoods
 
   def showBeverages(): Unit =
@@ -160,6 +161,8 @@ object RunTheGiver extends JFXApp3:
     var roots: Option[scalafx.scene.layout.AnchorPane] = None
     roots = Some(rootScalaFX)
     this.roots.get.center = roots.get
+    val beveragesController = loader.getController[BeveragesController]()
+    beveragesController.refreshTable()
   end showBeverages
 
 

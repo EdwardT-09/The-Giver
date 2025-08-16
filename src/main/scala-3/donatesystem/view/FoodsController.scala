@@ -2,12 +2,12 @@ package donatesystem.view
 
 import donatesystem.util.Alert
 import donatesystem.RunTheGiver
-
 import donatesystem.model.Food
 import scalafx.Includes.*
 import javafx.beans.value.ObservableValue
 import javafx.fxml.FXML
 import javafx.scene.control.{Label, TableColumn, TableView}
+import scalafx.collections.ObservableBuffer
 
 import scala.util.{Failure, Success, Try}
 
@@ -22,6 +22,7 @@ class FoodsController:
   @FXML private var allergensColumn: TableColumn[Food, String] = null
 
   def initialize(): Unit =
+    foodTable.refresh()
     foodTable.items = RunTheGiver.foodData
     nameColumn.cellValueFactory = { x => x.value.nameProperty }
     categoryColumn.cellValueFactory = { x => x.value.categoryProperty }
@@ -56,7 +57,7 @@ class FoodsController:
           Alert.displayError("Update Error", "The donor record was not updated", "Please try again")
     end if
   end directToEditFood
-
+  
   def deleteFood: Unit =
     val selectedIndex = foodTable.selectionModel().selectedIndex.value
     val selectedFood = foodTable.selectionModel().selectedItem.value
@@ -71,5 +72,10 @@ class FoodsController:
     end if
   end deleteFood
   
+  def refreshTable(): Unit =
+    val updateItems = Food.getAllRecords()
+    foodTable.items = ObservableBuffer(updateItems: _*)
+    foodTable.refresh()
+  end refreshTable
 
 end FoodsController

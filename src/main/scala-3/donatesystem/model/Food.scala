@@ -56,7 +56,7 @@ class Food(val _itemIDI :Int, _nameS:String, _categoryS:String, _perishableB:Boo
     else
       throw new Exception("There was an error. The quantity of the food was not reduced.")
   end increaseQuantity
-  
+
   def reduceQuantity(quantity:Int): Try[Int] =
     
     if(hasRecord) then

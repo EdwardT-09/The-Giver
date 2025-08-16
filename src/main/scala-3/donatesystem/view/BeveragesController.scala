@@ -6,6 +6,7 @@ import donatesystem.model.{Beverage, Food}
 import javafx.fxml.FXML
 import javafx.scene.control.{TableColumn, TableView}
 import donatesystem.util.Alert
+import scalafx.collections.ObservableBuffer
 
 import scala.util.{Failure, Success, Try}
 
@@ -20,6 +21,7 @@ class BeveragesController:
   @FXML private var volumePerUnitColumn: TableColumn[Beverage, Int] = null
 
   def initialize(): Unit =
+    beverageTable.refresh()
     beverageTable.items = RunTheGiver.beverageData
     nameColumn.cellValueFactory = { x => x.value.nameProperty }
     categoryColumn.cellValueFactory = { x => x.value.categoryProperty }
@@ -69,5 +71,10 @@ class BeveragesController:
     end if
   end deleteBeverage
 
+  def refreshTable(): Unit =
+    val updateItems = Beverage.getAllRecords()
+    beverageTable.items = ObservableBuffer(updateItems: _*)
+    beverageTable.refresh()
+  end refreshTable
 
 end BeveragesController

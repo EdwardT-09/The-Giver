@@ -17,7 +17,9 @@ abstract class CatalogItem(val itemIDI :Int, nameS:String, categoryS:String, per
   val quantityProperty =  ObjectProperty[Int](quantityI)
   
   def saveAsRecord: Try[Int]
-  
+
+  def increaseQuantity(quantity: Int): Try[Int]
+
   def reduceQuantity(quantity:Int): Try[Int]
   
   def deleteRecord: Try[Int] 
@@ -41,6 +43,8 @@ object CatalogItem extends Database:
     }
   end createTable
 
+
+
   def saveItem(name:String, category: String, perishable:Boolean, quantity:Int):Int =
     DB autoCommit{implicit session =>
       sql"""
@@ -48,6 +52,19 @@ object CatalogItem extends Database:
             VALUES ($name, $category, $perishable, $quantity )
             """.updateAndReturnGeneratedKey().toInt
     }
+  end saveItem
+
+  def increaseQuantity(itemID: Int, quantity: Int): Try[Int] =
+      Try(DB autoCommit {
+        sql"""
+           UPDATE foods
+           SET
+           quantity = quantity + $quantity
+           WHERE food_id = $itemID
+         """.update.apply()
+      })
+  end increaseQuantity
+
   def getAllCatalogItems(): List[CatalogItem] =
     Food.getAllRecords() ++ Beverage.getAllRecords()
   end getAllCatalogItems
