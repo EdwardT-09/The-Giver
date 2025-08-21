@@ -2,11 +2,14 @@ package donatesystem.view
 
 import scalafx.Includes.*
 import donatesystem.RunTheGiver
-import donatesystem.model.Beverage
+import donatesystem.model.{Beverage, CatalogItem}
 import javafx.fxml.FXML
 import javafx.scene.control.{TableColumn, TableView}
 import donatesystem.util.Alert
+import javafx.event.ActionEvent
 import scalafx.collections.ObservableBuffer
+import scalafx.scene.control.TextInputDialog
+
 import scala.util.{Failure, Success}
 
 //provide controls to beverages management page
@@ -51,7 +54,7 @@ class BeveragesController:
   end initialize
 
   //direct users to add new beverage item
-  def directToAddBeverage: Unit =
+  def directToAddBeverage(action :ActionEvent): Unit =
     //create new beverage object
     val beverage = new Beverage(0, "", "", false, 0,  0, false)
     //pass the beverage object to showAddBeverage method
@@ -65,7 +68,7 @@ class BeveragesController:
   end directToAddBeverage
 
   //direct users to add beverage page but with fields pre-filled in with their current information
-  def directToEditBeverage: Unit =
+  def directToEditBeverage(action :ActionEvent): Unit =
     //retrieve the index of the currently selected beverage item from the beverageTable
     val selectedIndex = beverageTable.selectionModel().selectedIndex.value
     //retrieve the item of the currently selected beverage item from the beverageTable
@@ -90,7 +93,7 @@ class BeveragesController:
 
 
   //delete beverage item
-  def deleteBeverage: Unit =
+  def handleDeleteBeverage(action :ActionEvent): Unit =
     //retrieve the index of the beverage item selected from the beverageTable
     val selectedIndex = beverageTable.selectionModel().selectedIndex.value
     //retrieve the item of the beverage item selected from the beverageTable
@@ -109,7 +112,44 @@ class BeveragesController:
       //if no beverage item was selected, then display the error alert
       Alert.displayError("Invalid beverage", "No beverage record is selected", "Please choose a beverage")
     end if
-  end deleteBeverage
+  end handleDeleteBeverage
+
+  //reduce the beverage quantity
+  def handleReduceQuantity(action :ActionEvent): Unit =
+    //retrieve the index of the beverage item selected from the beverageTable
+    val selectedIndex = beverageTable.selectionModel().selectedIndex.value
+    //retrieve the item of the beverage item selected from the beverageTable
+    val selectedBeverage = beverageTable.selectionModel().selectedItem.value
+
+    if (selectedIndex >= 0) then
+    //if a beverage item is selected, then show input dialog for reduce quantity
+      val inputDialog = new TextInputDialog("1")
+      inputDialog.setTitle("Reduce Quantity")
+      inputDialog.setHeaderText(s"Reduce quantity for: ${selectedBeverage.nameProperty.value}")
+
+      val result = inputDialog.showAndWait()
+
+      ////match the result of the input dialog
+      result match {
+        case Some(input) =>
+          //turn the input from a string to an integer
+          val reduction = input.trim.toInt
+
+          //call the reduceQuantity method to reduce quantity
+          CatalogItem.reduceQuantity(selectedBeverage.itemIDI, reduction) match
+            case Success(rowsAffected) =>
+              //if quantity reduction was successful, update the item in beverageTable
+              beverageTable.items().update(selectedIndex, selectedBeverage)
+
+              //display a success message to the admin
+              Alert.displayInformation("Successful", "The record has been updated", "The quantity has been reduced")
+            case Failure(error) =>
+              //if unsuccessful due to failure from system(such as database error), display an error message
+              Alert.displayError("Unsuccessful", "Quantity was not reduced", "Please try again")
+
+      }
+  end handleReduceQuantity
+
 
   //refresh the beverageTable
   def refreshTable(): Unit =

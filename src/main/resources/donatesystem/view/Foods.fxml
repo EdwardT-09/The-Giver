@@ -12,7 +12,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="donatesystem.view.FoodsController">
    <children>
-      <Text fill="#355e59" layoutX="220.0" layoutY="195.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Manage Food">
+      <Text fill="#355e59" layoutX="220.0" layoutY="162.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Manage Food">
          <font>
             <Font name="System Bold" size="28.0" />
          </font>
@@ -46,10 +46,11 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
-      <ButtonBar layoutX="401.0" layoutY="167.0" prefHeight="40.0" prefWidth="200.0">
+      <ButtonBar layoutX="129.0" layoutY="167.0" prefHeight="40.0" prefWidth="362.0">
          <buttons>
+            <Button minWidth="58.0" mnemonicParsing="false" onAction="#handleReduceQuantity" prefHeight="26.0" prefWidth="108.0" text="Reduce Quantity" textFill="#f1ffff" />
             <Button mnemonicParsing="false" onAction="#directToEditFood" text="Edit" textFill="#f1ffff" />
-            <Button mnemonicParsing="false" onAction="#deleteFood" text="Delete" textFill="#f1ffff" />
+            <Button mnemonicParsing="false" onAction="#handleDeleteFood" text="Delete" textFill="#f1ffff" />
          </buttons>
       </ButtonBar>
    </children>

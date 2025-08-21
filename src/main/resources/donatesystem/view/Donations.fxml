@@ -12,7 +12,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="donatesystem.view.DonorsController">
    <children>
-      <Text fill="#355e59" layoutX="252.0" layoutY="194.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Donors">
+      <Text fill="#355e59" layoutX="243.0" layoutY="197.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Donations">
          <font>
             <Font name="System Bold" size="28.0" />
          </font>
@@ -22,15 +22,15 @@
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="448.0" prefWidth="602.0" styleClass="scroll-pane">
                <children>
                   <TableView fx:id="donorTable" layoutX="30.0" prefHeight="449.0" prefWidth="560.0" stylesheets="@style.css">
-                    <columns>
-                      <TableColumn fx:id="nameColumn" minWidth="0.79998779296875" prefWidth="146.4000244140625" text="Name" />
-                        <TableColumn fx:id="emailColumn" prefWidth="92.80006408691406" text="Email" />
-                        <TableColumn fx:id="birthdayColumn" prefWidth="104.79998779296875" text="Birthday" />
-                        <TableColumn fx:id="contactNoColumn" prefWidth="89.5999755859375" text="Contact No" />
-                        <TableColumn fx:id="occupationColumn" prefWidth="123.2000732421875" text="Occupation" />
-                    </columns>
+                     <columns>
+                        <TableColumn fx:id="nameColumn" minWidth="0.79998779296875" prefWidth="192.00000190734863" text="Donor Name" />
+                        <TableColumn fx:id="emailColumn" prefWidth="152.00001525878906" text="Item Name" />
+                        <TableColumn fx:id="contactNoColumn" prefWidth="85.5999755859375" text="Quantity" />
+                        <TableColumn fx:id="birthdayColumn" prefWidth="131.99996948242188" text="Date" />
+                     </columns>
                   </TableView>
-               </children></AnchorPane>
+               </children>
+            </AnchorPane>
          </content>
       </ScrollPane>
       <VBox layoutX="7.0" layoutY="2.0" prefHeight="130.0" prefWidth="614.0">
@@ -44,11 +44,10 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
-      <ButtonBar layoutX="401.0" layoutY="167.0" prefHeight="40.0" prefWidth="200.0">
-        <buttons>
-          <Button mnemonicParsing="false" onAction="#directToEditDonor" text="Edit" textFill="#f1ffff" />
+      <ButtonBar layoutX="395.0" layoutY="167.0" prefHeight="40.0" prefWidth="200.0">
+         <buttons>
             <Button mnemonicParsing="false" onAction="#handleDeleteDonor" text="Delete" textFill="#f1ffff" />
-        </buttons>
+         </buttons>
       </ButtonBar>
    </children>
 </AnchorPane>

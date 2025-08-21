@@ -26,7 +26,7 @@ class RegisterController():
 
 
   //direct the user to the login page
-  def directToLogIn(): Unit =
+  def directToLogIn(action :ActionEvent): Unit =
     RunTheGiver.showLogIn()
   end directToLogIn
 

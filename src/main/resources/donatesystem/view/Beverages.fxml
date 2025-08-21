@@ -48,9 +48,9 @@
       </Button>
       <ButtonBar layoutX="133.0" layoutY="176.0" prefHeight="40.0" prefWidth="362.0">
          <buttons>
-            <Button minWidth="58.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="108.0" text="Reduce Quantity" textFill="#f1ffff" />
-            <Button mnemonicParsing="false" onAction="#deleteBeverage" text="Delete" textFill="#f1ffff" />
+            <Button minWidth="58.0" mnemonicParsing="false" onAction="#handleReduceQuantity" prefHeight="26.0" prefWidth="108.0" text="Reduce Quantity" textFill="#f1ffff" />
             <Button mnemonicParsing="false" onAction="#directToEditBeverage" text="Edit" textFill="#f1ffff" />
+            <Button mnemonicParsing="false" onAction="#handleDeleteBeverage" text="Delete" textFill="#f1ffff" />
          </buttons>
       </ButtonBar>
    </children>

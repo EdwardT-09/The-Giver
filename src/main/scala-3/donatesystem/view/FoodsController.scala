@@ -2,11 +2,14 @@ package donatesystem.view
 
 import donatesystem.util.Alert
 import donatesystem.RunTheGiver
-import donatesystem.model.Food
+import donatesystem.model.{CatalogItem, Food}
+import javafx.event.ActionEvent
 import scalafx.Includes.*
 import javafx.fxml.FXML
 import javafx.scene.control.{TableColumn, TableView}
 import scalafx.collections.ObservableBuffer
+import scalafx.scene.control.TextInputDialog
+
 import scala.util.{Failure, Success}
 
 //provide controls to foods management page
@@ -52,7 +55,7 @@ class FoodsController:
 
 
 //direct users to add new food item
-  def directToAddFood: Unit =
+  def directToAddFood(action :ActionEvent): Unit =
   //create new food object
     val food = new Food(0, "", "", false, 0, false, "")
   //pass the food object to showAddFood method
@@ -67,7 +70,7 @@ class FoodsController:
   end directToAddFood
 
   //direct users to add food page but with fields pre-filled in with their current information
-  def directToEditFood: Unit =
+  def directToEditFood(action :ActionEvent): Unit =
   //retrieve the index of the currently selected food item from the foodTable
     val selectedIndex = foodTable.selectionModel().selectedIndex.value
     //retrieve the item of the currently selected food item from the foodTable
@@ -91,7 +94,7 @@ class FoodsController:
   end directToEditFood
 
   //delete food item
-  def deleteFood: Unit =
+  def handleDeleteFood(action :ActionEvent): Unit =
     //retrieve the index of the food item selected from the foodTable
     val selectedIndex = foodTable.selectionModel().selectedIndex.value
     //retrieve the item of the food item selected from the foodTable
@@ -110,8 +113,43 @@ class FoodsController:
       //if no food item was selected, then display the error alert
       Alert.displayError("Invalid food", "No food record is selected", "Please choose a food")
     end if
-  end deleteFood
+  end handleDeleteFood
 
+  //reduce the food quantity
+  def handleReduceQuantity(action :ActionEvent): Unit =
+    //retrieve the index of the food item selected from the foodTable
+    val selectedIndex = foodTable.selectionModel().selectedIndex.value
+    //retrieve the item of the food item selected from the foodTable
+    val selectedFood = foodTable.selectionModel().selectedItem.value
+
+    if (selectedIndex >= 0) then
+      //if a food item is selected, then show input dialog for reduce quantity
+      val inputDialog = new TextInputDialog("1")
+      inputDialog.setTitle("Reduce Quantity")
+      inputDialog.setHeaderText(s"Reduce quantity for: ${selectedFood.nameProperty.value}")
+
+      val result = inputDialog.showAndWait()
+
+      ////match the result of the input dialog
+      result match {
+        case Some(input) =>
+          //turn the input from a string to an integer
+          val reduction = input.trim.toInt
+
+          //call the reduceQuantity method to reduce quantity
+          CatalogItem.reduceQuantity(selectedFood.itemIDI, reduction) match
+            case Success(rowsAffected) =>
+              //if quantity reduction was successful, update the item in foodTable
+              foodTable.items().update(selectedIndex, selectedFood)
+
+              //display a success message to the admin
+              Alert.displayInformation("Successful", "The record has been updated", "The quantity has been reduced")
+            case Failure(error) =>
+              //if unsuccessful due to failure from system(such as database error), display an error message
+              Alert.displayError("Unsuccessful", "Quantity was not reduced", "Please try again")
+
+      }
+  end handleReduceQuantity
   //refresh the foodTable
   def refreshTable(): Unit =
   //retrieve all records from the database

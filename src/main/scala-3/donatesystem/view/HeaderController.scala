@@ -5,6 +5,8 @@ import donatesystem.RunTheGiver
 import donatesystem.model.Administrator
 import javafx.fxml.FXML
 import donatesystem.util.Alert
+import javafx.event.ActionEvent
+
 import scala.util.{Failure, Success}
 
 //provide controls to the header
@@ -12,27 +14,27 @@ import scala.util.{Failure, Success}
 class HeaderController:
   
   //direct users to home page
-  def directToHome:Unit =
+  def directToHome(action :ActionEvent):Unit =
     RunTheGiver.showHome()
   end directToHome
   
 //direct users to add donation page
-  def directToAddDonation:Unit =
+  def directToAddDonation(action :ActionEvent):Unit =
     RunTheGiver.showAddDonation()
   end directToAddDonation
   
 //direct users to change email page 
-  def directToChangeEmail:Unit =
+  def directToChangeEmail(action :ActionEvent):Unit =
     RunTheGiver.showChangeEmail
   end directToChangeEmail
 
 //direct to change password page
-  def directToChangePassword:Unit =
+  def directToChangePassword(action :ActionEvent):Unit =
     RunTheGiver.showChangePassword
   end directToChangePassword
   
 //delete current user's account :Unit = 
-  def handleDeleteAccount:Unit =
+  def handleDeleteAccount(action :ActionEvent):Unit =
     val confirm = Alert.displayConfirmation("Delete Account",
       "Are you sure you want this account to be deleted",
       "Deleted account cannot be recovered")
@@ -53,7 +55,7 @@ class HeaderController:
 
 
   //allow users to logout of the program
-  def logOut: Unit =
+  def logOut(action :ActionEvent): Unit =
     Session.logOut()
     RunTheGiver.showAuthLanding()
   end logOut

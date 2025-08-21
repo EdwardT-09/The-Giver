@@ -3,9 +3,11 @@ package donatesystem.view
 import donatesystem.RunTheGiver
 import donatesystem.model.Donor
 import javafx.fxml.FXML
-import javafx.scene.control.{ TableColumn, TableView}
+import javafx.scene.control.{TableColumn, TableView}
 import scalafx.Includes.*
 import donatesystem.util.Alert
+import javafx.event.ActionEvent
+
 import scala.util.{Failure, Success}
 import java.time.LocalDate
 
@@ -45,7 +47,7 @@ class DonorsController:
   end initialize
 
   //direct users to add new donor
-  def directToAddDonor:Unit =
+  def directToAddDonor(action :ActionEvent):Unit =
     //create new donor object
     val donor = new Donor(0, "", "", LocalDate.now(), "","")
     //pass the donor object to showAddDonor method
@@ -60,7 +62,7 @@ class DonorsController:
   end directToAddDonor
 
   //direct users to add donor page but with fields pre-filled in with their current information
-  def directToEditDonor: Unit =
+  def directToEditDonor(action :ActionEvent): Unit =
     //retrieve the index of the currently selected donor from the donorTable
     val selectedIndex = donorTable.selectionModel().selectedIndex.value
     //retrieve the item of the currently selected donor from the donorTable
@@ -81,7 +83,7 @@ class DonorsController:
   end directToEditDonor
 
   //delete donor
-  def deleteDonor:Unit =
+  def handleDeleteDonor(action :ActionEvent):Unit =
     //retrieve the index of the currently selected donor from the donorTable
     val selectedIndex = donorTable.selectionModel().selectedIndex.value
     //retrieve the item of the currently selected donor from the donorTable
@@ -100,6 +102,6 @@ class DonorsController:
     else
       Alert.displayError("Invalid Donor", "No donor record is selected", "Please choose a donor")
     end if
-  end deleteDonor
+  end handleDeleteDonor
 
 end DonorsController

@@ -59,6 +59,10 @@ class AddDonorController:
     contactNoField.text = __donor.contactNoProperty.value
     occupationField.text = __donor.occupationProperty.value
   }
+  
+  def initialize():Unit =
+    birthdayField.getEditor().setDisable(true)
+  end initialize
 
   //main function to handle add donor
   def handleAddDonor(action:ActionEvent):Unit =

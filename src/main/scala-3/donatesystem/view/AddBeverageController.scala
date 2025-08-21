@@ -128,6 +128,6 @@ class AddBeverageController:
       false
 
   end validInput
-
+    
 end AddBeverageController
 

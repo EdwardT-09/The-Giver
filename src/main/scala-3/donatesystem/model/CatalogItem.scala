@@ -2,10 +2,9 @@ package donatesystem.model
 
 import donatesystem.util.Database
 import scalikejdbc.*
-
 import scala.util.{Failure, Success, Try}
 import scalafx.beans.property.{BooleanProperty, IntegerProperty, ObjectProperty, StringProperty}
-
+import donatesystem.util.Alert
 import java.time.LocalDate
 
 //abstract class: Catalog Item that is the superclass of Food and Beverage class
@@ -70,7 +69,55 @@ object CatalogItem extends Database:
          """.update.apply()
       })
   end increaseQuantity
-  
+
+  //decrease the quantity of items
+  def reduceQuantity(itemID:Int, quantity: Int): Try[Int] =
+    //if inputs are valid, update the quantity
+    if validReduceInput(itemID:Int,quantity:Int) then
+      Try(DB autoCommit {
+        sql"""
+            UPDATE catalog_items
+            SET
+            quantity = quantity - $quantity
+            WHERE item_id = $itemID
+          """.update.apply()
+      })
+    else
+      // if unsuccessful quantity reduction, throw an exception
+      throw new Exception("An error has occured. The quantity was not reduced")
+  end reduceQuantity
+
+
+  def validReduceInput(itemID:Int, quantity:Int):Boolean  =
+    //create a variable to store error message(s)
+    var errorMessage: String = ""
+
+    //if record exists then check if quantity provided is under 0 and over the available quantity
+    if (quantity <= 0)
+      // if less than zero, throw an exception
+      errorMessage += "Quantity must be above 0\n"
+
+    val itemRecord = CatalogItem.getRecordByKey(itemID) match
+      case Some(item: Food) =>
+        if (quantity > item.quantityProperty.value)
+          // if quantity provided exceeds the available quantity, throw an exception
+          errorMessage += "Item reduction exceeds the available amount\n"
+      case Some(item: Beverage) =>
+        if (quantity > item.quantityProperty.value)
+          // if quantity provided exceeds the available quantity, throw an exception
+          errorMessage += "Item reduction exceeds the available amount\n"
+      case Some(_) =>
+        errorMessage +="Item is invalid"
+
+    //if errorMessage does not have any error message then return true
+    if errorMessage.isEmpty then
+      true
+    else
+      //if errorMessage has error message(s), then display an error alert, list the errors and return false
+      Alert.displayError("Invalid", errorMessage, "Please try again")
+      false
+  end validReduceInput
+
   //get all records of the catalog items
   def getAllCatalogItems(): List[CatalogItem] =
     Food.getAllRecords() ++ Beverage.getAllRecords()
@@ -139,7 +186,7 @@ object CatalogItem extends Database:
         SELECT c.item_id, c.name, c.category, c.perishable, c.quantity,
                f.isVegetarian, f.containsAllergens
         FROM catalog_items c
-        JOIN food f ON c.item_id = f.food_id
+        JOIN foods f ON c.item_id = f.food_id
         WHERE c.item_id = $itemID
       """.map { rs =>
         new Food( // create an object for Food and return it using the retrieved values
@@ -160,8 +207,8 @@ object CatalogItem extends Database:
         SELECT c.item_id, c.name, c.category, c.perishable, c.quantity,
                b.volumePerUnit, b.isCarbonated
         FROM catalog_items c
-        JOIN beverage b ON c.item_id = b.beverage_id
-        WHERE c.itemID = $itemID
+        JOIN beverages b ON c.item_id = b.beverage_id
+        WHERE c.item_id = $itemID
       """.map { rs =>
         new Beverage( // create an object for Beverage and return it using the retrieved values
           rs.int("item_id"),

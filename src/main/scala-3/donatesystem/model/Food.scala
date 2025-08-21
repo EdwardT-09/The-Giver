@@ -181,6 +181,6 @@ object Food extends Database:
         rs.string("containsAllergens")
       )).list.apply()
     }
-  
+
 end Food
 
