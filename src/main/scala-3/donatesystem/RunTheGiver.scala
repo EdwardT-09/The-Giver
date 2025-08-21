@@ -9,7 +9,7 @@ import scalafx.application.JFXApp3.PrimaryStage
 import javafx.scene as jfxs
 import scalafx.scene.Scene
 import donatesystem.util.Database
-import donatesystem.view.{AddBeverageController, AddDonationController, AddDonorController, AddFoodController, BeveragesController, FoodsController}
+import donatesystem.view.{AddBeverageController, AddDonationController, AddDonorController, AddFoodController, BeveragesController, DonationsController, FoodsController}
 import scalafx.collections.ObservableBuffer
 import scalafx.scene.image.Image
 import scalafx.scene.layout.BorderPane
@@ -199,6 +199,10 @@ object RunTheGiver extends JFXApp3:
     var roots: Option[scalafx.scene.layout.AnchorPane] = None
     roots = Some(rootScalaFX)
     this.roots.get.center = roots.get
+    // get donationsController
+    val donationsController = loader.getController[DonationsController]()
+    //refresh the beveragesTable every time the page is accessed
+    donationsController.refreshTable()
   end showDonations
   
   // display the foods page 
