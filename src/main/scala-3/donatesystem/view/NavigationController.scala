@@ -17,6 +17,10 @@ class NavigationController:
   def directToDonors(action :ActionEvent):Unit =
     RunTheGiver.showDonors()
   end directToDonors
+  
+  def directToDonations(action:ActionEvent):Unit = 
+    RunTheGiver.showDonations()
+  end directToDonations
 
   //direct users to foods management page
   def directToFoods(action :ActionEvent):Unit =

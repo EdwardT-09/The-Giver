@@ -9,10 +9,10 @@ import scalafx.beans.property.{IntegerProperty, ObjectProperty, StringProperty}
 
 
 // Donation class
-// donationID as Donation property
+// donationID and donorD as Donation property
 // extends GenericModel[Donation] for generic programming
 // with Database trait
-class Donation(val donationIDI: Int, donorD: Donor, donationDateLD:LocalDate) extends GenericModel[Donation] with Database:
+class Donation(val donationIDI: Int, val donorD: Donor, donationDateLD:LocalDate) extends GenericModel[Donation] with Database:
   //auxiliary constructor
   def this() = this(0, null,  null)
 
@@ -22,6 +22,7 @@ class Donation(val donationIDI: Int, donorD: Donor, donationDateLD:LocalDate) ex
     //get donor id if donor is passed in and 0 for null
     ObjectProperty[Int](if donorD != null then donorD.donor_IDI else 0)
   var donationDateProperty =  ObjectProperty[LocalDate](donationDateLD)
+
 
   //save the Donation record in donations table
   def saveAsRecord: Try[Int] =

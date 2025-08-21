@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="donatesystem.view.DonorsController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="donatesystem.view.DonationsController">
    <children>
       <Text fill="#355e59" layoutX="243.0" layoutY="197.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Donations">
          <font>
@@ -21,12 +21,12 @@
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="448.0" prefWidth="602.0" styleClass="scroll-pane">
                <children>
-                  <TableView fx:id="donorTable" layoutX="30.0" prefHeight="449.0" prefWidth="560.0" stylesheets="@style.css">
+                  <TableView fx:id="donationTable" layoutX="30.0" prefHeight="449.0" prefWidth="560.0" stylesheets="@style.css">
                      <columns>
-                        <TableColumn fx:id="nameColumn" minWidth="0.79998779296875" prefWidth="192.00000190734863" text="Donor Name" />
-                        <TableColumn fx:id="emailColumn" prefWidth="152.00001525878906" text="Item Name" />
-                        <TableColumn fx:id="contactNoColumn" prefWidth="85.5999755859375" text="Quantity" />
-                        <TableColumn fx:id="birthdayColumn" prefWidth="131.99996948242188" text="Date" />
+                        <TableColumn fx:id="donorColumn" minWidth="0.79998779296875" prefWidth="192.00000190734863" text="Donor Name" />
+                        <TableColumn fx:id="itemColumn" prefWidth="152.00001525878906" text="Item Name" />
+                        <TableColumn fx:id="quantityColumn" prefWidth="85.5999755859375" text="Quantity" />
+                        <TableColumn fx:id="dateColumn" prefWidth="131.99996948242188" text="Date" />
                      </columns>
                   </TableView>
                </children>
@@ -39,14 +39,9 @@
             <fx:include source="Navigation.fxml" />
          </children>
       </VBox>
-      <Button layoutX="531.0" layoutY="343.0" mnemonicParsing="false" onAction="#directToAddDonor" prefHeight="37.0" prefWidth="39.0" stylesheets="@style.css" text="+" textFill="#f1ffff">
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font>
-      </Button>
       <ButtonBar layoutX="395.0" layoutY="167.0" prefHeight="40.0" prefWidth="200.0">
          <buttons>
-            <Button mnemonicParsing="false" onAction="#handleDeleteDonor" text="Delete" textFill="#f1ffff" />
+            <Button mnemonicParsing="false" onAction="#handleDeleteDonation" text="Delete" textFill="#f1ffff" />
          </buttons>
       </ButtonBar>
    </children>

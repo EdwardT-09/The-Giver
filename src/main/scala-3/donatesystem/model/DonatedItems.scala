@@ -12,10 +12,10 @@ import scalafx.beans.property.{IntegerProperty, ObjectProperty, StringProperty}
 import java.time.LocalDate
 
 // DonatedItems class
-// donatedItemsIDI as DonatedItems property
+// donatedItemsIDI and donationD as DonatedItems property
 // extends GenericModel[DonatedItems] for generic programming
 // with Database trait
-class DonatedItems(val donatedItemsIDI: Int, donationD: Donation, val itemC: CatalogItem, val quantityI: Int) extends GenericModel[DonatedItems] with Database:
+class DonatedItems(val donatedItemsIDI: Int, val donationD: Donation, val itemC: CatalogItem, val quantityI: Int) extends GenericModel[DonatedItems] with Database:
   //auxiliary constructor
   def this() = this(0,null,null,0)
 
@@ -26,6 +26,7 @@ class DonatedItems(val donatedItemsIDI: Int, donationD: Donation, val itemC: Cat
     ObjectProperty[Int](if donationD != null then donationD.donationIDI else 0)
   var itemProperty = ObjectProperty[Int](itemC.itemIDI)
   var quantityProperty = ObjectProperty[Int](quantityI)
+  
 
   //save the DonatedItems record in donated_items table
   def saveAsRecord: Try[Int] =

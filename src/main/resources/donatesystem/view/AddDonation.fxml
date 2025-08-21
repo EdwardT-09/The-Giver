@@ -24,11 +24,11 @@
                   <Text fill="#355e59" layoutX="23.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name of Donors: * " />
                   <Button layoutX="21.0" layoutY="563.0" mnemonicParsing="false" onAction="#handleAddDonation" prefHeight="6.0" prefWidth="566.0" text="Submit" textFill="#f1ffff" />
                   <ChoiceBox fx:id="donorChoiceBox" layoutX="19.0" layoutY="53.0" prefHeight="26.0" prefWidth="573.0" />
-                  <ChoiceBox fx:id="itemChoiceBox" layoutX="19.0" layoutY="111.0" prefHeight="26.0" prefWidth="218.0" />
+                  <ChoiceBox fx:id="itemChoiceBox" layoutX="19.0" layoutY="111.0" prefHeight="30.0" prefWidth="436.0" />
                   <Text fill="#355e59" layoutX="22.0" layoutY="101.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Items:*" />
-                  <TextField fx:id="quantityField" layoutX="280.0" layoutY="111.0" />
-                  <Text fill="#355e59" layoutX="280.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Quantity: *" />
-                  <Button layoutX="453.0" layoutY="105.0" mnemonicParsing="false" onAction="#handleAddItem" prefHeight="37.0" prefWidth="127.0" text="Add Items" textFill="#f1ffff">
+                  <TextField fx:id="quantityField" layoutX="21.0" layoutY="174.0" prefHeight="31.0" prefWidth="434.0" styleClass="bottom-border-input" />
+                  <Text fill="#355e59" layoutX="21.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Quantity: *" />
+                  <Button layoutX="480.0" layoutY="104.0" mnemonicParsing="false" onAction="#handleAddItem" prefHeight="37.0" prefWidth="106.0" text="Add Items" textFill="#f1ffff">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font></Button>
@@ -38,7 +38,7 @@
                       <TableColumn fx:id="quantityColumn" prefWidth="108.80001831054688" text="Quantity" />
                     </columns>
                   </TableView>
-                  <Button layoutX="17.0" layoutY="170.0" mnemonicParsing="false" onAction="#handleDeleteItem" prefHeight="29.0" prefWidth="566.0" style="-fx-background-color: #bd0e0e;" text="Delete Item" textFill="#f1ffff">
+                  <Button layoutX="482.0" layoutY="169.0" mnemonicParsing="false" onAction="#handleDeleteItem" prefHeight="37.0" prefWidth="102.0" text="Delete Item" textFill="#f1ffff">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font></Button>

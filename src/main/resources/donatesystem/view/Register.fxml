@@ -17,8 +17,8 @@
             <Image url="@../../images/Group_1.png" />
          </image>
       </ImageView>
-      <PasswordField fx:id="passwordField" layoutX="47.0" layoutY="243.0" prefHeight="26.0" prefWidth="250.0" promptText="Enter Password" styleClass="input" stylesheets="@authorization.css" />
-      <PasswordField fx:id="passwordConfirmField" layoutX="47.0" layoutY="290.0" prefHeight="26.0" prefWidth="250.0" promptText="Enter Password Again." styleClass="input" stylesheets="@authorization.css" />
+      <PasswordField fx:id="passwordField" layoutX="47.0" layoutY="243.0" prefHeight="26.0" prefWidth="250.0" promptText="Enter Password" styleClass="input" />
+      <PasswordField fx:id="passwordConfirmField" layoutX="47.0" layoutY="290.0" prefHeight="26.0" prefWidth="250.0" promptText="Enter Password Again." styleClass="input"/>
       <Label layoutX="43.0" layoutY="86.0" prefHeight="34.0" prefWidth="146.0" text="REGISTER" textFill="#355e59">
          <font>
             <Font name="Arial Bold" size="25.0" />
@@ -54,7 +54,7 @@
             <Image url="@../../images/the_giver.png" />
          </image>
       </ImageView>
-      <TextField fx:id="emailField" layoutX="46.0" layoutY="193.0" prefHeight="26.0" prefWidth="250.0" promptText="Enter Email." styleClass="input" stylesheets="@authorization.css" />
+      <TextField fx:id="emailField" layoutX="46.0" layoutY="193.0" prefHeight="26.0" prefWidth="250.0" promptText="Enter Email." styleClass="input"/>
       <Label layoutX="47.0" layoutY="317.0" prefHeight="18.0" prefWidth="49.0" text="Registered?" textFill="#355e59">
          <font>
             <Font name="Arial" size="9.0" />
@@ -85,10 +85,9 @@
             <Font name="Arial" size="10.0" />
          </font>
       </Label>
-      <TextField fx:id="fNameField" layoutX="45.0" layoutY="147.0" prefHeight="26.0" prefWidth="250.0" promptText="Enter First Name." styleClass="input" stylesheets="@authorization.css" />
+      <TextField fx:id="fNameField" layoutX="45.0" layoutY="147.0" prefHeight="26.0" prefWidth="250.0" promptText="Enter First Name." styleClass="input"/>
    </children>
    <stylesheets>
-      <URL value="@authorization.css" />
       <URL value="@style.css" />
    </stylesheets>
 </AnchorPane>

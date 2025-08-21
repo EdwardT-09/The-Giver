@@ -7,7 +7,6 @@ import javafx.scene.control.{TableColumn, TableView}
 import scalafx.Includes.*
 import donatesystem.util.Alert
 import javafx.event.ActionEvent
-
 import scala.util.{Failure, Success}
 import java.time.LocalDate
 

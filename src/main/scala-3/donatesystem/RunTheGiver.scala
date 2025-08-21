@@ -1,6 +1,6 @@
 package donatesystem
 
-import donatesystem.model.{Beverage, Donor, Food}
+import donatesystem.model.{Beverage, DonatedItems, Donor, Food}
 import javafx.fxml.FXMLLoader
 import scalafx.scene as sfxs
 import scalafx.Includes.*
@@ -23,10 +23,14 @@ object RunTheGiver extends JFXApp3:
   val donorData = new ObservableBuffer[Donor]()
   val foodData = new ObservableBuffer[Food]()
   val beverageData = new ObservableBuffer[Beverage]()
+  val donatedItemData = new ObservableBuffer[DonatedItems]()
   
   donorData ++= Donor.getAllRecords()
   foodData ++= Food.getAllRecords()
   beverageData ++= Beverage.getAllRecords()
+  donatedItemData ++= DonatedItems.getAllRecords()
+  
+  
 
   //window root pane
   var roots: Option[scalafx.scene.layout.BorderPane] = None
@@ -183,6 +187,20 @@ object RunTheGiver extends JFXApp3:
     dialog.showAndWait()
   end showAddDonation
 
+  // display the donation page 
+  def showDonations(): Unit =
+    //get the Donations.fxml to be displayed
+    val resource = getClass.getResource("view/Donations.fxml")
+    //initialize the loader object
+    val loader = new FXMLLoader(resource)
+    val rootJavaFX = loader.load[javafx.scene.layout.AnchorPane]()
+    //transform from javafx to scalafx
+    val rootScalaFX: scalafx.scene.layout.AnchorPane = rootJavaFX
+    var roots: Option[scalafx.scene.layout.AnchorPane] = None
+    roots = Some(rootScalaFX)
+    this.roots.get.center = roots.get
+  end showDonations
+  
   // display the foods page 
   def showFoods(): Unit =
     //get the Foods.fxml to be displayed

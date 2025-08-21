@@ -50,7 +50,6 @@
       </Label>
    </children>
    <stylesheets>
-      <URL value="@authorization.css" />
       <URL value="@style.css" />
    </stylesheets>
 </AnchorPane>
