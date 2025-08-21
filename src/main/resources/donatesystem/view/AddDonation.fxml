@@ -22,7 +22,7 @@
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="615.0" prefWidth="602.0" styleClass="scroll-pane">
                <children>
                   <Text fill="#355e59" layoutX="23.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name of Donors: " />
-                  <Button layoutX="21.0" layoutY="546.0" mnemonicParsing="false" onAction="#handleAddDonation" prefHeight="6.0" prefWidth="566.0" text="Submit" textFill="#f1ffff" />
+                  <Button layoutX="21.0" layoutY="563.0" mnemonicParsing="false" onAction="#handleAddDonation" prefHeight="6.0" prefWidth="566.0" text="Submit" textFill="#f1ffff" />
                   <ChoiceBox fx:id="donorChoiceBox" layoutX="19.0" layoutY="53.0" prefHeight="26.0" prefWidth="573.0" />
                   <ChoiceBox fx:id="itemChoiceBox" layoutX="19.0" layoutY="111.0" prefHeight="26.0" prefWidth="218.0" />
                   <Text fill="#355e59" layoutX="22.0" layoutY="101.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Items:" />
@@ -38,6 +38,7 @@
                       <TableColumn fx:id="quantityColumn" prefWidth="108.80001831054688" text="Quantity" />
                     </columns>
                   </TableView>
+                  <Button layoutX="430.0" layoutY="506.0" mnemonicParsing="false" onAction="#handleDeleteItem" prefHeight="26.0" prefWidth="158.0" text="Delete Item" textFill="#f1ffff" />
                </children>
             </AnchorPane>
          </content>

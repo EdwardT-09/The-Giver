@@ -1,7 +1,7 @@
 package donatesystem.util
 
 import donatesystem.RunTheGiver
-import scalafx.scene.control.Alert
+import scalafx.scene.control.{Alert, ButtonType}
 import scalafx.scene.control.Alert.AlertType
 
 //allow reusability of alerts
@@ -25,5 +25,19 @@ object Alert :
       contentText = contentTextS
     alert.showAndWait()
   end displayInformation
+
+  def displayConfirmation(titleS: String, headerTextS: String, contentTextS: String): Boolean =
+    val alert = new Alert(AlertType.Confirmation):
+      initOwner(RunTheGiver.stage)
+      title = titleS
+      headerText = headerTextS
+      contentText = contentTextS
+    val result = alert.showAndWait()
+
+    result match{
+      case Some(ButtonType.OK)=> true
+      case _ => false
+    }
+  end displayConfirmation
   
 end Alert

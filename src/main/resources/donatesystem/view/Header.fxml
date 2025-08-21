@@ -19,6 +19,7 @@
         <items>
           <MenuItem mnemonicParsing="false" onAction="#directToChangeEmail" text="Change Email" />
           <MenuItem mnemonicParsing="false" onAction="#directToChangePassword" text="Change Password" />
+            <MenuItem mnemonicParsing="false" onAction="#handleDeleteAccount" text="Delete Account" />
             <MenuItem mnemonicParsing="false" onAction="#logOut" styleClass="red-menu-item" text="Log Out" />
         </items>
          <graphic>

@@ -32,7 +32,7 @@ class ChangeEmailController:
             //attempt to save the new email to admin
             admin.saveAsRecord match
               //if successful, display success message, replace session with the new email and redirect back to home page
-              case Success(x) => Alert.displayInformation("Success", "Success", "The email has been updated")
+              case Success(x) => Alert.displayInformation("Success", "Successfully update email ", "The email has been updated")
                 Session.logIn(admin)
                 RunTheGiver.showHome()
               //if unsuccessful, display error message

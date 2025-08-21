@@ -148,6 +148,24 @@ class AddDonationController:
       itemsBuffer += donatedItem
   end handleAddItem
 
+  def handleDeleteItem(event:ActionEvent): Unit =
+    //retrieve the index of the donated item selected from the donatedItemsTable
+    val selectedIndex = donatedItemsTable.selectionModel().selectedIndex.value
+    //retrieve the item of the donated item selected from the donatedItemsTable
+    val selectedDonatedItem = donatedItemsTable.selectionModel().selectedItem.value
+    if (selectedIndex >= 0) then
+    //if a donated item is selected, then prompt for confirmation
+      val confirm = Alert.displayConfirmation("Delete Donated Item",
+        "Are you sure you want this record to be deleted",
+        s"Name: ${selectedDonatedItem.itemC.nameProperty.value} Quantity: ${selectedDonatedItem.quantityProperty.value}")
+
+      if confirm then
+        //if confirm is true then remove from buffer with the selected index
+        itemsBuffer.remove(selectedIndex)
+    else
+      Alert.displayError("Invalid donation item", "No donation item record is selected", "Please choose a donation item")
+  end handleDeleteItem
+
 
   //check if inputs are valid
   def validInput: Boolean =
