@@ -4,12 +4,16 @@ import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import donatesystem.util.Alert
 
+//provide controls to the root/menu navigation
 @FXML
 class RootResourceController():
+  
+  //close the program
   def handleClose(action:ActionEvent): Unit =
     System.exit(0)
   end handleClose
-
+  
+  //provide information about The Giver using information alert.
   def handleAbout(action:ActionEvent):Unit = {
     val content:String =  """The Giver aims to eliminate a huge issue: starvation. In recent years, many individuals have been experiencing 
                             |layoffs, and with the increase in the cost of living, it has caused many people to struggle to afford proper meals. 

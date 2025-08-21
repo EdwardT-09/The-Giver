@@ -2,7 +2,7 @@ package donatesystem.model
 
 
 import donatesystem.model
-import donatesystem.util.{Database, GenericCompanion, GenericModel}
+import donatesystem.util.{Database, GenericObject, GenericModel}
 import scalikejdbc.*
 import donatesystem.model.CatalogItem
 
@@ -11,19 +11,27 @@ import scalafx.beans.property.{IntegerProperty, ObjectProperty, StringProperty}
 
 import java.time.LocalDate
 
-class DonatedItems(val id: Int, donation: Donation, val item: CatalogItem, val quantity: Int) extends GenericModel[DonatedItems] with Database:
+// DonatedItems class
+// donatedItemsIDI as DonatedItems property
+// extends GenericModel[DonatedItems] for generic programming
+// with Database trait
+class DonatedItems(val donatedItemsIDI: Int, donationD: Donation, val itemC: CatalogItem, val quantityI: Int) extends GenericModel[DonatedItems] with Database:
+  //auxiliary constructor
   def this() = this(0,null,null,0)
 
+  // create object properties for the donated items form fields
+  //check if donation is null
   var donationIDProperty =
-    ObjectProperty[Int](if donation != null then donation.donationID else 0)
-  var itemProperty = ObjectProperty[Int](item.itemIDI)
-  var quantityProperty = ObjectProperty[Int](quantity)
+  //get donationID if donation is passed in and 0 for null
+    ObjectProperty[Int](if donationD != null then donationD.donationIDI else 0)
+  var itemProperty = ObjectProperty[Int](itemC.itemIDI)
+  var quantityProperty = ObjectProperty[Int](quantityI)
 
-
+  //save the DonatedItems record in donated_items table
   def saveAsRecord: Try[Int] =
-    println(s"[DEBUG] donationID = ${donation.donationID}")
-    println(s"[DEBUG] itemID = ${item.itemIDI}")
-    println(s"[DEBUG] quantity = $quantity")
+    println(s"[DEBUG] donationID = ${donationD.donationIDI}")
+    println(s"[DEBUG] itemID = ${itemC.itemIDI}")
+    println(s"[DEBUG] quantity = $quantityI")
       Try(DB autoCommit { implicit session =>
         sql"""
              INSERT INTO donated_items (donation_id, item_id, quantity) VALUES
@@ -33,32 +41,40 @@ class DonatedItems(val id: Int, donation: Donation, val item: CatalogItem, val q
   end saveAsRecord
 
 
-  def deleteRecord: Try[Int] =
+  // delete DonatedItems records
+  def deleteRecord: Try[Int] = {
+    //Delete only if record exists
     if (hasRecord) then
       Try(DB autoCommit { implicit session =>
         sql"""
           DELETE FROM donated_items
-          WHERE donated_id = $id
+          WHERE donated_id = $donatedItemsIDI
           """.update.apply()
       })
     else
+      // if no records found, throw an exception
       throw new Exception("There are no records of this record. Deletion failed!")
+  }
   end deleteRecord
 
+  //check if record exists
   def hasRecord: Boolean =
+    //select if donatedItemsIDI exists in donated_id of donated_items table
     DB readOnly { implicit session =>
       sql"""
-           SELECT * FROM donated_items WHERE donated_id = $id
+           SELECT * FROM donated_items WHERE donated_id = $donatedItemsIDI
          """.map(_ => ()).single.apply()
     } match
+      // if found return true
       case Some(x) => true
+      // if not found, return false
       case None => false
   end hasRecord
-
 end DonatedItems
 
-
-object DonatedItems extends GenericCompanion[DonatedItems] with Database:
+//DonatedItems object
+object DonatedItems extends GenericObject[DonatedItems] with Database:
+  // create an initialized DonatedItems from the provided values
   def apply(
              id: Int,
              donation: Donation,
@@ -69,6 +85,9 @@ object DonatedItems extends GenericCompanion[DonatedItems] with Database:
 
   end apply
 
+  //create donated_items table
+  //The table links donated items to their corresponding donation and catalog item records with the use of
+  //foreign keys
   def createTable() =
     DB autoCommit { implicit session =>
       sql"""
@@ -84,61 +103,77 @@ object DonatedItems extends GenericCompanion[DonatedItems] with Database:
     }
   end createTable
 
+  //retrieve all donated_items records in the table
   def getAllRecords(): List[DonatedItems] =
     DB readOnly { implicit session =>
       sql"""
         SELECT * FROM donated_items
       """.map { rs =>
+        //retrieve the donation id
         val donationID = rs.int("donation_id")
+        //retrieve the item id
         val itemID = rs.int("item_id")
 
+        //retrieve the donation record using the donation ID or else throw exception if record is not found
         val donation = Donation.getRecordByKey(donationID).getOrElse(
           throw new Exception(s"Donation not found: $donationID")
         )
 
+        //retrieve the catalog item record using the item ID or else throw exception if record is not found
         val item = CatalogItem.getRecordByID(itemID).getOrElse(
           throw new Exception(s"Catalog item not found: $itemID")
         )
 
+        // create an object for DonatedItems and return it using the retrieved values
         DonatedItems(
-          
           rs.int("donated_id"),
           donation,
           item,
           rs.int("quantity")
         )
-      }.list()
+      }.list() //returns a list 
     }
+
+  // retrieve single donated item record based on key which is id
+  // call using this method
   def getRecordByKey(key: Any): Option[DonatedItems] =
     key match
+      // treat key as id then pass to getRecordByID
         case id: Int => getRecordByID(id)
+        // if nothing return None
         case _ => None
   end getRecordByKey
 
-
+  // retrieve single donated items record based on key which is donated items id
   def getRecordByID(donatedID: Int): Option[DonatedItems] =
+    // retrieve based on the donated item id provided
     DB.readOnly { implicit session: DBSession =>
       sql"""
       SELECT * FROM donated_items WHERE donated_id = $donatedID
     """.map { rs =>
+        //retrieve the donation id
         val donationID = rs.int("donation_id")
+        //retrieve the item id
         val itemID = rs.int("item_id")
 
+        //retrieve the donation record using the donation ID or else throw exception if record is not found
         val donation = Donation.getRecordByKey(donationID).getOrElse(
           throw new Exception(s"Donation not found: $donationID")
         )
 
+        //retrieve the catalog item record using the item ID or else throw exception if record is not found
         val item = CatalogItem.getRecordByID(itemID).getOrElse(
           throw new Exception(s"Catalog item not found: $itemID")
         )
 
+        // create an object for DonatedItems and return it using the retrieved values
         DonatedItems(
           rs.int("donated_id"),
           donation,
           item,
           rs.int("quantity")
         )
-      }.single()
+      }.single() //return only one record
     }
 end DonatedItems
 

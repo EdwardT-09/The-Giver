@@ -114,7 +114,8 @@ object RunTheGiver extends JFXApp3:
     roots = Some(rootScalaFX)
     this.roots.get.center = roots.get
   end showHome
-  
+
+  // display the donor page 
   def showDonors():Unit =
     //get the Donors.fxml to be displayed
     val resource = getClass.getResource("view/Donors.fxml")
@@ -127,7 +128,8 @@ object RunTheGiver extends JFXApp3:
     roots = Some(rootScalaFX)
     this.roots.get.center = roots.get
   end showDonors
-  
+
+  // display the add donor page 
   def showAddDonor(donor:Donor):Option[Donor] =
     //get the AddDonor.fxml to be displayed
     val resource = getClass.getResource("view/AddDonor.fxml")
@@ -156,6 +158,7 @@ object RunTheGiver extends JFXApp3:
     controller.result
   end showAddDonor
 
+  // display the add donation page 
   def showAddDonation(): Unit =
     //get the AddDonation.fxml to be displayed
     val resource = getClass.getResource("view/AddDonation.fxml")
@@ -180,6 +183,7 @@ object RunTheGiver extends JFXApp3:
     dialog.showAndWait()
   end showAddDonation
 
+  // display the foods page 
   def showFoods(): Unit =
     //get the Foods.fxml to be displayed
     val resource = getClass.getResource("view/Foods.fxml")
@@ -197,6 +201,7 @@ object RunTheGiver extends JFXApp3:
     foodsController.refreshTable()
   end showFoods
 
+  // display the beverages page 
   def showBeverages(): Unit =
     //get the Beverages.fxml to be displayed
     val resource = getClass.getResource("view/Beverages.fxml")
@@ -214,7 +219,7 @@ object RunTheGiver extends JFXApp3:
     beveragesController.refreshTable()
   end showBeverages
 
-
+  // display the add food page 
   def showAddFood(food:Food):Option[Food] =
     //get the AddFood.fxml to be displayed
     val resource = getClass.getResource("view/AddFood.fxml")
@@ -243,6 +248,7 @@ object RunTheGiver extends JFXApp3:
     controller.result
   end showAddFood
 
+  // display the add beverage page 
   def showAddBeverage(beverage: Beverage): Option[Beverage] =
     //get the Beverage.fxml to be displayed
     val resource = getClass.getResource("view/AddBeverage.fxml")
@@ -271,6 +277,7 @@ object RunTheGiver extends JFXApp3:
     controller.result
   end showAddBeverage
 
+  // display the change email page 
   def showChangeEmail:Unit =
     //get the ChangeEmail.fxml to be displayed
     val resource = getClass.getResource("view/ChangeEmail.fxml")
@@ -284,6 +291,7 @@ object RunTheGiver extends JFXApp3:
     this.roots.get.center = roots.get
   end showChangeEmail
 
+  // display the change password page 
   def showChangePassword: Unit =
     //get the ChangePassword.fxml to be displayed
     val resource = getClass.getResource("view/ChangePassword.fxml")
@@ -297,6 +305,7 @@ object RunTheGiver extends JFXApp3:
     this.roots.get.center = roots.get
   end showChangePassword
 
+  // display the about page 
   def showAbout(): Unit =
     //get the About.fxml to be displayed
     val resource = getClass.getResource("view/About.fxml")

@@ -8,28 +8,34 @@ import scalafx.beans.property.{BooleanProperty, IntegerProperty, ObjectProperty,
 
 import java.time.LocalDate
 
+//abstract class: Catalog Item that is the superclass of Food and Beverage class
 abstract class CatalogItem(val itemIDI :Int, nameS:String, categoryS:String, perishableB:Boolean, quantityI:Int):
-  
-  def this() = this(0, "", "", false, 0)
+  //auxiliary constructor
+  def this() = this(0, null, null, false, 0)
+
+  // string and object properties for the catalog item form fields that are shared by the Food and Beverage class
   val nameProperty = new StringProperty(nameS)
   val categoryProperty = new StringProperty(categoryS)
   val isPerishableProperty =  ObjectProperty[Boolean](perishableB)
   val quantityProperty =  ObjectProperty[Int](quantityI)
-  
+
+  //methods that Food and Beverage shares
   def saveAsRecord: Try[Int]
 
-  def increaseQuantity(quantity: Int): Try[Int]
-
-  def reduceQuantity(quantity:Int): Try[Int]
-  
+//  def increaseQuantity(quantity: Int): Try[Int]
+//
+//  def reduceQuantity(quantity:Int): Try[Int]
+//  
   def deleteRecord: Try[Int] 
 
   def hasRecord: Boolean 
   
 end CatalogItem
 
+//object of CatalogItem
 object CatalogItem extends Database:
 
+  //create the catalog_items table
   def createTable()=
     DB autoCommit { implicit session =>
       sql"""
@@ -43,8 +49,7 @@ object CatalogItem extends Database:
     }
   end createTable
 
-
-
+  //save the catalog_items information in the table and use the generated key to connect to food and beverage records
   def saveItem(name:String, category: String, perishable:Boolean, quantity:Int):Int =
     DB autoCommit{implicit session =>
       sql"""
@@ -54,32 +59,46 @@ object CatalogItem extends Database:
     }
   end saveItem
 
+  //increase the quantity
   def increaseQuantity(itemID: Int, quantity: Int): Try[Int] =
       Try(DB autoCommit {
         sql"""
-           UPDATE foods
+           UPDATE catalog_items
            SET
            quantity = quantity + $quantity
-           WHERE food_id = $itemID
+           WHERE item_id = $itemID
          """.update.apply()
       })
   end increaseQuantity
-
+  
+  //get all records of the catalog items
   def getAllCatalogItems(): List[CatalogItem] =
     Food.getAllRecords() ++ Beverage.getAllRecords()
   end getAllCatalogItems
 
-  def getRecordByID(itemID: Int): Option[CatalogItem] = {
+  //determine which key and call the method
+  def getRecordByKey(key: Any): Option[CatalogItem] =
+    key match
+      // treat key as name then pass to getRecordByName
+      case name: String => getRecordByName(name)
+      // treat key as itemID then pass to getRecordByID
+      case itemID:Int => getRecordByID(itemID)
+      case _ => None
+  end getRecordByKey
+  
+  //get a single record from the catalogItems and food or beverage table based on the name
+  def getRecordByName(name: String): Option[CatalogItem] = {
+    //join table for catalog item and food 
     DB readOnly { implicit session =>
       sql"""
-        SELECT c.itemID, c.name, c.category, c.perishable, c.quantity,
+        SELECT c.item_id, c.name, c.category, c.perishable, c.quantity,
                f.isVegetarian, f.containsAllergens
         FROM catalog_items c
-        JOIN food f ON c.itemID = f.itemID
-        WHERE c.itemID = $itemID
+        JOIN foods f ON c.item_id = f.food_id
+        WHERE c.name = $name
       """.map { rs =>
-        new Food(
-          rs.int("itemID"),
+        new Food( // create an object for Food and return it using the retrieved values
+          rs.int("item_id"),
           rs.string("name"),
           rs.string("category"),
           rs.boolean("perishable"),
@@ -90,16 +109,62 @@ object CatalogItem extends Database:
       }.single()
     }
   }.orElse {
+    //join table for catalog item and beverage 
     DB readOnly { implicit session =>
       sql"""
-        SELECT c.itemID, c.name, c.category, c.perishable, c.quantity,
+        SELECT c.item_id, c.name, c.category, c.perishable, c.quantity,
                b.volumePerUnit, b.isCarbonated
         FROM catalog_items c
-        JOIN beverage b ON c.itemID = b.itemID
+        JOIN beverages b ON c.item_id = b.beverage_id
+        WHERE c.name = $name
+      """.map { rs =>
+        new Beverage( // create an object for Beverage and return it using the retrieved values
+          rs.int("item_id"),
+          rs.string("name"),
+          rs.string("category"),
+          rs.boolean("perishable"),
+          rs.int("quantity"),
+          rs.int("volumePerUnit"),
+          rs.boolean("isCarbonated")
+        )
+      }.single()
+    }
+  }
+
+  //get a single record from the catalogItems and food or beverage table based on the id
+  def getRecordByID(itemID: Int): Option[CatalogItem] = {
+    //join table for catalog item and food 
+    DB readOnly { implicit session =>
+      sql"""
+        SELECT c.item_id, c.name, c.category, c.perishable, c.quantity,
+               f.isVegetarian, f.containsAllergens
+        FROM catalog_items c
+        JOIN food f ON c.item_id = f.food_id
+        WHERE c.item_id = $itemID
+      """.map { rs =>
+        new Food( // create an object for Food and return it using the retrieved values
+          rs.int("item_id"),
+          rs.string("name"),
+          rs.string("category"),
+          rs.boolean("perishable"),
+          rs.int("quantity"),
+          rs.boolean("isVegetarian"),
+          rs.string("containsAllergens")
+        )
+      }.single()
+    }
+  }.orElse {
+    //join table for catalog item and beverage 
+    DB readOnly { implicit session =>
+      sql"""
+        SELECT c.item_id, c.name, c.category, c.perishable, c.quantity,
+               b.volumePerUnit, b.isCarbonated
+        FROM catalog_items c
+        JOIN beverage b ON c.item_id = b.beverage_id
         WHERE c.itemID = $itemID
       """.map { rs =>
-        new Beverage(
-          rs.int("itemID"),
+        new Beverage( // create an object for Beverage and return it using the retrieved values
+          rs.int("item_id"),
           rs.string("name"),
           rs.string("category"),
           rs.boolean("perishable"),

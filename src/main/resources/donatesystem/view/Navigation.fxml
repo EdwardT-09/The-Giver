@@ -9,7 +9,7 @@
 
 <AnchorPane prefHeight="78.0" prefWidth="600.0" styleClass="background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="donatesystem.view.NavigationController">
    <children>
-      <ToolBar layoutX="40.0" layoutY="22.0" prefHeight="40.0" prefWidth="543.0" styleClass="nav-bar" stylesheets="@style.css">
+      <ToolBar layoutX="91.0" layoutY="19.0" prefHeight="40.0" prefWidth="418.0" styleClass="nav-bar" stylesheets="@style.css">
          <items>
             <Button mnemonicParsing="false" onAction="#directToHome" styleClass="link" text="home" textFill="#355e59" underline="true">
                <font>
@@ -35,17 +35,7 @@
                   <Font name="System Bold" size="10.0" />
                </font>
             </MenuButton>
-            <Button mnemonicParsing="false" styleClass="link" text="distribution centers" textFill="#355e59" underline="true">
-               <font>
-                  <Font name="System Bold" size="10.0" />
-               </font>
-            </Button>
             <Button mnemonicParsing="false" onAction="#directToAbout" styleClass="link" text="about" textFill="#355e59" underline="true">
-               <font>
-                  <Font name="System Bold" size="10.0" />
-               </font>
-            </Button>
-            <Button mnemonicParsing="false" styleClass="link" text="distribution centers" textFill="#355e59" underline="true">
                <font>
                   <Font name="System Bold" size="10.0" />
                </font>
