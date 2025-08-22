@@ -116,3 +116,33 @@
 .red-menu-item:focused .label {
     -fx-text-fill: #b9bfbf;
 }
+
+.default-color0.chart-pie{
+    -fx-pie-color: #8daaaa
+}
+
+.default-color1.chart-pie{
+    -fx-pie-color: #4d7373
+}
+
+.default-color2.chart-pie{
+    -fx-pie-color: #366060
+}
+
+.default-color3.chart-pie{
+    -fx-pie-color: #4d7373
+}
+
+.dialog-pane {
+    -fx-background-color: #f1ffff;
+}
+.dialog-pane .label {
+    -fx-text-fill: #355e59;
+}
+.dialog-pane:header .header-panel {
+    -fx-background-color: #f1ffff;
+}
+.dialog-pane:header .header-panel .label {
+    -fx-font-style: italic;
+    -fx-font-size: 2em;
+}

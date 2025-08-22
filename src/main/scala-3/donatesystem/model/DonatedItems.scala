@@ -30,9 +30,6 @@ class DonatedItems(val donatedItemsIDI: Int, val donationD: Donation, val itemC:
 
   //save the DonatedItems record in donated_items table
   def saveAsRecord: Try[Int] =
-    println(s"[DEBUG] donationID = ${donationD.donationIDI}")
-    println(s"[DEBUG] itemID = ${itemC.itemIDI}")
-    println(s"[DEBUG] quantity = $quantityI")
       Try(DB autoCommit { implicit session =>
         sql"""
              INSERT INTO donated_items (donation_id, item_id, quantity) VALUES

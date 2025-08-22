@@ -87,8 +87,11 @@ class AddDonationController:
   //main function to handle add donation
   def handleAddDonation(event:ActionEvent): Unit =
     if (validInput) then
+      //retrieve the selected donor
+      val selectedDonor = donorChoiceBox.getValue
+      println(s"Selected donor is: ${if selectedDonor != null then selectedDonor.nameProperty.value else "null"}")
       //create new donation object if input is valid
-      val donation = new Donation(0, donorChoiceBox.value.value, LocalDate.now())
+      val donation = new Donation(0, selectedDonor, LocalDate.now())
 
       //attempt to save the donation record
       val savedDonationID = donation.saveAsRecord

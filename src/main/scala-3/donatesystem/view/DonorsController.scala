@@ -78,6 +78,9 @@ class DonorsController:
         //if no updatedDonor, then return error alert
         case None =>
           Alert.displayError("Update Error", "The donor record was not updated", "Please try again")
+    else
+      //if no donor item was selected, then display the error alert
+      Alert.displayError("Invalid donor", "No donor record is selected", "Please choose a donor")
     end if
   end directToEditDonor
 

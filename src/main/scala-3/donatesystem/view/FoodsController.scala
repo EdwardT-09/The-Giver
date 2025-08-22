@@ -147,8 +147,10 @@ class FoodsController:
             case Failure(error) =>
               //if unsuccessful due to failure from system(such as database error), display an error message
               Alert.displayError("Unsuccessful", "Quantity was not reduced", "Please try again")
-
       }
+    else
+      //if no food item was selected, then display the error alert
+      Alert.displayError("Invalid food", "No food record is selected", "Please choose a food")
   end handleReduceQuantity
   //refresh the foodTable
   def refreshTable(): Unit =

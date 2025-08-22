@@ -33,7 +33,7 @@ class Donation(val donationIDI: Int, val donorD: Donor, donationDateLD:LocalDate
         sql"""
              INSERT INTO donations (donor_id, date) VALUES
              (${donorIDProperty.value},  ${donationDateProperty.value})
-           """.update.apply()
+           """.updateAndReturnGeneratedKey().toInt
 
       })
     else

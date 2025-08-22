@@ -19,12 +19,14 @@ object RunTheGiver extends JFXApp3:
   // initialise the database to create table if it does not exists
   Database.dbSetUp()
 
-
+  //create ObservableBuffer for each model to add all the records
   val donorData = new ObservableBuffer[Donor]()
   val foodData = new ObservableBuffer[Food]()
   val beverageData = new ObservableBuffer[Beverage]()
   val donatedItemData = new ObservableBuffer[DonatedItems]()
   
+  
+  //assign all data to their respective variable buffers
   donorData ++= Donor.getAllRecords()
   foodData ++= Food.getAllRecords()
   beverageData ++= Beverage.getAllRecords()

@@ -148,6 +148,9 @@ class BeveragesController:
               Alert.displayError("Unsuccessful", "Quantity was not reduced", "Please try again")
 
       }
+    else
+      //if no beverage item was selected, then display the error alert
+      Alert.displayError("Invalid beverage", "No beverage record is selected", "Please choose a beverage")
   end handleReduceQuantity
 
 
