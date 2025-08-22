@@ -6,7 +6,7 @@
 <?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="donatesystem.view.RootResourceController">
+<BorderPane prefHeight="400.0" prefWidth="600.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="donatesystem.view.RootResourceController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
@@ -18,11 +18,72 @@
                      </accelerator></MenuItem>
             </items>
           </Menu>
-          <Menu text="_Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
+          <Menu text="_Navigation">
+               <items>
+                  <MenuItem onAction="#directToHome" text="_Home">
+                     <accelerator>
+                        <KeyCodeCombination alt="DOWN" code="H" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+                  <MenuItem onAction="#directToDonors" text="_Donors">
+                     <accelerator>
+                        <KeyCodeCombination alt="DOWN" code="D" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+                  <MenuItem onAction="#directToDonations" text="_Donations">
+                     <accelerator>
+                        <KeyCodeCombination alt="DOWN" code="D" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+                  <MenuItem onAction="#directToFoods" text="_Manage Food">
+                     <accelerator>
+                        <KeyCodeCombination alt="DOWN" code="F" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+                  <MenuItem onAction="#directToBeverages" text="_Manage Beverage">
+                     <accelerator>
+                        <KeyCodeCombination alt="DOWN" code="B" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+                  <MenuItem onAction="#directToAbout" text="_About">
+                     <accelerator>
+                        <KeyCodeCombination alt="DOWN" code="A" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+                  <MenuItem onAction="#directToAddDonation" text="_Add Donation">
+                     <accelerator>
+                        <KeyCodeCombination alt="DOWN" code="PLUS" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+               </items>
           </Menu>
+            <Menu text="_Account">
+               <items>
+                  <MenuItem onAction="#directToChangeEmail" text="_Change Email">
+                     <accelerator>
+                        <KeyCodeCombination alt="DOWN" code="E" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+                  <MenuItem onAction="#directToChangePassword" text="_Change Password">
+                     <accelerator>
+                        <KeyCodeCombination alt="DOWN" code="P" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+                  <MenuItem onAction="#handleDeleteAccount" text="_Delete Account">
+                     <accelerator>
+                        <KeyCodeCombination alt="DOWN" code="DELETE" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+                  <MenuItem onAction="#logOut" text="_Log Out">
+                     <accelerator>
+                        <KeyCodeCombination alt="DOWN" code="ESCAPE" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+               </items>
+               <accelerator>
+                  <KeyCodeCombination alt="DOWN" code="A" control="UP" meta="UP" shift="DOWN" shortcut="UP" />
+               </accelerator>
+            </Menu>
           <Menu text="_Help">
             <items>
               <MenuItem onAction="#handleAbout" text="_About">

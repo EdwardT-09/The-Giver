@@ -6,7 +6,6 @@ import donatesystem.model.Administrator
 import javafx.fxml.FXML
 import donatesystem.util.Alert
 import javafx.event.ActionEvent
-
 import scala.util.{Failure, Success}
 
 //provide controls to the header
