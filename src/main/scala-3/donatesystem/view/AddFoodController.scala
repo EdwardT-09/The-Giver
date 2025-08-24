@@ -93,7 +93,7 @@ class AddFoodController:
 
 
   //check if any fields are left empty
-  def isNull(): Boolean =
+  private def isNull(): Boolean =
     //create a variable to store error message(s)
     var errorMessage: String = ""
     

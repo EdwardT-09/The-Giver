@@ -161,7 +161,7 @@ class FoodsController:
   end handleReduceQuantity
   
   //ensure that the quantity is not null and is an integer
-  def validQuantity(input:String):Boolean =
+  private  def validQuantity(input:String):Boolean =
     //create a variable to store error message(s)
     var errorMessage: String = ""
     

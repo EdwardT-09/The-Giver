@@ -105,7 +105,7 @@ class AddDonorController:
 
 
   //check if any fields are left empty
-  def validInput(): Boolean =
+  private def validInput(): Boolean =
     //create a variable to store error message(s)
     var errorMessage:String = ""
 
@@ -144,7 +144,7 @@ class AddDonorController:
   end validInput
 
 
-  def patternMatch:Boolean =
+  private def patternMatch:Boolean =
     //create a variable to store error message(s)
     var errorMessage:String = ""
 

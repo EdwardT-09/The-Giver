@@ -87,7 +87,7 @@ class ChangeEmailController:
       false
   end compareEmail
 
-  def validEmail: Boolean =
+  private def validEmail: Boolean =
     //create a variable to store error message(s)
     var errorMessage: String = ""
     

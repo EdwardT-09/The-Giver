@@ -72,7 +72,6 @@ object RunTheGiver extends JFXApp3:
     //initialize the loader object
     val loader = new FXMLLoader(resource)
     val rootJavaFX = loader.load[javafx.scene.layout.AnchorPane]()
-    //transform from javafx to scalafx
     val rootScalaFX: scalafx.scene.layout.AnchorPane = rootJavaFX
     var roots: Option[scalafx.scene.layout.AnchorPane] = None
     roots = Some(rootScalaFX)
@@ -86,7 +85,7 @@ object RunTheGiver extends JFXApp3:
     //initialize the loader object
     val loader = new FXMLLoader(resource)
     val rootJavaFX = loader.load[javafx.scene.layout.AnchorPane]()
-    //transform from javafx to scalafx
+
     val rootScalaFX: scalafx.scene.layout.AnchorPane = rootJavaFX
     var roots: Option[scalafx.scene.layout.AnchorPane] = None
     roots = Some(rootScalaFX)
@@ -100,7 +99,7 @@ object RunTheGiver extends JFXApp3:
     //initialize the loader object
     val loader = new FXMLLoader(resource)
     val rootJavaFX = loader.load[javafx.scene.layout.AnchorPane]()
-    //transform from javafx to scalafx
+
     val rootScalaFX: scalafx.scene.layout.AnchorPane = rootJavaFX
     var roots: Option[scalafx.scene.layout.AnchorPane] = None
     roots = Some(rootScalaFX)
@@ -114,7 +113,7 @@ object RunTheGiver extends JFXApp3:
     //initialize the loader object
     val loader = new FXMLLoader(resource)
     val rootJavaFX = loader.load[javafx.scene.layout.AnchorPane]()
-    //transform from javafx to scalafx
+    
     val rootScalaFX: scalafx.scene.layout.AnchorPane = rootJavaFX
     var roots: Option[scalafx.scene.layout.AnchorPane] = None
     roots = Some(rootScalaFX)
@@ -128,7 +127,7 @@ object RunTheGiver extends JFXApp3:
     //initialize the loader object
     val loader = new FXMLLoader(resource)
     val rootJavaFX = loader.load[javafx.scene.layout.AnchorPane]()
-    //transform from javafx to scalafx
+    
     val rootScalaFX: scalafx.scene.layout.AnchorPane = rootJavaFX
     var roots: Option[scalafx.scene.layout.AnchorPane] = None
     roots = Some(rootScalaFX)
@@ -200,7 +199,7 @@ object RunTheGiver extends JFXApp3:
     //initialize the loader object
     val loader = new FXMLLoader(resource)
     val rootJavaFX = loader.load[javafx.scene.layout.AnchorPane]()
-    //transform from javafx to scalafx
+    
     val rootScalaFX: scalafx.scene.layout.AnchorPane = rootJavaFX
     var roots: Option[scalafx.scene.layout.AnchorPane] = None
     roots = Some(rootScalaFX)
@@ -218,7 +217,7 @@ object RunTheGiver extends JFXApp3:
     //initialize the loader object
     val loader = new FXMLLoader(resource)
     val rootJavaFX = loader.load[javafx.scene.layout.AnchorPane]()
-    //transform from javafx to scalafx
+    
     val rootScalaFX: scalafx.scene.layout.AnchorPane = rootJavaFX
     var roots: Option[scalafx.scene.layout.AnchorPane] = None
     roots = Some(rootScalaFX)
@@ -236,7 +235,7 @@ object RunTheGiver extends JFXApp3:
     //initialize the loader object
     val loader = new FXMLLoader(resource)
     val rootJavaFX = loader.load[javafx.scene.layout.AnchorPane]()
-    //transform from javafx to scalafx
+    
     val rootScalaFX: scalafx.scene.layout.AnchorPane = rootJavaFX
     var roots: Option[scalafx.scene.layout.AnchorPane] = None
     roots = Some(rootScalaFX)
@@ -316,7 +315,7 @@ object RunTheGiver extends JFXApp3:
     //initialize the loader object
     val loader = new FXMLLoader(resource)
     val rootJavaFX = loader.load[javafx.scene.layout.AnchorPane]()
-    //transform from javafx to scalafx
+    
     val rootScalaFX: scalafx.scene.layout.AnchorPane = rootJavaFX
     var roots: Option[scalafx.scene.layout.AnchorPane] = None
     roots = Some(rootScalaFX)
@@ -330,7 +329,7 @@ object RunTheGiver extends JFXApp3:
     //initialize the loader object
     val loader = new FXMLLoader(resource)
     val rootJavaFX = loader.load[javafx.scene.layout.AnchorPane]()
-    //transform from javafx to scalafx
+    
     val rootScalaFX: scalafx.scene.layout.AnchorPane = rootJavaFX
     var roots: Option[scalafx.scene.layout.AnchorPane] = None
     roots = Some(rootScalaFX)
@@ -344,7 +343,7 @@ object RunTheGiver extends JFXApp3:
     //initialize the loader object
     val loader = new FXMLLoader(resource)
     val rootJavaFX = loader.load[javafx.scene.layout.AnchorPane]()
-    //transform from javafx to scalafx
+    
     val rootScalaFX: scalafx.scene.layout.AnchorPane = rootJavaFX
     var roots: Option[scalafx.scene.layout.AnchorPane] = None
     roots = Some(rootScalaFX)

@@ -170,7 +170,7 @@ class AddDonationController:
 
 
   //check if inputs are valid
-  def validInput: Boolean =
+  private def validInput: Boolean =
     //create a variable to store error message(s)
     var errorMessage: String = ""
 
@@ -195,7 +195,7 @@ class AddDonationController:
   end validInput
 
   //check if item input is valid
-  def validItemInput:Boolean =
+  private def validItemInput:Boolean =
     //create a variable to store error message(s)
     var errorMessage: String =""
 

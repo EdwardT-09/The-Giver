@@ -42,7 +42,7 @@ class ChangePasswordController:
             Alert.displayError("Error", "Not found", "Admin record is not found")
   end handleChangePassword
 
-  def isNull: Boolean =
+  private def isNull: Boolean =
     //create a variable to store error message(s)
     var errorMessage = ""
     
@@ -70,7 +70,7 @@ class ChangePasswordController:
       true
   end isNull
 
-  def comparePassword: Boolean =
+  private def comparePassword: Boolean =
     //create a variable to store error message(s)
     var errorMessage = ""
 

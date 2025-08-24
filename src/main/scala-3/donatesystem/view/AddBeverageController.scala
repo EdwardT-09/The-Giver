@@ -91,7 +91,7 @@ class AddBeverageController:
 
 
   //check if any fields are left empty
-  def validInput(): Boolean =
+  private def validInput(): Boolean =
     //trim the volume per unit 
     val volume = volumePerUnitField.text.value.trim
 

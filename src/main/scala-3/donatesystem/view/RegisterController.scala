@@ -51,7 +51,7 @@ class RegisterController():
 
 
   //check if any fields are left empty
-  def isNull:Boolean =
+  private def isNull:Boolean =
   //create a variable to store error message(s)
     var errorMessage:String = ""
   
@@ -86,7 +86,7 @@ class RegisterController():
 
   //check if inputs are valid
   //check if fields are valid by checking the pattern from Pattern Match in util
-  def validInput:Boolean =
+  private def validInput:Boolean =
     //create a variable to store error message(s)
     var errorMessage:String = ""
     
@@ -115,7 +115,7 @@ class RegisterController():
   end validInput
     
   //check if password confirmation field matches the password provided
-  def passwordConfirmation(): Boolean =
+  private def passwordConfirmation(): Boolean =
     if(!passwordField.text.value.equals(passwordConfirmField.text.value)){
       //if it does not match, return false
       false
@@ -125,7 +125,7 @@ class RegisterController():
     }
 
   //get currently logged in admin record
-  def getAdminRecord(): Unit =
+  private def getAdminRecord(): Unit =
   //get the record by passing email into getRecordByKey
     Administrator.getRecordByKey(emailField.text.value) match
       //if records found, call session log in to start session

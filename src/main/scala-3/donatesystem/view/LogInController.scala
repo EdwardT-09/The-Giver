@@ -36,7 +36,7 @@ class LogInController:
   end handleLogIn
 
   //check if any fields are null
-  def isNull:Boolean =
+  private def isNull:Boolean =
     //create a variable to store error message(s)
     var errorMessage:String = ""
     //if email field is left empty, then add email empty field error to errorMessage
@@ -61,7 +61,7 @@ class LogInController:
 
   //check if inputs are valid
   //check if fields are valid by checking the pattern from Pattern Match in util
-  def validInput: Boolean =
+  private def validInput: Boolean =
     var errorMessage: String = ""
     //if email provided does not match the email pattern set in Pattern Match then add the message to errorMessage
     if (!PatternMatch.validEmail(emailField.text.value)) then
@@ -76,13 +76,13 @@ class LogInController:
     end if
   end validInput
 
-  def validateCredentials(): Boolean =
+  private def validateCredentials(): Boolean =
     //compare the login credentials with the actual admin record to see if it matches
       Administrator.getRecordByKey(emailField.text.value).exists(admin => admin.passwordProperty.value == passwordField.text.value)
   end validateCredentials
 
   //get currently logged in admin record
-  def getAdminRecord(): Unit =
+  private def getAdminRecord(): Unit =
     //get the record by passing email into getRecordByKey
     Administrator.getRecordByKey(emailField.text.value) match
       //if records found, call session log in to start session
