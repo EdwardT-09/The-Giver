@@ -66,9 +66,9 @@ class AddBeverageController:
           beverage.isCarbonatedProperty.value = isCarbonatedField.isSelected
           beverage.volumePerUnitProperty.value = volumePerUnitField.text.value.toInt
           //attempt to save the beverage object
-          beverage.saveAsRecord match
+          beverage.saveAsRecord() match
             //if successful, display success message, assign result to Some(beverage) and close the dialog stage
-            case Success(x) => Alert.displayError("Success", "Success", "The record has been updated")
+            case Success(x) => Alert.displayInformation("Success", "Success", "The record has been updated")
               result = Some(beverage)
               dialogStage.close()
             //else, display the error message
@@ -80,9 +80,9 @@ class AddBeverageController:
         case None =>
           val beverage = new Beverage(0, nameField.text.value, categoryField.text.value, isPerishableField.isSelected, 0, volumePerUnitField.text.value.toInt, isCarbonatedField.isSelected)
           //attempt to save the beverage as record in database
-          beverage.saveAsRecord match
+          beverage.saveAsRecord() match
             //if successful, display success message, assign result to Some(beverage) and close the dialog stage
-            case Success(x) => Alert.displayError("Success", "Success", "A record has been created")
+            case Success(x) => Alert.displayInformation("Success", "Success", "A record has been created")
               result = Some(beverage)
               dialogStage.close()
             //else, display error message
@@ -100,23 +100,23 @@ class AddBeverageController:
 
     //if name field is left empty, then add name empty field error to errorMessage
     if (nameField.text.value.isEmpty) then
-      errorMessage += "Name field is empty\n"
+      errorMessage += "*Name field is empty\n"
     end if 
     
     //if category field is left empty, then add category empty field error to errorMessage
     if (categoryField.text.value.isEmpty) then
-      errorMessage += "Category field is empty\n"
+      errorMessage += "*Category field is empty\n"
     end if 
     
     //if volume field is empty, then add volume per unit field error to errorMessage  
     if (volume.isEmpty) then
-      errorMessage += "Volume Per Unit field is empty\n"
+      errorMessage += "*Volume Per Unit field is empty\n"
     //if the volume is not a number, then add the error to errorMessage
     else if (!volume.matches("""\d+"""))
-      errorMessage += "Volume per unit must be a non-negative number\n"
+      errorMessage += "*Volume per unit must be a non-negative number\n"
     //if the volume is not a positive number, then add the error to errorMessage
     else if(volume.toInt < 0) then
-      errorMessage += "Volume per unit must be a non-negative number\n"
+      errorMessage += "*Volume per unit must be a non-negative number\n"
     end if
     
     //if errorMessage does not have any error message then return true

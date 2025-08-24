@@ -74,7 +74,7 @@ class AddDonationController:
 
     //set up table column to display item name
       nameColumn.cellValueFactory = { x =>
-        new StringProperty(x.value.itemC.nameProperty.value)
+        new StringProperty(x.value.item.nameProperty.value)
       }
 
     //set up table column to display item quantity
@@ -94,7 +94,7 @@ class AddDonationController:
       val donation = new Donation(0, selectedDonor, LocalDate.now())
 
       //attempt to save the donation record
-      val savedDonationID = donation.saveAsRecord
+      val savedDonationID = donation.saveAsRecord()
 
       savedDonationID match
         case Success(id) =>
@@ -106,18 +106,18 @@ class AddDonationController:
                 val item = itemsBuffer(i)
 
                 //create a new DonatedItem object associated with the saved Donation
-                val saveDonatedItem = new DonatedItems(0, savedDonation, item.itemC, item.quantityI)
+                val saveDonatedItem = new DonatedItems(0, savedDonation, item.item, item.quantity)
 
                 //update the itemsBuffer with the new DonatedItems object
                 itemsBuffer(i) = saveDonatedItem
 
                 //increase the catalog quantity accordingly
-                CatalogItem.increaseQuantity(item.itemC.itemIDI,item.quantityI) match
-                  case Success(rows) => println(s"Updated ${item.itemC.itemIDI} +${item.quantityI}")
+                CatalogItem.increaseQuantity(item.item.itemID,item.quantity) match
+                  case Success(rows) => println(s"Updated ${item.item.itemID} +${item.quantity}")
                   case Failure(err) => println(s"Failed qty update: ${err.getMessage}")
 
                 //save the donated items into the database
-                saveDonatedItem.saveAsRecord match
+                saveDonatedItem.saveAsRecord() match
                   case Success(x) =>
                     //display alert when successful
                     Alert.displayInformation("Successful", "Donated Item saved","The donated item has been saved")
@@ -136,15 +136,14 @@ class AddDonationController:
 
   //used to add item into items buffer
   def handleAddItem(event:ActionEvent):Unit =
-
-    //assign item choice box value into selected item
-    val selectedItem = itemChoiceBox.value.value
-
-    //assign the quantity field into quantity
-    val quantity = quantityField.text.value.toInt
-
     //check if item inputs are valid
     if validItemInput then
+      //assign item choice box value into selected item
+      val selectedItem = itemChoiceBox.value.value
+
+      //assign the quantity field into quantity
+      val quantity = quantityField.text.value.toInt
+
       //if valid, then create DonatedItems object
       val donatedItem = new DonatedItems(0, null, selectedItem, quantity)
       //assign the donated item to items buffer
@@ -160,7 +159,7 @@ class AddDonationController:
     //if a donated item is selected, then prompt for confirmation
       val confirm = Alert.displayConfirmation("Delete Donated Item",
         "Are you sure you want this record to be deleted",
-        s"Name: ${selectedDonatedItem.itemC.nameProperty.value} Quantity: ${selectedDonatedItem.quantityProperty.value}")
+        s"Name: ${selectedDonatedItem.item.nameProperty.value} Quantity: ${selectedDonatedItem.quantityProperty.value}")
 
       if confirm then
         //if confirm is true then remove from buffer with the selected index
@@ -176,13 +175,13 @@ class AddDonationController:
     var errorMessage: String = ""
 
     //if donor choice box is null, then add error message to errorMessage
-    if(donorChoiceBox.value.value == null) then
-      errorMessage += "Donor field is empty"
+    if(donorChoiceBox.getValue == null) then
+      errorMessage += "*Donor field is empty\n"
     end if
 
     //if item buffer is null, then add error message to errorMessage
     if(itemsBuffer.isEmpty) then
-      errorMessage += "Items Buffer is empty"
+      errorMessage += "*Items Buffer is empty\n"
     end if
 
     //if errorMessage does not have any error message then return true
@@ -204,19 +203,19 @@ class AddDonationController:
     val quantity = quantityField.text.value.trim
 
     //if item choice box is null, then add error message to errorMessage
-    if(itemChoiceBox == null) then
-      errorMessage += "Items Field is empty\n"
+    if(itemChoiceBox.getValue == null) then
+      errorMessage += "*Items Field is empty\n"
     end if
 
     //if quantity is empty, then add quantity field error to errorMessage
     if(quantity.isEmpty) then
-      errorMessage += "Quantity Field is empty\n"
+      errorMessage += "*Quantity Field is empty\n"
     //if the quantity is not a number, then add the error to errorMessage
     else if (!quantity.matches("""\d+"""))
-      errorMessage += "Volume per unit must be a non-negative number\n"
+      errorMessage += "*Quantity must be a non-negative number\n"
     //if the quantity is not a positive number, then add the error to errorMessage
     else if (quantity.toInt < 0) then
-      errorMessage += "Volume per unit must be a non-negative number\n"
+      errorMessage += "*Quantity must be a non-negative number\n"
     end if
 
     //if errorMessage does not have any error message then return true

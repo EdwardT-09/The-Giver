@@ -1,18 +1,17 @@
 package donatesystem.model
 
 import java.time.LocalDate
-import donatesystem.util.{Database, GenericObject, GenericModel}
+import donatesystem.util.{Database, GenericObject}
 import scalikejdbc.*
 import donatesystem.model.Donor
 import scala.util.{Failure, Success, Try}
-import scalafx.beans.property.{IntegerProperty, ObjectProperty, StringProperty}
+import scalafx.beans.property.ObjectProperty
 
 
 // Donation class
 // donationID and donorD as Donation property
-// extends GenericModel[Donation] for generic programming
 // with Database trait
-class Donation(val donationIDI: Int, val donorD: Donor, donationDateLD:LocalDate) extends GenericModel[Donation] with Database:
+case class Donation( donationID: Int,  donor: Donor, donationDate:LocalDate) extends  Database:
   //auxiliary constructor
   def this() = this(0, null,  null)
 
@@ -20,14 +19,14 @@ class Donation(val donationIDI: Int, val donorD: Donor, donationDateLD:LocalDate
   //check if donor is null
   def donorIDProperty =
     //get donor id if donor is passed in and 0 for null
-    ObjectProperty[Int](if donorD != null then donorD.donor_IDI else 0)
-  var donationDateProperty =  ObjectProperty[LocalDate](donationDateLD)
+    ObjectProperty[Int](if donor != null then donor.donorID else 0)
+  var donationDateProperty =  ObjectProperty[LocalDate](donationDate)
 
 
   //save the Donation record in donations table
-  def saveAsRecord: Try[Int] =
+  def saveAsRecord(): Try[Int] =
     //if does not have record
-    if (!hasRecord) then
+    if (!hasRecord()) then
       // create a new record
       Try(DB autoCommit { implicit session =>
         sql"""
@@ -42,13 +41,13 @@ class Donation(val donationIDI: Int, val donorD: Donor, donationDateLD:LocalDate
   end saveAsRecord
 
   // delete Donation records
-  def deleteRecord: Try[Int] =
+  def deleteRecord(): Try[Int] =
     //Delete only if record exists
-    if (hasRecord) then
+    if (hasRecord()) then
       Try(DB autoCommit { implicit session =>
         sql"""
           DELETE FROM donations
-          WHERE donation_id = $donationIDI
+          WHERE donation_id = $donationID
           """.update.apply()
       })
     else
@@ -57,11 +56,11 @@ class Donation(val donationIDI: Int, val donorD: Donor, donationDateLD:LocalDate
   end deleteRecord
 
   //check if record exists
-  def hasRecord: Boolean =
+  def hasRecord(): Boolean =
     //select if donationIDI exists in donation_id of donations table
     DB readOnly { implicit session =>
       sql"""
-           SELECT * FROM donations WHERE donation_id=${this.donationIDI}
+           SELECT * FROM donations WHERE donation_id=${this.donationID}
          """.map(_ => ()).single.apply()
     } match
       // if found return true
@@ -124,7 +123,7 @@ object Donation extends GenericObject[Donation] with Database:
   end getRecordByKey
 
   // retrieve single donation record based on key which is donation id
-  def getRecordByID(id:Int): Option[Donation] =
+  private def getRecordByID(id:Int): Option[Donation] =
     DB readOnly { implicit session =>
       sql"""
            SELECT * FROM donations WHERE donation_id = $id

@@ -18,6 +18,20 @@
                      </accelerator></MenuItem>
             </items>
           </Menu>
+            <Menu text="A_uthenticate">
+               <items>
+                  <MenuItem onAction="#directToRegister" text="_Registration">
+                     <accelerator>
+                        <KeyCodeCombination alt="DOWN" code="R" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+                  <MenuItem onAction="#directToLogIn" text="_Log In">
+                     <accelerator>
+                        <KeyCodeCombination alt="DOWN" code="L" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+               </items>
+            </Menu>
           <Menu text="_Navigation">
                <items>
                   <MenuItem onAction="#directToHome" text="_Home">
@@ -88,7 +102,7 @@
             <items>
               <MenuItem onAction="#handleAbout" text="_About">
                      <accelerator>
-                        <KeyCodeCombination alt="DOWN" code="A" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                        <KeyCodeCombination alt="DOWN" code="A" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
             </items>
           </Menu>

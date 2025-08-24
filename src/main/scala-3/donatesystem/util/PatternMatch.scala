@@ -5,6 +5,8 @@ object PatternMatch:
   //check if email matches the pattern 
   def validEmail(email:String): Boolean =
   //an example of an email that matches the pattern is john@example.com
+    //the following has been used with modification to suit my own need for the program
+   // GeeksforGeeks. (2025, July 12). How to Validate Email Address using RegExp in JavaScript? GeeksforGeeks. https://www.geeksforgeeks.org/javascript/how-to-validate-email-address-using-regexp-in-javascript/
     val email_pattern = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.com$".r
     if (!email_pattern.matches(email)) {
       //if pattern does not match the string, return false
@@ -19,6 +21,8 @@ object PatternMatch:
   def validPassword(password:String): Boolean =
   //pattern must include at least a lower case and upper case letter, symbol, and number 
   //the password must also be at least 8 characters long
+    //used with modifications
+    
     val password_pattern = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[!@#$%^&*()-+=]).{8,}$".r
     if (!password_pattern.matches(password)) {
       //if pattern does not match the string, return false
@@ -33,6 +37,7 @@ object PatternMatch:
   def validContactNo(contactNo:String): Boolean =
   //an example of the contact no that matches is 011-123-123
     //- is important and must be present
+    //done with my own understanding
     val contactNo_pattern = "^[0-9]{3}-[0-9]{3,4}-[0-9]{3,4}$".r
     if (!contactNo_pattern.matches(contactNo)) then
       //if pattern does not match the string, return false

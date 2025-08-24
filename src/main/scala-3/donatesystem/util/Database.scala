@@ -6,10 +6,10 @@ import donatesystem.model.{Administrator, Beverage, CatalogItem, DonatedItems, D
 
 trait Database:
   // derby driver
-  val derbyDriver = "org.apache.derby.jdbc.EmbeddedDriver"
+  val derbyDriver:String = "org.apache.derby.jdbc.EmbeddedDriver"
 
   // database URL
-  val dbURL = "jdbc:derby:myDB;create=true;"
+  val dbURL:String = "jdbc:derby:myDB;create=true;"
 
   Class.forName(derbyDriver)
 

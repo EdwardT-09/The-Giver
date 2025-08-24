@@ -67,7 +67,7 @@ class AddFoodController:
           food.isVegetarianProperty.value = isVegetarianField.isSelected
           food.containsAllergensProperty.value = allergensField.text.value
           //attempt to save the food object
-          food.saveAsRecord match
+          food.saveAsRecord() match
             //if successful, display success message, assign result to Some(food) and close the dialog stage
             case Success(x) => Alert.displayInformation("Success", "Success", "The record has been updated")
               result = Some(food)
@@ -81,7 +81,7 @@ class AddFoodController:
         case None =>
           val food = new Food(0, nameField.text.value, categoryField.text.value, isPerishableField.isSelected,0, isVegetarianField.isSelected, allergensField.text.value)
           //attempt to save the food as record in database
-          food.saveAsRecord match
+          food.saveAsRecord() match
             //if successful, display success message, assign result to Some(food) and close the dialog stage
             case Success(x) => Alert.displayError("Success", "Success", "A record has been created")
               result = Some(food)
@@ -99,12 +99,12 @@ class AddFoodController:
     
     //if  name field is left empty, then add  name empty field error to errorMessage
     if (nameField.text.value.isEmpty) then
-      errorMessage += "Name field is empty"
+      errorMessage += "*Name field is empty\n"
     end if
     
     //if category field is left empty, then add category empty field error to errorMessage
     if (categoryField.text.value.isEmpty) then
-      errorMessage += "Category field is empty"
+      errorMessage += "*Category field is empty\n"
     end if 
     
     

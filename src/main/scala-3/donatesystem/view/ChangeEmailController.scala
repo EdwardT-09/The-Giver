@@ -23,14 +23,14 @@ class ChangeEmailController:
     if (!isNull) then
       if (validEmail && compareEmail) then
         // get admin information using original email if fields are not null, emails are valid and current email provided matches the original email in the database
-        val admin = Administrator.getRecordByKey(Session.getAdmin.get.emailProperty.value)
+        val admin = Administrator.getRecordByKey(Session.getAdmin().get.emailProperty.value)
         admin match
           //if admin found
           case Some(admin) =>
             //assign the emailProperty with the new email field
             admin.emailProperty.value = newEmailField.text.value
             //attempt to save the new email to admin
-            admin.saveAsRecord match
+            admin.saveAsRecord() match
               //if successful, display success message, replace session with the new email and redirect back to home page
               case Success(x) => Alert.displayInformation("Success", "Successfully update email ", "The email has been updated")
                 Session.logIn(admin)
@@ -48,12 +48,12 @@ class ChangeEmailController:
     
     //if current email field is left empty, then add current email empty field error to errorMessage
     if(currentEmailField.text.value.isEmpty) then
-      errorMessage += "Current email field is empty\n"
+      errorMessage += "*Current email field is empty\n"
     end if
     
     //if new email field is left empty, then add new email empty field error to errorMessage
     if(newEmailField.text.value.isEmpty) then
-      errorMessage += "New email field is empty\n"
+      errorMessage += "*New email field is empty\n"
     end if
 
     //if errorMessage does not have any error message then return false
@@ -61,7 +61,7 @@ class ChangeEmailController:
       false
     else
       //if errorMessage has error message(s), then display an error alert, list the errors and return true
-      Alert.displayError("Field Empty", errorMessage, "Please try again")
+      Alert.displayError("*Field Empty", "Please try again" ,errorMessage)
       true
   end isNull
 
@@ -70,12 +70,12 @@ class ChangeEmailController:
     var errorMessage = ""
     
     //get the original email
-    val currentEmail = Session.getAdmin.get.emailProperty
+    val currentEmail = Session.getAdmin().get.emailProperty
     
     //compare the original email with the one provided in the currentEmailField
     if (currentEmail.value != currentEmailField.text.value) then
       //if does not match, then add error to errorMessage
-      errorMessage += "Current email provided do not match your current email associated with the Giver.\n"
+      errorMessage += "*Current email provided do not match your current email associated with the Giver.\n"
     end if
     
     //if errorMessage does not have any error message then return true
@@ -83,7 +83,7 @@ class ChangeEmailController:
       true
     else
       //if errorMessage has error message(s), then display an error alert, list the errors and return false
-      Alert.displayError("Invalid email", errorMessage, "Please try again")
+      Alert.displayError("Invalid email",  "Please try again",errorMessage)
       false
   end compareEmail
 
@@ -93,12 +93,12 @@ class ChangeEmailController:
     
     //if current email provided does not match the email pattern set in Pattern Match then add the message to errorMessage
     if (!PatternMatch.validEmail(currentEmailField.text.value)) then
-      errorMessage += "The current email field does not follow the following format: john@example.com\n"
+      errorMessage += "*The current email field does not follow the following format: john@example.com\n"
     end if
 
     //if new email provided does not match the email pattern set in Pattern Match then add the message to errorMessage
     if (!PatternMatch.validEmail(newEmailField.text.value)) then
-      errorMessage += "The new email field does not follow the following format: john@example.com\n"
+      errorMessage += "*The new email field does not follow the following format: john@example.com\n"
     end if
 
     //if errorMessage does not have any error message then return true
@@ -106,7 +106,7 @@ class ChangeEmailController:
       true
     else
       //if errorMessage has error message(s), then display an error alert, list the errors and return false
-      Alert.displayError("Invalid Email", errorMessage, "Please try again")
+      Alert.displayError("Invalid Email", "Please try again",errorMessage)
       false
   end validEmail
 

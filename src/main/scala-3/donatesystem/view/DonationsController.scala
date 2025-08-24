@@ -38,10 +38,10 @@ class DonationsController:
     donationTable.items = RunTheGiver.donatedItemData
 
     //bind each column to their corresponding properties in the Donated Item, Donation and Donors model
-    donorColumn.cellValueFactory = { x => x.value.donationD.donorD.nameProperty }
-    itemColumn.cellValueFactory = { x => x.value.itemC.nameProperty }
+    donorColumn.cellValueFactory = { x => x.value.donation.donor.nameProperty }
+    itemColumn.cellValueFactory = { x => x.value.item.nameProperty }
     quantityColumn.cellValueFactory = { x => x.value.quantityProperty }
-    dateColumn.cellValueFactory = { x => x.value.donationD.donationDateProperty}
+    dateColumn.cellValueFactory = { x => x.value.donation.donationDateProperty}
   end initialize
 
 
@@ -53,14 +53,20 @@ class DonationsController:
     val selectedDonation = donationTable.selectionModel().selectedItem.value
 
     if (selectedIndex >= 0) then
-      //if a donation item is selected, then attempt to delete the record
-      selectedDonation.deleteRecord match
-        //if successful, remove the item from TableView
-        case Success(x) =>
-          donationTable.items().remove(selectedIndex)
-        //if not successful, display an error alert
-        case Failure(x) =>
-          Alert.displayError("Delete unsuccessful", "The record was not deleted", "Please try again")
+      //if a donated item is selected, then prompt for confirmation
+      val confirm = Alert.displayConfirmation("Delete Donated Item",
+        "Are you sure you want this record to be deleted",
+        s"Name: ${selectedDonation.donation.donor.nameProperty.value}\n Item Name: ${selectedDonation.item.nameProperty.value}\n Date: ${selectedDonation.donation.donationDateProperty.value}" )
+
+      if confirm then
+        //if a donation item is selected, then attempt to delete the record
+        selectedDonation.deleteRecord() match
+          //if successful, remove the item from TableView
+          case Success(x) =>
+            donationTable.items().remove(selectedIndex)
+          //if not successful, display an error alert
+          case Failure(x) =>
+            Alert.displayError("Delete unsuccessful", "The record was not deleted", "Please try again")
     else
       //if no donation item was selected, then display the error alert
       Alert.displayError("Invalid donation", "No donation record is selected", "Please choose a donation")

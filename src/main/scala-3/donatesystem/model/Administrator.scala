@@ -1,45 +1,45 @@
 package donatesystem.model
 
-import donatesystem.util.{Database, GenericObject, GenericModel}
+import donatesystem.util.{Database, GenericObject}
 import scalikejdbc.*
-import scala.util.Try
-import scalafx.beans.property. StringProperty
+
+import scala.util.{Failure, Try}
+import scalafx.beans.property.StringProperty
 
 // Administrator class
 // adminIDI as Administrator property
-// extends GenericModel[Administrator] for generic programming
 // with Database trait
-class Administrator(val adminIDI: Int,  fNameS:String,  emailS:String,  passwordS:String) extends GenericModel[Administrator] with Database:
+case class Administrator(adminID: Int,  fName:String,  email:String,  password:String) extends Database:
   //auxiliary constructor
   def this() = this(0, null, null, null)
 
   // create string properties for the administrator form fields
-  var fNameProperty = new StringProperty(fNameS)
-  var emailProperty = new StringProperty(emailS)
-  var passwordProperty = new StringProperty(passwordS)
+  var fNameProperty = new StringProperty(fName)
+  var emailProperty = new StringProperty(email)
+  var passwordProperty = new StringProperty(password)
 
   //save the admin record to administrators table
-  def saveAsRecord: Try[Int] = {
+  def saveAsRecord(): Try[Int] = {
     //if does not have record
-    if(!hasRecord) then {
+    if(!hasRecord()) then {
       // create a new record
       Try (DB autoCommit{ implicit session =>
         sql"""
-             INSERT INTO administrators (fName, email, password) VALUES
+             INSERT INTO administrators (f_name, email, password) VALUES
              (${fNameProperty.value}, ${emailProperty.value}, ${passwordProperty.value})
            """.update.apply()
       })
     } else {
       // if record exists, update the respective fields
+      // to ensure only the current admin is updated
       Try(DB autoCommit{
         sql"""
              UPDATE administrators
              SET
-             fName = ${fNameProperty.value},
+             f_name = ${fNameProperty.value},
              email = ${emailProperty.value},
              password = ${passwordProperty.value}
-             // to ensure only the current admin is updated
-             WHERE admin_id = $adminIDI
+             WHERE admin_id = $adminID
            """.update.apply()
       })
     }
@@ -47,9 +47,9 @@ class Administrator(val adminIDI: Int,  fNameS:String,  emailS:String,  password
   end saveAsRecord
 
   // delete administrator records
-  def deleteRecord: Try[Int] =
+  def deleteRecord(): Try[Int] =
   // delete only if record exists
-    if(hasRecord) then {
+    if(hasRecord()) then {
       // delete only if email matches
       Try(DB autoCommit{implicit session =>
         sql"""
@@ -59,16 +59,16 @@ class Administrator(val adminIDI: Int,  fNameS:String,  emailS:String,  password
       })
     } else {
       // if no records found, throw an exception
-      throw new Exception("There are no records of this email. Deletion failed!")
+      Failure(new Exception("There are no records of this email. Deletion failed!"))
     }
   end deleteRecord
 
   //check if record exists
-  def hasRecord:Boolean =
+  def hasRecord():Boolean =
   //select if adminIDI exists in admin_id of administrator table
     DB readOnly{ implicit session =>
       sql"""
-           SELECT * FROM administrators WHERE admin_id = $adminIDI
+           SELECT * FROM administrators WHERE admin_id = $adminID
          """.map(_ => ()).single.apply()
     } match
       // if found return true
@@ -82,12 +82,12 @@ end Administrator
 object Administrator extends GenericObject[Administrator] with Database:
   // create an initialized Administrator from the provided values
   def apply(
-             user_idI:Int,
-             fNameS: String,
-             emailS: String,
-             passwordS: String,
+             user_id:Int,
+             fName: String,
+             email: String,
+             password: String,
            ): Administrator =
-    new Administrator(user_idI, fNameS, emailS, passwordS)
+    new Administrator(user_id, fName, email, password)
 
   end apply
 
@@ -97,7 +97,7 @@ object Administrator extends GenericObject[Administrator] with Database:
       sql"""
            CREATE TABLE administrators(
            admin_id int NOT NULL GENERATED ALWAYS AS IDENTITY  (START WITH 1, INCREMENT BY 1) PRIMARY KEY ,
-           fName varchar (40),
+           f_name varchar (40),
            email varchar(64),
            password varchar(64)
            )
@@ -114,7 +114,7 @@ object Administrator extends GenericObject[Administrator] with Database:
       SELECT * from administrators
       """.map(rs => Administrator( // create an object for Administrator and return it using the retrieved values
         rs.int("admin_id"),
-        rs.string("fName"),
+        rs.string("f_name"),
         rs.string("email"),
         rs.string("password")
       )).list.apply()
@@ -139,7 +139,7 @@ object Administrator extends GenericObject[Administrator] with Database:
          """.map(rs =>
       Administrator( // create an object for Administrator and return it using the retrieved values
         rs.int("admin_id"),
-        rs.string("fname"),
+        rs.string("f_name"),
         rs.string("email"),
         rs.string("password"),
       )).single.apply()

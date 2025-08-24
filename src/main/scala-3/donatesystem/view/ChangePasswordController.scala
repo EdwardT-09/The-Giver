@@ -24,14 +24,14 @@ class ChangePasswordController:
     if (!isNull) then
       if (validPassword && comparePassword) then
         // get admin information using original email if fields are not null, passwords are valid and current password provided matches the original password in the database
-        val admin = Administrator.getRecordByKey(Session.getAdmin.get.emailProperty.value)
+        val admin = Administrator.getRecordByKey(Session.getAdmin().get.emailProperty.value)
         admin match
           //if admin found
           case Some(admin) =>
             //assign the passwordProperty with the new password field
             admin.passwordProperty.value = newPasswordField.text.value
             //attempt to save the new password to admin
-            admin.saveAsRecord match
+            admin.saveAsRecord() match
               //if successful, display success message, replace session with the new password and redirect back to home page
               case Success(x) => Alert.displayInformation("Success", "Success", "The password has been updated")
                 RunTheGiver.showHome()
@@ -48,17 +48,17 @@ class ChangePasswordController:
     
     //if current password field is left empty, then add current password empty field error to errorMessage
     if (currentPasswordField.text.value.isEmpty) then
-      errorMessage += "Current password field is empty\n"
+      errorMessage += "*Current password field is empty\n"
     end if
 
     //if new password field is left empty, then add new password empty field error to errorMessage
     if (newPasswordField.text.value.isEmpty) then
-      errorMessage += "New password field is empty\n"
+      errorMessage += "*New password field is empty\n"
     end if
 
     //if new password confirmation field is left empty, then add new password confirmation empty field error to errorMessage
     if (newPasswordConfirmField.text.value.isEmpty) then
-      errorMessage += "New password confirmation field is empty\n"
+      errorMessage += "*New password confirmation field is empty\n"
     end if
 
     //if errorMessage does not have any error message then return false
@@ -66,7 +66,7 @@ class ChangePasswordController:
       false
     else
       //if errorMessage has error message(s), then display an error alert, list the errors and return true
-      Alert.displayError("Field Empty", errorMessage, "Please try again")
+      Alert.displayError("Field Empty", "Please try again", errorMessage)
       true
   end isNull
 
@@ -75,12 +75,12 @@ class ChangePasswordController:
     var errorMessage = ""
 
     //get the original password
-    val currentPassword = Session.getAdmin.get.passwordProperty
+    val currentPassword = Session.getAdmin().get.passwordProperty
 
     //compare the original password with the one provided in the currentPasswordField
     if (currentPassword.value != currentPasswordField.text.value) then
       //if does not match, then add error to errorMessage
-      errorMessage += "Current password provided do not match your current password associated with the Giver.\n"
+      errorMessage += "*Current password provided do not match your current password associated with the Giver.\n"
     end if
     
     if (errorMessage.isEmpty) then
@@ -88,7 +88,7 @@ class ChangePasswordController:
       true
     else
       //if errorMessage has error message(s), then display an error alert, list the errors and return false
-      Alert.displayError("Invalid password", errorMessage, "Please try again")
+      Alert.displayError("Invalid password", "Please try again", errorMessage)
       false
   end comparePassword
 
@@ -98,17 +98,17 @@ class ChangePasswordController:
     
     //if current password provided does not match the password pattern set in Pattern Match then add the message to errorMessage
     if (!PatternMatch.validPassword(currentPasswordField.text.value)) then
-      errorMessage += "The current password field must contain at least one upper case, lower case, number and symbol\n"
+      errorMessage += "*The current password field must contain at least one upper case, lower case, number and symbol\n"
     end if
     
     //if new password provided does not match the password pattern set in Pattern Match then add the message to errorMessage
     if (!PatternMatch.validPassword(newPasswordField.text.value)) then
-      errorMessage += "The new password field must contain at least one upper case, lower case, number and symbol\n"
+      errorMessage += "*The new password field must contain at least one upper case, lower case, number and symbol\n"
     end if
     
     //if new password confirmation provided does not match the password pattern set in Pattern Match then add the message to errorMessage
     if(newPasswordField.text.value != newPasswordConfirmField.text.value) then
-      errorMessage += "The password confirmation does not match the new password\n"
+      errorMessage += "*The password confirmation does not match the new password\n"
     end if
     
     if (errorMessage.isEmpty) then
@@ -116,7 +116,7 @@ class ChangePasswordController:
       true
     else
       //if errorMessage has error message(s), then display an error alert, list the errors and return false
-      Alert.displayError("Invalid Password", errorMessage, "Please try again")
+      Alert.displayError("Invalid Password", "Please try again", errorMessage)
       false
   end validPassword
 

@@ -2,32 +2,27 @@ package donatesystem.model
 
 import donatesystem.util.Database
 import scalikejdbc.*
-import scala.util.{Failure, Success, Try}
-import scalafx.beans.property.{BooleanProperty, IntegerProperty, ObjectProperty, StringProperty}
+import scala.util.{Failure, Try}
+import scalafx.beans.property.{ObjectProperty, StringProperty}
 import donatesystem.util.Alert
-import java.time.LocalDate
 
 //abstract class: Catalog Item that is the superclass of Food and Beverage class
-abstract class CatalogItem(val itemIDI :Int, nameS:String, categoryS:String, perishableB:Boolean, quantityI:Int):
+abstract class CatalogItem(val itemID :Int, name:String, category:String, perishable:Boolean, quantity:Int):
   //auxiliary constructor
   def this() = this(0, null, null, false, 0)
 
   // string and object properties for the catalog item form fields that are shared by the Food and Beverage class
-  val nameProperty = new StringProperty(nameS)
-  val categoryProperty = new StringProperty(categoryS)
-  val isPerishableProperty =  ObjectProperty[Boolean](perishableB)
-  val quantityProperty =  ObjectProperty[Int](quantityI)
+  val nameProperty = new StringProperty(name)
+  val categoryProperty = new StringProperty(category)
+  val isPerishableProperty =  ObjectProperty[Boolean](perishable)
+  val quantityProperty =  ObjectProperty[Int](quantity)
 
   //methods that Food and Beverage shares
-  def saveAsRecord: Try[Int]
+  def saveAsRecord(): Try[Int]
 
-//  def increaseQuantity(quantity: Int): Try[Int]
-//
-//  def reduceQuantity(quantity:Int): Try[Int]
-//  
-  def deleteRecord: Try[Int] 
+  def deleteRecord(): Try[Int]
 
-  def hasRecord: Boolean 
+  def hasRecord(): Boolean 
   
 end CatalogItem
 
@@ -42,21 +37,31 @@ object CatalogItem extends Database:
                   item_id int NOT NULL GENERATED ALWAYS AS IDENTITY  (START WITH 1, INCREMENT BY 1) PRIMARY KEY,
                   name varchar (32),
                   category varchar(32),
-                  perishable BOOLEAN,
+                  is_perishable BOOLEAN,
                   quantity INT)
                 """.execute.apply()
     }
   end createTable
 
   //save the catalog_items information in the table and use the generated key to connect to food and beverage records
-  def saveItem(name:String, category: String, perishable:Boolean, quantity:Int):Int =
+  def saveItem(name:String, category: String, isPerishable:Boolean, quantity:Int):Int =
     DB autoCommit{implicit session =>
       sql"""
-            INSERT INTO catalog_items(name, category, perishable, quantity)
-            VALUES ($name, $category, $perishable, $quantity )
+            INSERT INTO catalog_items(name, category, is_perishable, quantity)
+            VALUES ($name, $category, $isPerishable, $quantity )
             """.updateAndReturnGeneratedKey().toInt
     }
   end saveItem
+
+  def deleteItem(itemID:Int):Try[Int] =
+    Try(DB autoCommit { implicit session =>
+      sql"""
+         DELETE FROM catalog_items
+         WHERE item_id=$itemID
+         """.update.apply()
+    })
+  end deleteItem
+
 
   //increase the quantity
   def increaseQuantity(itemID: Int, quantity: Int): Try[Int] =
@@ -84,7 +89,7 @@ object CatalogItem extends Database:
       })
     else
       // if unsuccessful quantity reduction, throw an exception
-      throw new Exception("An error has occured. The quantity was not reduced")
+      Failure(new Exception("An error has occured. The quantity was not reduced"))
   end reduceQuantity
 
 
@@ -132,14 +137,15 @@ object CatalogItem extends Database:
       case itemID:Int => getRecordByID(itemID)
       case _ => None
   end getRecordByKey
-  
+
+  //clarified certain sql keywords with the help of AI //OpenAI. (2025). ChatGPT  [Large language model]. https://chat.openai.com/chat
   //get a single record from the catalogItems and food or beverage table based on the name
-  def getRecordByName(name: String): Option[CatalogItem] = {
+  private def getRecordByName(name: String): Option[CatalogItem] = {
     //join table for catalog item and food 
     DB readOnly { implicit session =>
       sql"""
-        SELECT c.item_id, c.name, c.category, c.perishable, c.quantity,
-               f.isVegetarian, f.containsAllergens
+        SELECT c.item_id, c.name, c.category, c.is_perishable, c.quantity,
+               f.is_vegetarian, f.contains_allergens
         FROM catalog_items c
         JOIN foods f ON c.item_id = f.food_id
         WHERE c.name = $name
@@ -148,10 +154,10 @@ object CatalogItem extends Database:
           rs.int("item_id"),
           rs.string("name"),
           rs.string("category"),
-          rs.boolean("perishable"),
+          rs.boolean("is_perishable"),
           rs.int("quantity"),
-          rs.boolean("isVegetarian"),
-          rs.string("containsAllergens")
+          rs.boolean("is_vegetarian"),
+          rs.string("contains_allergens")
         )
       }.single()
     }
@@ -159,8 +165,8 @@ object CatalogItem extends Database:
     //join table for catalog item and beverage 
     DB readOnly { implicit session =>
       sql"""
-        SELECT c.item_id, c.name, c.category, c.perishable, c.quantity,
-               b.volumePerUnit, b.isCarbonated
+        SELECT c.item_id, c.name, c.category, c.is_perishable, c.quantity,
+               b.volume_per_unit, b.is_carbonated
         FROM catalog_items c
         JOIN beverages b ON c.item_id = b.beverage_id
         WHERE c.name = $name
@@ -169,22 +175,23 @@ object CatalogItem extends Database:
           rs.int("item_id"),
           rs.string("name"),
           rs.string("category"),
-          rs.boolean("perishable"),
+          rs.boolean("is_perishable"),
           rs.int("quantity"),
-          rs.int("volumePerUnit"),
-          rs.boolean("isCarbonated")
+          rs.int("volume_per_unit"),
+          rs.boolean("is_carbonated")
         )
       }.single()
     }
   }
 
+  //clarified certain sql keywords with the help of AI //OpenAI. (2025). ChatGPT  [Large language model]. https://chat.openai.com/chat
   //get a single record from the catalogItems and food or beverage table based on the id
-  def getRecordByID(itemID: Int): Option[CatalogItem] = {
+  private def getRecordByID(itemID: Int): Option[CatalogItem] = {
     //join table for catalog item and food 
     DB readOnly { implicit session =>
       sql"""
-        SELECT c.item_id, c.name, c.category, c.perishable, c.quantity,
-               f.isVegetarian, f.containsAllergens
+        SELECT c.item_id, c.name, c.category, c.is_perishable, c.quantity,
+               f.is_vegetarian, f.contains_allergens
         FROM catalog_items c
         JOIN foods f ON c.item_id = f.food_id
         WHERE c.item_id = $itemID
@@ -193,10 +200,10 @@ object CatalogItem extends Database:
           rs.int("item_id"),
           rs.string("name"),
           rs.string("category"),
-          rs.boolean("perishable"),
+          rs.boolean("is_perishable"),
           rs.int("quantity"),
-          rs.boolean("isVegetarian"),
-          rs.string("containsAllergens")
+          rs.boolean("is_vegetarian"),
+          rs.string("contains_allergens")
         )
       }.single()
     }
@@ -204,8 +211,8 @@ object CatalogItem extends Database:
     //join table for catalog item and beverage 
     DB readOnly { implicit session =>
       sql"""
-        SELECT c.item_id, c.name, c.category, c.perishable, c.quantity,
-               b.volumePerUnit, b.isCarbonated
+        SELECT c.item_id, c.name, c.category, c.is_perishable, c.quantity,
+               b.volume_per_unit, b.is_carbonated
         FROM catalog_items c
         JOIN beverages b ON c.item_id = b.beverage_id
         WHERE c.item_id = $itemID
@@ -214,10 +221,10 @@ object CatalogItem extends Database:
           rs.int("item_id"),
           rs.string("name"),
           rs.string("category"),
-          rs.boolean("perishable"),
+          rs.boolean("is_perishable"),
           rs.int("quantity"),
-          rs.int("volumePerUnit"),
-          rs.boolean("isCarbonated")
+          rs.int("volume_per_unit"),
+          rs.boolean("is_carbonated")
         )
       }.single()
     }

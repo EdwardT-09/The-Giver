@@ -1,39 +1,41 @@
 package donatesystem.model
 
-import donatesystem.util.{Database, GenericObject, GenericModel}
+import donatesystem.util.Database
 import scalikejdbc.*
-import scala.util.Try
+import scala.util.{Failure, Try}
 import scalafx.beans.property.{ObjectProperty, StringProperty}
 
 
 // Food class
 // _itemIDI as Food property
 // a subclass of CatalogItem
-// with GenericModel[Food] for generic programming
 // with Databased trait
-class Food(val _itemIDI :Int, _nameS:String, _categoryS:String, _perishableB:Boolean, _quantityI:Int, isVegetarianB: Boolean, containsAllergensS: String) extends CatalogItem(_itemIDI, _nameS, _categoryS, _perishableB, _quantityI) with Database with GenericModel[Food]:
+class Food(var _itemID :Int, _name:String, _category:String, _perishable:Boolean, _quantity:Int, isVegetarian: Boolean, containsAllergens: String) extends CatalogItem(_itemID, _name, _category, _perishable, _quantity) with Database :
 
   // create string and object properties for the food form fields
   //override the CatalogItem properties
-  override val nameProperty = new StringProperty(_nameS)
-  override val categoryProperty = new StringProperty(_categoryS)
-  override val isPerishableProperty = ObjectProperty[Boolean](_perishableB)
-  override val quantityProperty = ObjectProperty[Int](_quantityI)
-  val isVegetarianProperty = ObjectProperty[Boolean](isVegetarianB)
-  val containsAllergensProperty = new StringProperty(containsAllergensS)
+  override val nameProperty = new StringProperty(_name)
+  override val categoryProperty = new StringProperty(_category)
+  override val isPerishableProperty = ObjectProperty[Boolean](_perishable)
+  override val quantityProperty = ObjectProperty[Int](_quantity)
+  val isVegetarianProperty = ObjectProperty[Boolean](isVegetarian)
+  val containsAllergensProperty = new StringProperty(containsAllergens)
+
 
   //save the food record
-  def saveAsRecord: Try[Int] =
+  def saveAsRecord(): Try[Int] =
     //if does not have record
-    if !hasRecord then {
+    if !hasRecord() then {
       //call CatalogItem method, saveItem to save the name, category, isPerishable and quantity values as catalog item record
       val catalogID = CatalogItem.saveItem(nameProperty.value, categoryProperty.value, isPerishableProperty.value,quantityProperty.value)
       // create a new record for food with the remaining fields
       Try(DB autoCommit { implicit session =>
         sql"""
-              INSERT INTO foods (food_id, isVegetarian, containsAllergens) VALUES
+              INSERT INTO foods (food_id, is_vegetarian, contains_allergens) VALUES
               (${catalogID}, ${isVegetarianProperty.value}, ${containsAllergensProperty.value})
             """.update.apply()
+        this._itemID = catalogID
+        catalogID
       })
     } else
       // if record exists, update the respective fields
@@ -44,88 +46,47 @@ class Food(val _itemIDI :Int, _nameS:String, _categoryS:String, _perishableB:Boo
               SET
                 name = ${nameProperty.value},
                 category = ${categoryProperty.value},
-                perishable = ${isPerishableProperty.value},
+                is_perishable = ${isPerishableProperty.value},
                 quantity = quantity + ${quantityProperty.value}
-              WHERE item_id = $_itemIDI
+              WHERE item_id = $_itemID
             """.update.apply()
 
         val updatedFood = sql"""
               UPDATE foods
               SET
-              isVegetarian = ${isVegetarianProperty.value},
-              containsAllergens = ${containsAllergensProperty.value}
-              WHERE food_id = $_itemIDI
+              is_vegetarian = ${isVegetarianProperty.value},
+              contains_allergens = ${containsAllergensProperty.value}
+              WHERE food_id = $_itemID
             """.update.apply()
         updatedCatalog + updatedFood
       })
   end saveAsRecord
 
-//  //increase the quantity of items
-//  def increaseQuantity(quantity: Int): Try[Int] =
-//    // if record exists then update the quantity
-//    if (hasRecord) then
-//      Try(DB autoCommit {
-//        sql"""
-//          UPDATE foods
-//          SET
-//          quantity = quantity + $quantity
-//          WHERE food_id = $_itemIDI
-//        """.update.apply()
-//      })
-//    else
-//      // if no records found, throw an exception
-//      throw new Exception("There was an error. The quantity of the food was not reduced.")
-//  end increaseQuantity
-//
-//  //decrease the quantity of items
-//  def reduceQuantity(quantity:Int): Try[Int] =
-//    //if record exists then check if quantity provided is under 0 and over the available quantity
-//    if(hasRecord) then
-//      // if less than zero, throw an exception
-//      if (quantity <= 0)
-//        throw new IllegalArgumentException("Amount must be positive")
-//
-//      if (quantity > quantityProperty.value)
-//        // if quantity provided exceeds the available quantity, throw an exception
-//        throw new IllegalArgumentException("Cannot reduce more than available quantity")
-//
-//      //if no exceptions are thrown, update the quantity
-//      Try(DB autoCommit {
-//        sql"""
-//          UPDATE foods
-//          SET
-//          quantity = quantity - $quantityProperty
-//          WHERE food_id = $_itemIDI
-//        """.update.apply()
-//      })
-//    else
-//      // if no records found, throw an exception
-//      throw new Exception("There was an error. The quantity of the food was not reduced.")
-//  end reduceQuantity
-
 
   // delete food records
-  def deleteRecord: Try[Int] =
+  def deleteRecord(): Try[Int] =
     // delete only if record exists
-    if (hasRecord) then
+    if (hasRecord()) then
       // delete only if food_id matches
       Try(DB autoCommit { implicit session =>
         sql"""
            DELETE FROM foods
-           WHERE food_id=$_itemIDI
+           WHERE food_id=$_itemID
            """.update.apply()
-      })
+      }
+      )
+      CatalogItem.deleteItem(_itemID)
     else
       // if no records found, throw an exception
-      throw new Exception("There are no records of this item. Deletion failed!")
+      Failure(new Exception("There are no records of this item. Deletion failed!"))
   end deleteRecord
 
   //check if record exists
-  def hasRecord: Boolean =
+  def hasRecord(): Boolean =
     //select if food_id exists in _itemIDI of foods table
     DB readOnly { implicit session =>
       sql"""
-            SELECT * FROM foods WHERE food_id = $_itemIDI
+            SELECT * FROM foods WHERE food_id = $_itemID
           """.map(_ => ()).single.apply()
     } match
       // if found, return true
@@ -140,15 +101,15 @@ end Food
 object Food extends Database:
   // create an initialized Food from the provided values
   def apply(
-             itemIDI :Int,
-             nameS:String,
-             categoryS:String,
-             perishableB:Boolean,
-             quantityI:Int,
-             isVegetarianB: Boolean,
-             containsAllergensS: String
+             itemID :Int,
+             name:String,
+             category:String,
+             perishable:Boolean,
+             quantity:Int,
+             isVegetarian: Boolean,
+             containsAllergens: String
            ): Food =
-    new Food(itemIDI, nameS, categoryS, perishableB, quantityI, isVegetarianB, containsAllergensS)
+    new Food(itemID, name, category, perishable, quantity, isVegetarian,containsAllergens)
 
   end apply
 
@@ -158,8 +119,8 @@ object Food extends Database:
       sql"""
                CREATE TABLE foods(
                food_id int PRIMARY KEY REFERENCES catalog_items(item_id),
-               isVegetarian BOOLEAN,
-               containsAllergens varchar(64)
+               is_vegetarian BOOLEAN,
+               contains_allergens varchar(64)
                )
              """.execute.apply()
     }
@@ -168,17 +129,17 @@ object Food extends Database:
   def getAllRecords(): List[Food] =
     DB readOnly { implicit session =>
       sql"""
-      SELECT ci.*, f.isVegetarian, f.containsAllergens
+      SELECT ci.*, f.is_vegetarian, f.contains_allergens
       FROM foods f
       JOIN catalog_items ci ON f.food_id = ci.item_id
       """.map(rs => Food( // create an object for Food and return it using the retrieved values
         rs.int("item_id"),
         rs.string("name"),
         rs.string("category"),
-        rs.boolean("perishable"),
+        rs.boolean("is_perishable"),
         rs.int("quantity"),
-        rs.boolean("isVegetarian"),
-        rs.string("containsAllergens")
+        rs.boolean("is_vegetarian"),
+        rs.string("contains_allergens")
       )).list.apply()
     }
 

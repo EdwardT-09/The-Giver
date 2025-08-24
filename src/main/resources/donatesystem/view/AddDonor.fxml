@@ -19,14 +19,14 @@
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="404.0" prefWidth="602.0" styleClass="scroll-pane">
                <children>
-                  <Text fill="#355e59" layoutX="14.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name of Donors: " />
+                  <Text fill="#355e59" layoutX="14.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name of Donors: * " />
                   <TextField fx:id="nameField" layoutX="14.0" layoutY="46.0" prefHeight="26.0" prefWidth="569.0" promptText="Enter the name of the donor" styleClass="bottom-border-input" />
-                  <Text fill="#355e59" layoutX="16.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email: " />
+                  <Text fill="#355e59" layoutX="16.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email:  *" />
                   <TextField fx:id="emailField" layoutX="16.0" layoutY="110.0" prefHeight="26.0" prefWidth="569.0" promptText="Enter their email..." styleClass="bottom-border-input" />
-                  <Text fill="#355e59" layoutX="16.0" layoutY="161.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Birthday:" />
-                  <Text fill="#355e59" layoutX="15.0" layoutY="227.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contact Number:" />
+                  <Text fill="#355e59" layoutX="16.0" layoutY="161.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Birthday: *" />
+                  <Text fill="#355e59" layoutX="15.0" layoutY="227.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contact Number: *" />
                   <TextField fx:id="contactNoField" layoutX="15.0" layoutY="239.0" prefHeight="26.0" prefWidth="569.0" promptText="Enter their contact number..." styleClass="bottom-border-input" />
-                  <Text fill="#355e59" layoutX="16.0" layoutY="294.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Occupation:" />
+                  <Text fill="#355e59" layoutX="16.0" layoutY="294.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Occupation: *" />
                   <TextField fx:id="occupationField" layoutX="16.0" layoutY="306.0" prefHeight="26.0" prefWidth="569.0" promptText="Enter their occupation..." styleClass="bottom-border-input" />
                   <Button layoutX="18.0" layoutY="357.0" mnemonicParsing="false" onAction="#handleAddDonor" prefHeight="26.0" prefWidth="566.0" text="Submit" textFill="#f1ffff" />
                   <DatePicker fx:id="birthdayField" layoutX="18.0" layoutY="172.0" prefHeight="10.0" prefWidth="178.0" promptText="Enter thir birthday..." styleClass="bottom-border-input" />

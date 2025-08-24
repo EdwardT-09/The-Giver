@@ -41,11 +41,11 @@ class LogInController:
     var errorMessage:String = ""
     //if email field is left empty, then add email empty field error to errorMessage
     if (emailField.text.value.isEmpty) then
-      errorMessage += "Email field is empty\n"
+      errorMessage += "*Email field is empty\n"
     end if
     //if password field is left empty, then add password empty field error to errorMessage
     if(passwordField.text.value.isEmpty) then
-      errorMessage += "Password field is empty\n"
+      errorMessage += "*Password field is empty\n"
     end if
     
     
@@ -54,7 +54,7 @@ class LogInController:
       false
     else
       //if errorMessage has error message(s), then display an error alert, list the errors and return true
-      Alert.displayError("Empty Field", errorMessage, "Please enter the following fields.")
+      Alert.displayError("Empty Field", "Please enter the following fields.", errorMessage)
       true
   end isNull
 
@@ -65,13 +65,13 @@ class LogInController:
     var errorMessage: String = ""
     //if email provided does not match the email pattern set in Pattern Match then add the message to errorMessage
     if (!PatternMatch.validEmail(emailField.text.value)) then
-      errorMessage += "Email provided is invalid\n"
+      errorMessage += "*Email provided is invalid. Format must be name@example.com\n"
     if (errorMessage.isEmpty) then
       //if errorMessage does not have any error message then return true
       true
     else
       //if errorMessage has error message(s), then display an error alert, list the errors and return false
-      Alert.displayError("Invalid Inputs", errorMessage, "Please reenter the fields.")
+      Alert.displayError("Invalid Inputs", "Please reenter the fields.",errorMessage)
       false
     end if
   end validInput

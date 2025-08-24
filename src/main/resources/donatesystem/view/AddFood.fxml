@@ -19,9 +19,9 @@
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="335.0" prefWidth="602.0" styleClass="scroll-pane">
                <children>
-                  <Text fill="#355e59" layoutX="14.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name of Food: " />
+                  <Text fill="#355e59" layoutX="14.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name of Food: * " />
                   <TextField fx:id="nameField" layoutX="14.0" layoutY="46.0" prefHeight="26.0" prefWidth="569.0" promptText="Enter the name of the food" styleClass="bottom-border-input" />
-                  <Text fill="#355e59" layoutX="16.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Category: " />
+                  <Text fill="#355e59" layoutX="16.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Category: * " />
                   <TextField fx:id="categoryField" layoutX="16.0" layoutY="110.0" prefHeight="26.0" prefWidth="569.0" promptText="Enter the category..." styleClass="bottom-border-input" />
                   <Text fill="#355e59" layoutX="16.0" layoutY="161.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Perishables" />
                   <Text fill="#355e59" layoutX="15.0" layoutY="224.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Allergens" />

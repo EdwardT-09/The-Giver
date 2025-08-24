@@ -15,6 +15,10 @@
     -fx-text-fill: #355e59;
 }
 
+.dialog-pane .button{
+    -fx-text-fill: #f1ffff;
+}
+
 .button{
     -fx-background-color: #638989;
 }
@@ -86,10 +90,26 @@
     -fx-background-color:#638989;
 }
 
+.table-row-cell:filled:selected {
+    -fx-background-color: #52a5a5;
+    -fx-text-fill:#638989;
+}
+
+.table-row-cell:filled:selected .text {
+    -fx-fill: #131d51;
+}
+
 .table-view .column-header .label{
     -fx-text-fill:#F1FFFF;
 }
 
+.table-row-cell:odd {
+    -fx-background-color: #ecfafa;
+}
+
+.table-row-cell:even {
+    -fx-background-color: #d8f1f1;
+}
 .menu-button{
     -fx-background-color: transparent;
 }

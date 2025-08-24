@@ -2,7 +2,7 @@ package donatesystem.model
 
 
 import donatesystem.model
-import donatesystem.util.{Database, GenericObject, GenericModel}
+import donatesystem.util.{Database, GenericObject}
 import scalikejdbc.*
 import donatesystem.model.CatalogItem
 
@@ -13,9 +13,8 @@ import java.time.LocalDate
 
 // DonatedItems class
 // donatedItemsIDI and donationD as DonatedItems property
-// extends GenericModel[DonatedItems] for generic programming
 // with Database trait
-class DonatedItems(val donatedItemsIDI: Int, val donationD: Donation, val itemC: CatalogItem, val quantityI: Int) extends GenericModel[DonatedItems] with Database:
+case class DonatedItems( donatedItemsID: Int,  donation: Donation,  item:CatalogItem,  quantity: Int) extends Database:
   //auxiliary constructor
   def this() = this(0,null,null,0)
 
@@ -23,13 +22,13 @@ class DonatedItems(val donatedItemsIDI: Int, val donationD: Donation, val itemC:
   //check if donation is null
   var donationIDProperty =
   //get donationID if donation is passed in and 0 for null
-    ObjectProperty[Int](if donationD != null then donationD.donationIDI else 0)
-  var itemProperty = ObjectProperty[Int](itemC.itemIDI)
-  var quantityProperty = ObjectProperty[Int](quantityI)
+    ObjectProperty[Int](if donation != null then donation.donationID else 0) //OpenAI. (2025). ChatGPT  [Large language model]. https://chat.openai.com/chat
+  var itemProperty = ObjectProperty[Int](item.itemID)
+  var quantityProperty = ObjectProperty[Int](quantity)
   
 
   //save the DonatedItems record in donated_items table
-  def saveAsRecord: Try[Int] =
+  def saveAsRecord(): Try[Int] =
       Try(DB autoCommit { implicit session =>
         sql"""
              INSERT INTO donated_items (donation_id, item_id, quantity) VALUES
@@ -40,13 +39,13 @@ class DonatedItems(val donatedItemsIDI: Int, val donationD: Donation, val itemC:
 
 
   // delete DonatedItems records
-  def deleteRecord: Try[Int] = {
+  def deleteRecord(): Try[Int] = {
     //Delete only if record exists
-    if (hasRecord) then
+    if (hasRecord()) then
       Try(DB autoCommit { implicit session =>
         sql"""
           DELETE FROM donated_items
-          WHERE donated_id = $donatedItemsIDI
+          WHERE donated_id = $donatedItemsID
           """.update.apply()
       })
     else
@@ -56,11 +55,11 @@ class DonatedItems(val donatedItemsIDI: Int, val donationD: Donation, val itemC:
   end deleteRecord
 
   //check if record exists
-  def hasRecord: Boolean =
+  def hasRecord(): Boolean =
     //select if donatedItemsIDI exists in donated_id of donated_items table
     DB readOnly { implicit session =>
       sql"""
-           SELECT * FROM donated_items WHERE donated_id = $donatedItemsIDI
+           SELECT * FROM donated_items WHERE donated_id = $donatedItemsID
          """.map(_ => ()).single.apply()
     } match
       // if found return true
@@ -118,7 +117,7 @@ object DonatedItems extends GenericObject[DonatedItems] with Database:
         )
 
         //retrieve the catalog item record using the item ID or else throw exception if record is not found
-        val item = CatalogItem.getRecordByID(itemID).getOrElse(
+        val item = CatalogItem.getRecordByKey(itemID).getOrElse(
           throw new Exception(s"Catalog item not found: $itemID")
         )
 
@@ -143,7 +142,7 @@ object DonatedItems extends GenericObject[DonatedItems] with Database:
   end getRecordByKey
 
   // retrieve single donated items record based on key which is donated items id
-  def getRecordByID(donatedID: Int): Option[DonatedItems] =
+  private def getRecordByID(donatedID: Int): Option[DonatedItems] =
     // retrieve based on the donated item id provided
     DB.readOnly { implicit session: DBSession =>
       sql"""
@@ -160,7 +159,7 @@ object DonatedItems extends GenericObject[DonatedItems] with Database:
         )
 
         //retrieve the catalog item record using the item ID or else throw exception if record is not found
-        val item = CatalogItem.getRecordByID(itemID).getOrElse(
+        val item = CatalogItem.getRecordByKey(itemID).getOrElse(
           throw new Exception(s"Catalog item not found: $itemID")
         )
 

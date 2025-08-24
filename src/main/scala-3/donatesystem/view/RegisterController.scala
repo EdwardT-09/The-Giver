@@ -38,11 +38,11 @@ class RegisterController():
         //if not null and inputs are valid, then create new Administrator object
         val admin = new Administrator(1, fNameField.text.value, emailField.text.value, passwordField.text.value)
         // save the record to administrator database table
-        admin.saveAsRecord match {
+        admin.saveAsRecord() match {
           case Success(result) => getAdminRecord()
                                   RunTheGiver.showHome()
                                   //if successful, get admin record for session use and redirect to home page
-          case Failure(error) =>  Alert.displayError("Unsuccessful", "Email is in use", error.getMessage)
+          case Failure(error) =>  Alert.displayError("Unsuccessful", "The program is facing an error", "Please try again")
                                   //if saving fails, provide an error alert to indicate failure
         }
       end if
@@ -57,22 +57,22 @@ class RegisterController():
   
     //if first name field is left empty, then add first name empty field error to errorMessage
     if (fNameField.text.value.isEmpty) then
-      errorMessage += "First name field is empty\n"
+      errorMessage += "*First name field is empty\n"
     end if
     
     //if email field is left empty, then add email empty field error to errorMessage
     if(emailField.text.value.isEmpty) then
-      errorMessage += "Email field is empty\n"
+      errorMessage += "*Email field is empty\n"
     end if
     
     //if password field is left empty, then add password empty field error to errorMessage
     if(passwordField.text.value.isEmpty) then
-      errorMessage += "Password field is empty\n"
+      errorMessage += "*Password field is empty\n"
     end if
     
     //if password confirmation field is left empty, then add password confirmation empty field error to errorMessage
     if (passwordConfirmField.text.value.isEmpty) then
-      errorMessage += "Password confirmation field is empty\n"
+      errorMessage += "*Password confirmation field is empty\n"
     end if
     
     if(errorMessage.isEmpty) then
@@ -80,7 +80,7 @@ class RegisterController():
       false
     else
       //if errorMessage has error message(s), then display an error alert, list the errors and return true
-      Alert.displayError("Empty Field", errorMessage, "Please enter the following fields.")
+      Alert.displayError("Empty Field", "Please enter the following fields.", errorMessage)
       true
   end isNull
 
@@ -92,16 +92,16 @@ class RegisterController():
     
     //if email provided does not match the email pattern set in Pattern Match then add the message to errorMessage
     if (!PatternMatch.validEmail(emailField.text.value)) then
-      errorMessage += "Email provided is invalid\n"
+      errorMessage += "*Email provided is invalid. Format must be name@example.com\n"
     end if  
     //if password provided does not match the password pattern set in Pattern Match then add the message to errorMessage
     if (!PatternMatch.validPassword(passwordField.text.value)) then
-      errorMessage += "Password provided is invalid.\n"
+      errorMessage += "*Password provided is invalid. Password must have at least one: \n - Lower case and uppercase letter  \n - Symbol  \n - Number\n - Have more than 8 characters\n"
     end if
     
     //if password confirmation provided does not match the password provided then add the message to errorMessage
     if (!passwordConfirmation()) then
-      errorMessage += "Passwords provided is invalid.\n"
+      errorMessage += "*Confirmation password does not match the provided password.\n"
     end if 
     
     if(errorMessage.isEmpty) then {
@@ -109,7 +109,7 @@ class RegisterController():
       true
     } else
       //if errorMessage has error message(s), then display an error alert, list the errors and return false
-      Alert.displayError("Invalid Inputs", errorMessage, "Please reenter the fields.")
+      Alert.displayError("Invalid Inputs", "Please reenter the fields.", errorMessage)
       false
     end if
   end validInput

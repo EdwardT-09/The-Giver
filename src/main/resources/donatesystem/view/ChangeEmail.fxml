@@ -13,9 +13,9 @@
             <Font name="System Bold" size="28.0" />
          </font>
       </Text>
-      <Text fill="#355e59" layoutX="19.0" layoutY="196.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Current Email:" />
+      <Text fill="#355e59" layoutX="19.0" layoutY="196.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Current Email *:" />
       <TextField fx:id="currentEmailField" layoutX="17.0" layoutY="200.0" prefHeight="26.0" prefWidth="569.0" promptText="Enter the current email..." styleClass="bottom-border-input" />
-      <Text fill="#355e59" layoutX="21.0" layoutY="260.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email: " />
+      <Text fill="#355e59" layoutX="21.0" layoutY="260.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email:  *" />
       <TextField fx:id="newEmailField" layoutX="15.0" layoutY="264.0" prefHeight="26.0" prefWidth="569.0" promptText="Enter the new email..." styleClass="bottom-border-input" />
       <Button layoutX="16.0" layoutY="313.0" mnemonicParsing="false" onAction="#handleChangeEmail" prefHeight="26.0" prefWidth="566.0" text="Submit" textFill="#f1ffff" />
       <fx:include source="Header.fxml" />

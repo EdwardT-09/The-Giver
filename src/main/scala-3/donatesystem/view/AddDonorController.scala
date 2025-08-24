@@ -82,9 +82,9 @@ class AddDonorController:
             donor.contactNoProperty.value = contactNoField.text.value
             donor.occupationProperty.value = occupationField.text.value
             //attempt to save the donor object
-            donor.saveAsRecord match
+            donor.saveAsRecord() match
               //if successful, display success message, assign result to Some(donor) and close the dialog stage
-              case Success(x) => Alert.displayError("Success", "Success", "The record has been updated")
+              case Success(x) => Alert.displayInformation("Success", "Success", "The record has been updated")
                 result = Some(donor)
                 dialogStage.close()
               //else, display the error message
@@ -92,9 +92,9 @@ class AddDonorController:
           //if return None, create a new Donor object
           case None =>
             val donor = new Donor(0, nameField.text.value, emailField.text.value, birthdayField.value.value,contactNoField.text.value,occupationField.text.value)
-            donor.saveAsRecord match
+            donor.saveAsRecord() match
               //if successful, display success message, assign result to Some(donor) and close the dialog stage
-              case Success(x) =>  Alert.displayError("Success", "Success", "A record has been created")
+              case Success(x) =>  Alert.displayInformation("Success", "Success", "A record has been created")
                 result = Some(donor)
                 dialogStage.close()
               //else, display error message
@@ -102,16 +102,6 @@ class AddDonorController:
 
   end handleAddDonor
 
-
-//  def assignToDonor():Unit = {
-//    __donor.nameProperty <= nameField.text
-//    __donor.emailProperty <= emailField.text
-//    __donor.birthdayProperty <== birthdayField.valueProperty()
-//    __donor.contactNoProperty <= contactNoField.text
-//    __donor.occupationProperty <= occupationField.text
-//
-//  }
-//  end assignToDonor
 
 
   //check if any fields are left empty
@@ -121,26 +111,26 @@ class AddDonorController:
 
     //if name field is left empty, then add name empty field error to errorMessage
     if (nameField.text.value.isEmpty) then
-      errorMessage += "Name field is empty"
+      errorMessage += "*Name field is empty\n"
     end if
     //if email field is left empty, then add email empty field error to errorMessage
     if (emailField.text.value.isEmpty) then
-      errorMessage += "Email field is empty"
+      errorMessage += "*Email field is empty\n"
     end if
 
     //if birthday field is left empty, then add birthday empty field error to errorMessage
     if (birthdayField.value == null) then
-      errorMessage += "Birthday field is empty"
+      errorMessage += "*Birthday field is empty\n"
     end if
 
     //if contact number field is left empty, then add contact number empty field error to errorMessage
     if (contactNoField.text.value.isEmpty) then
-      errorMessage += "Contact number field is empty"
+      errorMessage += "*Contact number field is empty\n"
     end if
 
     //if occupation field is left empty, then add occupation empty field error to errorMessage
     if (occupationField.text.value.isEmpty) then
-      errorMessage += "Occupation field is empty"
+      errorMessage += "*Occupation field is empty\n"
     end if
 
     if(errorMessage.isEmpty) then
@@ -160,13 +150,13 @@ class AddDonorController:
 
     if (!PatternMatch.validEmail(emailField.text.value)) then {
       //if email provided does not match email pattern, then add error message to errorMessage
-      errorMessage += "Email provided is invalid"
+      errorMessage += "*Email provided is invalid. Format must be name@example.com\n"
     }
     end if
 
     if (!PatternMatch.validContactNo(contactNoField.text.value)) then
       //if contact number provided does not match contact number pattern, then add error message to errorMessage
-      errorMessage += "The contact number provided is invalid"
+      errorMessage += "*The contact number provided is invalid. Format should be 011-xxx-xxx\n"
     end if
 
     if (errorMessage.isEmpty) then
@@ -177,6 +167,7 @@ class AddDonorController:
       Alert.displayError("Invalid Fields", "Please fill in all fields correctly.", errorMessage)
       false
     end if
+  end patternMatch
 
 end AddDonorController
 

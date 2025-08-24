@@ -152,6 +152,8 @@ object RunTheGiver extends JFXApp3:
       //the title that will be displayed on the stage is "Add/Edit Donor"
       title= "Add/Edit Donor"
         scene = new Scene:
+          icons += new Image(getClass.getResource(
+            "/images/Plus.png").toExternalForm)
           stylesheets = Seq(cssResource.toExternalForm)
           root = roots2
     //gain access to the dialogStage from the controller
@@ -181,6 +183,8 @@ object RunTheGiver extends JFXApp3:
       //the title that will be displayed on the stage is "Add/ Edit Donation"
       title = "Add/Edit Donation"
       scene = new Scene:
+        icons += new Image(getClass.getResource(
+          "/images/Plus.png").toExternalForm)
         stylesheets = Seq(cssResource.toExternalForm)
         root = roots2
     //gain access to the dialogStage from the controller
@@ -260,6 +264,8 @@ object RunTheGiver extends JFXApp3:
       //the title that will be displayed on the stage is "Add/Edit Food"
       title = "Add/Edit Food"
       scene = new Scene:
+        icons += new Image(getClass.getResource(
+          "/images/Plus.png").toExternalForm)
         stylesheets = Seq(cssResource.toExternalForm)
         root = roots2
     //gain access to the dialogStage from the controller
@@ -289,6 +295,8 @@ object RunTheGiver extends JFXApp3:
       //the title that will be displayed on the stage is "Add/Edit Beverage"
       title = "Add/Edit Beverage"
       scene = new Scene:
+        icons += new Image(getClass.getResource(
+          "/images/Plus.png").toExternalForm)
         stylesheets = Seq(cssResource.toExternalForm)
         root = roots2
     //gain access to the dialogStage from the controller

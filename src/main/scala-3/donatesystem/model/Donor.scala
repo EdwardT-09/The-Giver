@@ -1,40 +1,43 @@
 package donatesystem.model
 
-import donatesystem.util.{Database, GenericObject, GenericModel}
+import donatesystem.util.{Database, GenericObject}
 import scalikejdbc.*
-import scala.util.Try
-import scalafx.beans.property.{IntegerProperty, ObjectProperty, StringProperty}
+import scala.util.{Failure, Try}
+import scalafx.beans.property.{ObjectProperty, StringProperty}
 import java.time.LocalDate
 
 // Donor class
 // donor_IDI as Donor property
-// extends GenericModel[Donor] for generic programming
 // with Database trait
-class Donor(val donor_IDI: Int, nameS: String, emailS:String, birthdayD:LocalDate, contactNoS: String, occupationS: String) extends GenericModel[Donor] with Database:
+class Donor(var donorID: Int, name: String, email:String, birthday:LocalDate, contactNo: String, occupation: String) extends  Database:
   //auxiliary constructor
   def this() = this(0, null, null, null, null, null)
 
   // create object properties for the donor form fields
-  var nameProperty = new StringProperty(nameS)
-  var emailProperty = new StringProperty(emailS)
-  var birthdayProperty = ObjectProperty[LocalDate](birthdayD)
-  var contactNoProperty = new StringProperty(contactNoS)
-  var occupationProperty = new StringProperty(occupationS)
+  var nameProperty = new StringProperty(name)
+  var emailProperty = new StringProperty(email)
+  var birthdayProperty = ObjectProperty[LocalDate](birthday)
+  var contactNoProperty = new StringProperty(contactNo)
+  var occupationProperty = new StringProperty(occupation)
   
   //assign emailS to original email to be used during editing of email
-  val originalEmail: String = emailS
+  private val originalEmail: String = email
+
 
   //save the Donor record in donors table
-  def saveAsRecord: Try[Int] =
+  def saveAsRecord(): Try[Int] =
     //if does not have record
-    if (!hasRecord) then
+    if (!hasRecord()) then
       // create a new record
       Try(DB autoCommit { implicit session =>
-        sql"""
-             INSERT INTO donors (name, email, birthday, contactNo, occupation) VALUES
+        val newID = sql"""
+             INSERT INTO donors (name, email, birthday, contact_no, occupation) VALUES
              (${nameProperty.value}, ${emailProperty.value}, ${birthdayProperty.value}, ${contactNoProperty.value}, ${occupationProperty.value})
-           """.update.apply()
-      })
+           """.updateAndReturnGeneratedKey().toInt
+          this.donorID = newID
+          newID
+      }
+     )
     else
       // if record exists, update the respective fields
       Try(DB autoCommit {
@@ -44,34 +47,34 @@ class Donor(val donor_IDI: Int, nameS: String, emailS:String, birthdayD:LocalDat
              name = ${nameProperty.value},
              email = ${emailProperty.value},
              birthday = ${birthdayProperty.value},
-             contactNo = ${contactNoProperty.value},
+             contact_no = ${contactNoProperty.value},
              occupation = ${occupationProperty.value}
-             WHERE donor_id = $donor_IDI
+             WHERE donor_id = $donorID
            """.update.apply()
       })
   end saveAsRecord
 
   // delete Donor records
-  def deleteRecord: Try[Int] =
+  def deleteRecord(): Try[Int] =
     //Delete only if record exists
-    if (hasRecord) then
+    if (hasRecord()) then
       Try(DB autoCommit { implicit session =>
         sql"""
           DELETE FROM donors
-          WHERE donor_id = $donor_IDI
+          WHERE donor_id = $donorID
           """.update.apply()
       })
     else
       // if no records found, throw an exception
-      throw new Exception("There are no records of this email. Deletion failed!")
+      Failure( new Exception("There are no records of this email. Deletion failed!"))
   end deleteRecord
 
   //check if record exists
-  def hasRecord: Boolean =
+  def hasRecord(): Boolean =
     //select if donor_IDI exists in donor_id of donors table
     DB readOnly { implicit session =>
       sql"""
-           SELECT * FROM donors WHERE donor_id = $donor_IDI
+           SELECT * FROM donors WHERE donor_id = $donorID
          """.map(_ => ()).single.apply()
     } match
       // if found return true
@@ -86,14 +89,14 @@ end Donor
 object Donor extends GenericObject[Donor] with Database:
   // create an initialized Donor from the provided values
   def apply(
-           donor_IDI:Int,
-           nameS: String,
-           emailS: String,
-           birthdayD: LocalDate,
-           contactNoS:String,
-           occupationS:String
+           donor_ID:Int,
+           name: String,
+           email: String,
+           birthday: LocalDate,
+           contactNo:String,
+           occupation:String
            ): Donor =
-    new Donor(donor_IDI, nameS, emailS, birthdayD, contactNoS, occupationS)
+    new Donor(donor_ID, name, email, birthday, contactNo, occupation)
 
   end apply
 
@@ -106,7 +109,7 @@ object Donor extends GenericObject[Donor] with Database:
                name varchar (32),
                email varchar(32),
                birthday date,
-               contactNo varchar(16),
+               contact_no varchar(16),
                occupation varchar(32)
                )
              """.execute.apply()
@@ -123,7 +126,7 @@ object Donor extends GenericObject[Donor] with Database:
         rs.string("name"),
         rs.string("email"),
         rs.localDate("birthday"),
-        rs.string("contactNo"),
+        rs.string("contact_no"),
         rs.string("occupation")
       )).list.apply()
     }
@@ -149,7 +152,7 @@ object Donor extends GenericObject[Donor] with Database:
         rs.string("name"),
         rs.string("email"),
         rs.localDate("birthday"),
-        rs.string("contactNo"),
+        rs.string("contact_no"),
         rs.string("occupation")
         )).single.apply()
     }
@@ -164,7 +167,7 @@ object Donor extends GenericObject[Donor] with Database:
         rs.string("name"),
         rs.string("email"),
         rs.localDate("birthday"),
-        rs.string("contactNo"),
+        rs.string("contact_no"),
         rs.string("occupation")
       )).single.apply()
     }

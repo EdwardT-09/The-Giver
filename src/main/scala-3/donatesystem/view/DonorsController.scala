@@ -90,17 +90,22 @@ class DonorsController:
     val selectedIndex = donorTable.selectionModel().selectedIndex.value
     //retrieve the item of the currently selected donor from the donorTable
     val selectedDonor = donorTable.selectionModel().selectedItem.value
-
+    
     if(selectedIndex >= 0) then
       //if a donor is selected, then attempt to delete the record
-      selectedDonor.deleteRecord match
-        //if successful, remove the item from TableView
-        case Success(x) =>
-          donorTable.items().remove(selectedIndex)
-        //if not successful, display an error alert
-        case Failure(x) =>
-          Alert.displayError("Delete unsuccessful", "The record was not deleted", "Please try again")
-    //if no donor was selected, then display the error alert
+      val confirm = Alert.displayConfirmation("Delete Donor",
+        "Are you sure you want this record to be deleted",
+        s"Name: ${selectedDonor.nameProperty.value}")
+
+      if confirm then
+        selectedDonor.deleteRecord() match
+          //if successful, remove the item from TableView
+          case Success(x) =>
+            donorTable.items().remove(selectedIndex)
+          //if not successful, display an error alert
+          case Failure(x) =>
+            Alert.displayError("Delete unsuccessful", "The record was not deleted", "Please check if the donor is linked to any donations.")
+      //if no donor was selected, then display the error alert
     else
       Alert.displayError("Invalid Donor", "No donor record is selected", "Please choose a donor")
     end if

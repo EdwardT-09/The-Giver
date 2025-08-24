@@ -16,7 +16,8 @@ class HomeController extends Database:
 
   //initialize when entering the page
   def initialize():Unit =
-  //retrieve th item, category and donor data
+
+  //retrieve the item, category and donor data
     val itemData = getItemThisMonth()
     val categoryData = getCategoryThisMonth()
     val donorData = getDonorThisMonth()

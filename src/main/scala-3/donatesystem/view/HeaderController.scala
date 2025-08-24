@@ -39,10 +39,10 @@ class HeaderController:
       "Deleted account cannot be recovered")
     
     if confirm then
-      val admin = Administrator.getRecordByKey(Session.getAdmin.get.emailProperty.value) match 
-        case Some(admin) =>   admin.deleteRecord match
+      val admin = Administrator.getRecordByKey(Session.getAdmin().get.emailProperty.value) match 
+        case Some(admin) =>   admin.deleteRecord() match
           //if successful, display success message, replace session with the new email and redirect back to home page
-          case Success(x) => Alert.displayInformation("Success", "Successfully delete account", "The account has been deleted")
+          case Success(x) => Alert.displayInformation("Success", "Successfully deleted account", "The account has been deleted")
             Session.logOut()
             RunTheGiver.showAuthLanding()
           //if unsuccessful, display error message

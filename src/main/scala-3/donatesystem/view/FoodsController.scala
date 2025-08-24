@@ -101,14 +101,19 @@ class FoodsController:
     val selectedFood = foodTable.selectionModel().selectedItem.value
     
     if (selectedIndex >= 0) then
-      //if a food item is selected, then attempt to delete the record
-      selectedFood.deleteRecord match
-        //if successful, remove the item from TableView
-        case Success(x) =>
-          foodTable.items().remove(selectedIndex)
-        //if not successful, display an error alert
-        case Failure(x) =>
-          Alert.displayError("Delete unsuccessful", "The record was not deleted", "Please try again")
+    //if a beverage is selected, then attempt to delete the record
+      val confirm = Alert.displayConfirmation("Delete Donor",
+        "Are you sure you want this record to be deleted",
+        s"Name: ${selectedFood.nameProperty.value}")
+  
+      if confirm then
+        selectedFood.deleteRecord() match
+          //if successful, remove the item from TableView
+          case Success(x) =>
+            foodTable.items().remove(selectedIndex)
+          //if not successful, display an error alert
+          case Failure(x) =>
+            Alert.displayError("Delete unsuccessful", "The record was not deleted", "Please try again")
     else
       //if no food item was selected, then display the error alert
       Alert.displayError("Invalid food", "No food record is selected", "Please choose a food")
@@ -133,25 +138,49 @@ class FoodsController:
       ////match the result of the input dialog
       result match {
         case Some(input) =>
-          //turn the input from a string to an integer
-          val reduction = input.trim.toInt
+          //check if quantity is an integer
+          if(validQuantity(input.trim)) then
+            //turn the input from a string to an integer
+            val reduction = input.trim.toInt
 
-          //call the reduceQuantity method to reduce quantity
-          CatalogItem.reduceQuantity(selectedFood.itemIDI, reduction) match
-            case Success(rowsAffected) =>
-              //if quantity reduction was successful, update the item in foodTable
-              foodTable.items().update(selectedIndex, selectedFood)
-
-              //display a success message to the admin
-              Alert.displayInformation("Successful", "The record has been updated", "The quantity has been reduced")
-            case Failure(error) =>
-              //if unsuccessful due to failure from system(such as database error), display an error message
-              Alert.displayError("Unsuccessful", "Quantity was not reduced", "Please try again")
-      }
+            //call the reduceQuantity method to reduce quantity
+            CatalogItem.reduceQuantity(selectedFood.itemID, reduction) match
+              case Success(rowsAffected) =>
+                //if quantity reduction was successful, update the item in foodTable
+                foodTable.items().update(selectedIndex, selectedFood)
+  
+                //display a success message to the admin
+                Alert.displayInformation("Successful", "The record has been updated", "The quantity has been reduced")
+              case Failure(error) =>
+                //if unsuccessful due to failure from system(such as database error), display an error message
+                Alert.displayError("Unsuccessful", "Quantity was not reduced", "Please try again")
+      } 
     else
       //if no food item was selected, then display the error alert
       Alert.displayError("Invalid food", "No food record is selected", "Please choose a food")
   end handleReduceQuantity
+  
+  //ensure that the quantity is not null and is an integer
+  def validQuantity(input:String):Boolean =
+    //create a variable to store error message(s)
+    var errorMessage: String = ""
+    
+    //if input field is empty, then add error to errorMessage
+    if(input.isEmpty) then
+      errorMessage += "Input field is empty\n"
+    //if the volume is not a number, then add the error to errorMessage
+    else if (!input.matches("""\d+"""))
+      errorMessage += "Input must be a non-negative number\n"
+    end if 
+    //if errorMessage does not have any error message then return true
+    if (errorMessage.isEmpty) then
+      true
+    else
+      //if errorMessage has error message(s), then display an error alert, list the errors and return false
+      Alert.displayError("Invalid Fields", "Please fill in all required fields correctly.", errorMessage)
+      false
+  end validQuantity
+  
   //refresh the foodTable
   def refreshTable(): Unit =
   //retrieve all records from the database

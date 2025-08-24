@@ -25,7 +25,7 @@ object Alert :
       contentText = contentTextS
     alert.showAndWait()
   end displayInformation
-
+  
   def displayConfirmation(titleS: String, headerTextS: String, contentTextS: String): Boolean =
     val alert = new Alert(AlertType.Confirmation):
       initOwner(RunTheGiver.stage)
